@@ -1,4 +1,5 @@
 @use '../../Layouts';
+@use '../../Library/Breakpoints';
 @use '../../Library/Colors';
 @use '../../Settings/buttons' as settings;
 @use '../../Library/Spacing';
@@ -13,28 +14,55 @@
 @if Options.get('components', 'classes') {
 
     .h-cards {
-        @include Layouts.grid-h();
+        display: grid;
+        
+        @include Breakpoints.for-sizes(xs, sm){
+            width: 80%;
+        }
+        @include Breakpoints.for-sizes(md, lg){
+            width: 70%;
+        }
+        @include Breakpoints.equal-or-more(lg){
+            @include Layouts.grid-h();
+            width: 60%;
+        }
         @include Spacing.padding($all:2);
         justify-content: center;
         gap: 1.4rem;
         margin: auto;
-        width: 55%;
+        
+        
+
 
         .card {
+            display: grid;
+
+            @include Breakpoints.less-than(lg){
+                //@include Layouts.grid-cols(11rem auto 2.5rem);
+                grid-template-areas: "header body" "header body" "header footer";
+                @include Layouts.grid-cols(2fr 3fr);
+            }
+            @include Breakpoints.equal-or-more(lg){
+                @include Layouts.grid-rows(11rem auto 2.5rem);
+                grid-template-areas: "header" "body" "footer";
+            }
+            
             @include Colors.shadow2(box, primary, (lighten:4), 1, 6);
             @include Colors.replace(outline, '1px solid $', (dark), (darken:3));
             border-radius: .7rem;
             overflow: hidden;
 
-            @include Layouts.grid-rows(11rem auto 2.5rem);
 
             header {
+                grid-area: header;
                 &>img {
                     width: 100%;
-                    height: auto;
+                    height: 100%;
+                    object-fit: cover;
                 }
             }
             .body {
+                grid-area: body;
                 display: flex;
                 flex-direction: column;
 
@@ -55,6 +83,7 @@
 
             }
             footer {
+                grid-area: footer;
                 @include Layouts.flex-h();
                 justify-content: space-between;
                 align-items: center;
