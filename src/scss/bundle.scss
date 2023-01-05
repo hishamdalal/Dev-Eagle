@@ -58,6 +58,18 @@ html {
 	}
 }
 
+.mode-switch {
+    @include Colors.bg(dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    padding: .2rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 .nav-list {
 	position: absolute;
 	left: 0;
