@@ -81,9 +81,9 @@
                         $scale: math.div(10, Settings.$opacity-number);
                         $result: $level * $scale * 10%;
                         $fixed: ($result - Settings.$accuracy) ;
-            
+                        
                         //$opacity: math.div($level, 10);
-                        //@warn $effect, $value, $opacity, map-get($colors, $color-name);
+                        //@debug $effect, $color-name, $scale, $level, $result, $fixed;
                         
                         //@if $opacity < 1 {
                             //$c: map-get(full-colors.$colors, $color-name);
