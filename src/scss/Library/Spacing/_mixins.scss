@@ -1,0 +1,141 @@
+@use "sass:meta";
+@use '../../Settings';
+@use '../Breakpoints';
+//@use '../Helpers/numbers' as Numbers;
+
+
+/*------------------------------------------------------------*/
+// Todo: make mixins to make file size smaller -> assets/bundle.min.css
+// for example:
+// @include space(p, xl, 1, padding, '1rem');
+// @include space(mr, md, 3, margin-right, '3rem');
+
+@mixin space($type, $size, $number, $prop, $rule) {
+	// p-xl-1: { padding: 1rem; }
+	// .mr-md-3: { margin-right: 3rem; }
+	$class: #{$type}-#{$size}-#{$number};
+
+	.#{$class}{
+		#{$prop}: #{$rule};
+	} 
+}
+
+
+/*------------------------------------------------------------*/
+// Todo: change name to manual_spacing;
+// spacing(padding, $h:2, $v:3)
+// spacing(padding, $all:3)
+
+@mixin spacing($prop, $args...) {
+
+	@each $k, $v in meta.keywords($args) {
+		
+		@if($k=='h' or $k=='horizontal') {
+			#{$prop}-right: #{$v}rem;
+			#{$prop}-left: #{$v}rem;
+		}
+		@if($k=='v' or $k=='vertical') {
+			#{$prop}-top: #{$v}rem;
+			#{$prop}-bottom: #{$v}rem;
+		}
+		@if($k=='t' or $k=='top') {
+			#{$prop}-top: #{$v}rem;
+		}
+		@if($k=='b' or $k=='bottom'){
+			#{$prop}-bottom: #{$v}rem;
+		}
+		@if($k=='r' or $k=='right') {
+			#{$prop}-right: #{$v}rem;
+		}
+		@if($k=='l' or $k=='left'){
+			#{$prop}-left: #{$v}rem;
+		}
+		@if($k=='all' or $k=='both'){
+			#{$prop}: #{$v}rem;
+		}
+
+	}
+}
+/*------------------------------------------------------------*/
+//@include padding($sm:(all:1), $md:(all:2), $xxl:(all:5));
+//@include padding($sm:(v:1), $md:(v:2), $xxl:(v:5));
+//@include padding($sm:(left:1, right:2), $md:(left:2, right:2), $xxl:(left:5, right:2));
+//@include padding($sm:(v:1, h:1), $md:(v:2, h:2), $xxl:(v:5, h:5));
+
+// todo:
+//! Important: 
+//  Breakpoints form smallest to largest screen
+//  You have to use same directions to all breakpoints 
+//  يجب تحديد الاتجاهات لكل احجام الشاشات، فلا تستخدم في حجم شاشة معينة فقرة يمين وفي حجم آخر فقرة فوق
+//  لأن تأثير الفقرة في الشاشة الصغيرة سيبقى في الشاشة الكبيرة إلا إذا تم إحلال قيمة أخرى
+
+@mixin padding($args...) {
+	@include spacing('padding', $args...);
+}
+/*------------------------------------------------------------*/
+@mixin margin($args...) {
+	@include spacing('margin', $args...);
+}
+/*------------------------------------------------------------*/
+
+//! ====   Paddings & Margins & Gap   ==== !//
+//===============================================
+//* How to use:  .[m|p|gap]-{$s}
+//* How to use:  .[m|p][s|e|t|b]-{$s}
+//* How to use:  .[m|p|gap]-[v|h]-{$s}
+//* How to use:  .[m|p|gap]-{$v}x{$h}
+//* How to use:  .gap-{$s}
+//-----------------------------------------------------------------------------------------------------------
+//* How to use: ($s, $v and $h: from 1 to $column_count)
+//===============================================
+
+// todo: remove next breakpoint because this may brock design in small screen < xxxs
+// or add some spacing for screens than smaller than xxxs 
+// todo: split responsive spacing from absolute spacing
+
+
+@mixin init_spacing($a_unit:rem, $r_unit:vmax) {
+	//@include Breakpoints.more-than(xxxs){
+		// init vars
+		$h:1; $v:1;
+		// responsive unit
+		$r_unit: rem; 
+		// absolute unit
+		$a_unit: vmax;
+
+		// margin-auto
+		.ma { margin: auto; }
+		.ma-h{ margin-left: auto; margin-right:auto; }
+		.ma-v { margin-top: auto; margin-bottom: auto; }
+
+		@for $h from 1 through Settings.$spacing_list  {
+			.p-#{$h} { padding: #{$h}#{$r_unit};}
+			.m-#{$h} { margin: #{$h}#{$r_unit};}
+	
+			.gap-#{$h} { gap: #{$h}#{$r_unit};}
+			
+			.ps-#{$h} { padding-left: #{$h}#{$r_unit}; }
+			.pe-#{$h} { padding-right: #{$h}#{$r_unit}; }
+			.pt-#{$h} { padding-top: #{$h}#{$a_unit}; }
+			.pb-#{$h} { padding-bottom: #{$h}#{$a_unit}; }
+			
+			.ms-#{$h} { margin-left: #{$h}#{$r_unit}; }
+			.me-#{$h} { margin-right: #{$h}#{$r_unit}; }
+			.mt-#{$h} { margin-top: #{$h}#{$a_unit}; }
+			.mb-#{$h} { margin-bottom: #{$h}#{$a_unit}; }
+
+			.gap-h-#{$h} { row-gap: #{$h}#{$a_unit}; }
+			.gap-v-#{$h} { column-gap: #{$h}#{$a_unit}; }
+	
+	
+			@for $v from 1 through Settings.$spacing_list  {
+				.p-#{$h}x#{$v} { padding: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+				.m-#{$h}x#{$v} { margin: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+	
+				.gap-#{$h}x#{$v} { gap: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+			}
+		}
+	//}
+
+}
+

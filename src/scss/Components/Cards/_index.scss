@@ -1,0 +1,91 @@
+@use '../../Layouts';
+@use '../../Library/Colors';
+@use '../../Settings/buttons' as settings;
+@use '../../Library/Spacing';
+@use '../../Library/Fonts';
+@use '../../Settings/Options';
+@use '../Buttons/mixins' as Buttons;
+
+
+//@use '../../Settings/colors' as base-colors;
+
+
+@if Options.get('components', 'classes') {
+
+    .h-cards {
+        @include Layouts.grid-h();
+        @include Spacing.padding($all:2);
+        justify-content: center;
+        gap: 1.4rem;
+        margin: auto;
+        width: 55%;
+
+        .card {
+            @include Colors.shadow2(box, primary, (lighten:4), 1, 6);
+            @include Colors.replace(outline, '1px solid $', (dark), (darken:3));
+            border-radius: .7rem;
+            overflow: hidden;
+
+            @include Layouts.grid-rows(11rem auto 2.5rem);
+
+            header {
+                &>img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .body {
+                display: flex;
+                flex-direction: column;
+
+                &>.title {
+                    @include Spacing.padding($v:.5);
+                    @include Fonts.size(h5);
+                    @include Fonts.weight(bold);
+                }
+                @include Spacing.padding($h:1.2, $v:1);
+
+                &>.meta {
+                    display: flex;
+                    align-self: flex-end;
+                    @include Spacing.padding($v:.2);
+                    @include Fonts.size(xsmall);
+                    @include Colors.txt(gray);
+                }
+
+            }
+            footer {
+                @include Layouts.flex-h();
+                justify-content: space-between;
+                align-items: center;
+                @include Colors.txtBg(light, secondary, (lighten:5), (darken:1));
+                @include Spacing.padding($h:1.2, $v:.5);
+                @include Fonts.size(small);
+
+            }
+            .btn {
+                justify-self: flex-end;
+                
+                $color: Colors.get(light, (lighten:3) );
+                $vcolor: Colors.get(light, (lighten:3), true);
+
+                @include Buttons.btn($hover:( 
+                    (border: 1px solid $color), 
+                    (border: 1px solid $vcolor) 
+                ));
+
+                @include Colors.txtBg(light, tertiary, (lighten:3), (darken:3) );
+                //@include Colors.replace(border, '1px solid $', (dark), (lighten:9));
+                
+
+                &:hover {
+                    @include Colors.txtBg(tertiary, light, (darken:4), (lighten:4) );
+                }
+                &:active {
+                    @include Colors.txtBg(tertiary, light, (darken:3), (lighten:3) );
+                }
+            }
+        }
+    }
+
+}

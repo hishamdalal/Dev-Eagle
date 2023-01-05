@@ -1,0 +1,5 @@
+//@use '../../../../Settings/vars';
+@use '../vars';
+
+$prefix: #{vars.$prefix}-r;
+

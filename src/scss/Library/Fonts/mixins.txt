@@ -1,0 +1,124 @@
+/*------------------------------------------------------------*/
+@mixin font-size11($element) {
+	//font-size: calc(60% + .4vw);
+	$screen-min-size: var(--#{$var-prefix}-screen-size);
+	
+	$font-size: --#{$var-prefix}-fz-#{$screen-min-size};
+	font-size: var(#{$font-size});
+}
+/*------------------------------------------------------------*/
+@mixin Xhtml-font-size() {
+	@include between(0, xxs) {
+
+		$font_size : get-font-ratio(xxs, html);
+		
+		
+		font-size: #{$font_size};
+		font-size: vget-font-ratio(xxs, html);
+
+	}
+
+	@each $point-name in $font-breakpoints-keys {
+		
+		//@debug '=====================================';
+		
+		$point-value: breakpoints(#{$point-name}-min);
+		
+		//@debug $point-name, $point-value;
+
+		@include more-than($point-name) {
+			$font_size : get-font-ratio($point-name, html);
+			
+			font-size: #{$font_size};
+			font-size: vget-font-ratio($point-name, html);
+
+		};
+	} 	
+}
+/*------------------------------------------------------------*/
+@mixin Xfont-size($size) {
+    //$font_size  : get-font-size($size);
+	$font_size: .5;
+	$font_ratio : map-get($f, $size);
+	$result: calc(#{$font_size}rem + #{$font_ratio}vw);
+	font-size: #{$result};
+}
+/*------------------------------------------------------------*/
+@mixin XXfont-size($size) {
+    $map: (
+		h1: 3.36,
+		h2: 2.2,
+		h3: 1.8,
+		h4: 1.4,
+		h5: 1.2,
+		h6: 1.15,
+		p: 1.05,
+		sm: .9,
+	);
+	$font-size  : map-get($font-sizes, $size) / 10  ;
+	$font_ratio : map-get($map, $size);
+	$result		: calc( #{$font_size}rem + #{$font_ratio}vw);
+	font-size   : #{$result};
+}
+/*------------------------------------------------------------*/
+@mixin XXXfont-size($element) {
+    
+	//$font_size: .5;
+	//@if map-has-key($font-sizes, $element ){
+		@include between(0, xxs) {
+			$font_size : get-font-ratio(xxs, $element);
+			
+			@if $font_size == null {
+				font-size: #{$element}rem;
+			}
+			@else {
+				font-size: #{$font_size}rem;
+				font-size: vget-font-ratio(xxs, $element);
+			}
+			
+		}
+
+		@each $point-name in $font-breakpoints-keys {
+			
+			//@debug '=====================================';
+			
+			$point-value: breakpoints(#{$point-name}-min);
+			
+			//@debug $point-name, $point-value;
+
+			@include more-than($point-name) {
+				$font_size : get-font-ratio($point-name, $element);
+
+				//@debug 'FS: ', #{$element}rem, $font-size;
+
+				@if $font_size == null {
+					font-size: #{$element}rem;
+				}
+				@else {
+					font-size: #{$font_size}rem;
+					font-size: vget-font-ratio($point-name, $element);
+				}
+
+				//@debug($point-name, $point-value, $element, $font-size);
+				//$font_ratio : get-font-ratio($point-name, $element);
+				//$font_ratio : map-get($f, $size);
+				//$r : $font_size - $font_ratio;
+				
+				//$result: calc(#{$font_size}rem + #{$font_ratio}vw);
+				//font-size: calc(#{$font_size}rem - 1vw);
+				//font-size: #{$font_size}rem;
+				//@debug($point-name, $size, $font_size, $font_ratio, $result);
+				
+				//$w : $font-size-ratio;
+				//$r: calc(#{$s} + #{$font-size-ratio}vw);
+				//@debug($element, $point-name, $point-value, $font-size-ratio, $r);
+				//font-size: #{$r};
+			};
+		} 
+	//}
+	//@else{
+	//	$font_size: get-font-size($element);
+	//	font-size: #{$font_size}rem;
+	//}
+}
+/*------------------------------------------------------------*/

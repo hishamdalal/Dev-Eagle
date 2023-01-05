@@ -1,0 +1,349 @@
+@use "sass:color";
+@use "sass:math";
+
+//@use '../Helpers/decimal';
+//@use './settings';
+@use '../Helpers/maps' as helper;
+@use './functions';
+@use '../../Settings/Options';
+
+//###########  MIXINS  ###########//
+
+/*------------------------------------------------------------*/
+@mixin filter($type, $args:()) {
+	
+	@if $type== '' {
+		$type: 'filter';
+	}
+	
+	@if $type == 'filter' or $type == 'backdrop-filter' {
+		@if length($args) > 0 {
+
+			$str_effects: '';
+			// $filter_effects: '';
+			// $backdrop_effects: '';
+			
+			@each $effect, $level in $args {
+				//filter: #{$effect}(#{$level});
+
+				@if $level >= 0 {
+					$str_effects: $str_effects + #{$effect}(#{$level}) + ' ';
+				}
+				@else {
+					$str_effects: $str_effects + #{$effect} + ' ';
+				}	
+				
+				// @if $effect == opacity {
+				// 	$type: filter;
+				// }
+			}
+			#{$type}: #{$str_effects};
+		}
+	}
+	@else {
+		@warn 'Filter type "$type" is not legal!';
+	}
+
+}
+/*------------------------------------------------------------*/
+// Todo: Convert $effect to map -> (light: 20, opacity: 50) -> (effect: level)
+/*------------------------------------------------------------*/
+@mixin txt($color_name, $effects:()) {
+
+	$color_name: ''+$color_name+'';
+
+	//$rounded-opacity: 0;
+
+	// @if $opacity < 1 {
+	// 	$rounded-opacity:  decimal.round($opacity, 1) * 10;
+	// 	//@debug($opacity, $rounded-opacity);
+	// }
+
+	color: #{functions.colors($color_name, $effects)};
+	@if Options.get('colors', 'root') {
+		color: #{functions.vcolors($color_name, $effects)};
+	}
+}
+/*------------------------------------------------------------*/
+//@include bg(primary, $lighten:2, $opacity:3, $important:true);
+@mixin bg($color_name, $effects:(), $backdrop-filter-effects:(), $filter-effects:()) {
+
+	$color_name: ''+$color_name+'';  // Convert to string [add quotes]
+
+	// @if $opacity < 10 {
+	// 	$rounded-opacity:  decimal.round($opacity, 1) * 10;
+	// 	@warn($opacity, $rounded-opacity);
+	// }
+	//@debug $page, $name, $opacity, $rounded-opacity;
+
+	background-color: #{functions.colors($color_name, $effects)};
+	@if Options.get('colors', 'root') {
+		background-color: #{functions.vcolors($color_name, $effects)};
+	}
+
+	@if length( $backdrop-filter-effects ) {
+		@include filter(backdrop-filter, $backdrop-filter-effects);
+	}
+
+	@if length( $filter-effects ) {
+		@include filter(filter, $filter-effects);
+	}
+}
+/*------------------------------------------------------------*/
+//? How to: @include Colors.txtBg(light, dark, (), (darken:1), (opacity:.4))
+@mixin txtBg($txt-color, $bg-color, $txt-effects:(), $bg-effects:()) {
+
+	@include txt($txt-color, $txt-effects);
+	@include bg($bg-color, $bg-effects);
+}
+/*------------------------------------------------------------*/
+
+@mixin set($prop, $color-name, $effects:()){
+	#{$prop}: #{functions.colors($color_name, $effects)};
+	@if Options.get('colors', 'root') {
+		#{$prop}: #{functions.vcolors($color_name, $effects)};
+	}
+}
+/*------------------------------------------------------------*/
+
+// Get variable color for css properties
+// i.e: border: 1px solid red  -> @include color-replace(border, '1px solid $', (primary));
+// i.e: border: 1px solid rgb(253 97 97 / 40%)  -> @include color-replace(border, '1px solid $', (primary), (light:.4));
+
+/*------------------------------------------------------------*/
+
+@mixin replace($prop-name, $str, $colors_map:(), $effects_map:()) {
+	//@debug 'replace', $effects_map;
+	// @if length($colors_map) == 1 and length($effects_map) > 0 {
+	// 	$effects_map: helper.append($effects_map, s, 1);
+	// 	@debug 'zzzz', $prop-name, length($colors_map), length($effects_map);
+	// }
+
+	#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map);
+	@if Options.get('colors', 'root') {
+		#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map, true);
+	}
+}
+/*------------------------------------------------------------*/
+//  @mixin Xreplace($prop-name, $str, $colors_map, $opacity_map:(), $scale:()) {
+// 	#{$prop-name}: functions.Xcolor-replace($str, $colors_map, $opacity_map, $scale);
+// 	//#{$prop-name}: functions.color-replace($str, $colors_map, $opacity_map, $scale, true);
+// }
+/*------------------------------------------------------------*/
+// Todo: i forget what this procedur/mixin do!
+@mixin replaceOnce($prop, $string, $color_name: '') {
+	$search: '$';
+	$index: str-index($string, $search);
+  
+	@if $index {
+	  $color_name: Functions.colors($color_name);
+	  $result: str-slice($string, 1, $index - 1)+$color_name+replace(str-slice($string, $index + str-length($search)), $search, $color_name);
+	  #{$prop}: #{unquote($result)};
+
+	  // todo: finish the below:
+	  /* @if Options.get('colors', 'root') {
+
+	  } */
+	}
+}
+/*------------------------------------------------------------*/
+@mixin scale($prop-key, $color, $method, $amount, $important:'') {
+	
+	$result: functions.colors($color);
+	//$vresult: functions.vcolors($color, $amount);
+
+	$amount_percent: $amount * 1%;
+	$rounded-amount:  math.div($amount, 10);
+	//@warn $vresult;
+
+	@if $method == 'lighten' {
+        #{$prop-key}: color.scale($result, $lightness:$amount_percent) #{$important};
+		@if Options.get('colors', 'root') {
+        	#{$prop-key}: functions.vcolors($color, $rounded-amount) #{$important};
+		}
+    }
+    @else if $method == 'darken' {
+
+        #{$prop-key}: color.scale($result, $amount_percent) #{$important};
+		@if Options.get('colors', 'root') {
+        	#{$prop-key}: functions.vcolors($color, $rounded-amount) #{$important};
+		}
+    }
+}
+/*------------------------------------------------------------*/
+@mixin shadow($color:dark, $left:0, $top:5px, $blur:4px, $effects:()){
+	$colors:  functions.colors($color, $effects);
+	filter: drop-shadow(#{$left} #{$top} #{$blur} #{$colors});
+	
+	@if Options.get('colors', 'root') {
+		$vcolors:  functions.vcolors($color, $effects);
+		filter: drop-shadow(#{$left} #{$top} #{$blur} #{$vcolors});
+	}
+}
+/*------------------------------------------------------------*/
+@mixin shadow2($type:text, $color:dark, $effects:(darken:5), $offset:1, $blur:2) {
+	$thick: #{$blur * 2}px;
+	$thin: #{$offset * 1}px;
+	//$y: $width * 1;
+	//$blur: $width * 1;
+	//$spread: 0;
+
+	$line_1: 0 0 #{$thick} #{'$'};
+	$line_2: #{$thin} #{$thin} #{$thick} #{'$'};
+	$line_3:  -#{$thin} -#{$thin} #{$thick} #{'$'};
+	$line_4:  #{$thin} -#{$thin} #{$thick} #{'$'};
+	$line_5:  -#{$thin} #{$thin} #{$thick} #{'$'};
+
+	$css: "#{$line_1}, #{$line_2}, #{$line_3}, #{$line_4}, #{$line_5}";
+	$colors-map: ($color, $color, $color, $color, $color);
+	$effects-map: ($effects, $effects, $effects, $effects, $effects);
+		
+	@if  $type=="box" {
+
+		@include replace(box-shadow, $css, $colors-map, $effects-map);
+		// @if Options.get('colors', 'root') {
+		// 	@include replace(box-shadow, $css, ($color, $color, $color, $color, $color), (), true);
+		// }
+	}
+	@else {
+		//@include replace(text-shadow, '0px 0px 5px $, 1px 1px 2px $, -1px -1px 2px $, 1px -1px 2px $, -1px 1px 2px $', ($color, $color, $color, $color, $color));
+		@include replace(text-shadow, $css, $colors-map, $effects-map);
+		// @if Options.get('colors', 'root') {
+		// 	@include replace(text-shadow, $css, ($color, $color, $color, $color, $color), (), true);
+		// }
+	}
+}
+/*------------------------------------------------------------*/
+@mixin stroke($color:dark, $effects:()){
+	$color-val: functions.colors($color, $effects);
+	
+	text-shadow: 1px  2px 0 $color-val, 
+	-1px -1px 0 $color-val, 
+	1px -1px 0 $color-val, 
+	-1px  1px 0 $color-val;
+	
+	@if Options.get('colors', 'root') {
+
+		$vcolor-val: functions.vcolors($color, $effects);
+
+		text-shadow: 1px  2px 0 $vcolor-val, 
+					-1px -1px 0 $vcolor-val, 
+					 1px -1px 0 $vcolor-val, 
+					-1px  1px 0 $vcolor-val;			
+	}
+}
+/*------------------------------------------------------------*/
+// todo:  stroke2($selector, $width:1, $stroke:($color:dark, $effect:darken, $level:9), $fill:(...));
+@mixin stroke2($selector, $width:1, $stroke_color:dark, $fill_color:light, $stroke_effect:(), $fill_effect:()) {
+	$color-val: functions.colors($stroke_color, $stroke_effect);
+	$fill-val: functions.colors($fill_color, $fill_effect);
+
+	@supports not (-webkit-text-stroke: 1px black) {
+		#{$selector} {
+		  text-shadow:
+			-#{$width}px -#{$width}px 0 #{$color-val},  
+			 #{$width}px -#{$width}px 0 #{$color-val},
+			-#{$width}px  #{$width}px 0 #{$color-val},
+			 #{$width}px  #{$width}px 0 #{$color-val};
+		}		
+	}
+	@supports (-webkit-text-stroke: 1px black) {
+	  #{$selector} {
+		-webkit-text-stroke: #{$width}px #{$fill-val};
+		-webkit-text-fill-color: #{$fill-val};
+	  }
+	}
+	//-----------
+	@if Options.get('colors', 'root') {
+		
+		$v-color-val: functions.vcolors($stroke_color);
+		$v-fill-val: functions.vcolors($fill_color);
+		
+		@supports not (-webkit-text-stroke: 1px black) {
+			#{$selector} {
+			text-shadow:
+				-#{$width}px -#{$width}px 0 #{$v-color-val},  
+				#{$width}px -#{$width}px 0 #{$v-color-val},
+				-#{$width}px  #{$width}px 0 #{$v-color-val},
+				#{$width}px  #{$width}px 0 #{$v-color-val};
+			}		
+		}
+		@supports (-webkit-text-stroke: 1px black) {
+			#{$selector} {
+				-webkit-text-stroke: #{$width}px #{$v-fill-val};
+				-webkit-text-fill-color: #{$v-fill-val};
+			}
+		}
+	}
+}
+/*------------------------------------------------------------*/
+@mixin border($color:accent, $effects:(), $prop-string:'1px solid $'){
+	@include replace(border, $prop-string, ($color), $effects );
+	// @if Options.get('colors', 'root') {
+	// 	@include replace(border, $prop-string, ($color), $effects, true);
+	// }
+}
+/*------------------------------------------------------------*/
+@mixin outline($color:accent, $prop-string:'1px solid $') {
+	@include replace(outline, $prop-string, ($color) );
+	@if Options.get('colors', 'root') {
+		@include replace(outline, $prop-string, ($color), true);
+	}
+}
+/*------------------------------------------------------------*/
+@mixin pseudo($place, $args:()) {
+	position: relative;
+
+	&:#{$place} {
+		content: '';
+		position: absolute;
+		
+		@if length($args) > 0 {
+			
+			@each $effect, $value in $args {
+
+				@if $effect  == 'bg' {
+					@include bg($value);
+				}
+				@if $effect != 'color' {
+					@include txt($value);
+				}
+				@if $effect != 'border' {
+					@include replace(border, '1px solid $', ($value));
+				}
+
+			}
+		}
+
+		@content;
+	}
+
+}
+/*------------------------------------------------------------*/
+// i.e: @include Colors.patch( (bg: primary, txt: accent, border: secondary) );
+
+@mixin patch($args:()){
+	@if length($args) > 0 {
+			
+		@each $effect, $value in $args {
+
+			@if $effect  == 'bg' {
+				@include bg($value);
+			}
+			@if $effect != 'color' {
+				@include txt($value);
+			}
+			@if $effect != 'border' {
+				@include border($vaue);
+			}
+			@if $effect == 'outline' { 
+				@include outline($vaue);
+			}
+			@if $effect == 'stroke' { 
+				@include stroke($vaue);
+			}
+		}
+	}
+}
+/*------------------------------------------------------------*/
+

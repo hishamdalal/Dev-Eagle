@@ -1,0 +1,383 @@
+//@use "sass:meta";
+@use "sass:math";
+@use "sass:color";
+@use "sass:meta";
+
+//@use '../Helpers/str';
+//@use '../../Settings/vars' as settings_vars;
+@use '../Helpers/maps';
+@use './vars';
+@use "../../Settings/colors" as Settings;
+@use './full-colors';
+
+
+//###########  FUNDTIONS  ###########//
+
+/*------------------------------------------------------------*/
+@function is-color($color-name) {
+    //$colors: full-colors.$colors;
+    @return map-has-key(full-colors.$colors, $color-name);
+}
+/*------------------------------------------------------------*/
+@function get($color-name, $effects:(), $is-var:false) {
+    @if is-color($color-name) {
+        @if $is-var {
+            @return vcolors($color-name, $effects);
+            //$var_color: --#{vars.$prefix}-#{$color-name};
+            //@return var($var_color);
+        }
+        @else {
+            @return colors($color-name, $effects);
+            //@return map-get(full-colors.$colors, $color-name);
+        }
+    }
+    @warn "colors map: There is no color with this name '#{$color-name}'";
+    @return '#fff';
+}
+/*------------------------------------------------------------*/
+// Get color value
+//! not alowed: color: @colors(primary, (light: 2, opacity: 5) )
+//? alowed: color: @colors(primary, (light: 9, opacity: 5))
+//* How to use: color: colors(primary, (dark: 4, opacity: 5));
+// param: $effect => [light|dark|opacity| any css 'filter']
+/*------------------------------------------------------------*/
+@function colors($color-name, $effects:()) {
+    /*     @if $theme == 'dark' {
+        $colors: $dark-colors;
+    }
+    @debug $theme; */
+    //@warn $args;
+    
+    //$colors: full-colors.$colors;
+    //@each $k,$v in $colors { @if $k == gray {@warn 'color: ', $k, $v;}}
+    //@each $k,$v in $colors { @if $k == $color-name {@warn 'color: ', $k, $v;}}
+
+    @if is-color($color-name) {
+
+        $new_color: map-get(full-colors.$colors, $color-name);
+        
+        @if maps.is-map($effects) {
+            
+            @each $effect, $level in $effects {
+                
+                @if $level == 0 {
+                    @return $new_color;
+                }
+                //$opacity: 1;
+                $percentage_value: 1%;
+                //@warn $effect, $effect, $value;
+                
+                //$rounded_value:  math.div($value, 10);
+
+
+                @if $effect == 'opacity' {
+
+                    @if $level > Settings.$opacity-number {
+                        $level: Settings.$opacity-number;
+                    }
+                    
+                    @if $level >= 0 {
+            
+                        $scale: math.div(10, Settings.$opacity-number);
+                        $result: $level * $scale * 10%;
+                        $fixed: ($result - Settings.$accuracy) ;
+            
+                        //$opacity: math.div($level, 10);
+                        //@warn $effect, $value, $opacity, map-get($colors, $color-name);
+                        
+                        //@if $opacity < 1 {
+                            //$c: map-get(full-colors.$colors, $color-name);
+                            $new_color: rgba($new_color, $fixed);
+                        //}
+                        //@debug $scale, $level, $result, $fixed, $new_color;
+                    }
+                    @else {
+                        //@error $color-name, $effect, $level, $new_color;
+                        @warn "Opacity level #{$level} -> #{$r} must be between 0 and 1";
+                    }
+                }
+                @else {
+
+                    @if $level > Settings.$colors-number {
+                        $level: Settings.$colors-number;
+                    }
+
+                    $scale: math.div(10, Settings.$colors-number);
+                    $result: $level * $scale;
+                    $fixed: ($result - Settings.$accuracy) * 10%;
+                    //@debug $color-name, $scale, $fixed, $result, Settings.$accuracy;
+                    
+
+                    @if $effect == lighten {
+                        //$percentage_value:  20% * $level;
+                        $percentage_value: ($fixed * 1);
+                        $new_color: color.scale($new_color, $lightness: $percentage_value);
+                        //@warn $effect, $color-name, $percentage_value, $new_color, color.lightness($new_color);
+                        //@error $color-name, $effect, $level, $percentage_value, $new_color;
+    
+                    }
+                    @else if $effect == darken {
+                        //$percentage_value:  -20% * $level;
+                        $percentage_value: ($fixed * -1);
+                        $new_color: color.scale($new_color, $lightness: $percentage_value );
+                        //@warn $effect, $color-name, $value, $percentage_value, $new_color, $opacity, color.lightness($new_color);
+                    }
+                }
+                // @else {
+                //     $new_color: #{$effect}(#{$level});
+                // }
+            }
+            //@warn 'end', $effect, $color-name, $level, $percentage_value, $new_color, $opacity;
+            
+        }
+        @else if $effects=='lighten'  {
+            $percentage_value:  1 * Settings.$percent;
+            $new_color: color.scale($new_color, $lightness: $percentage_value);
+            //@warn  $effects, $color-name, $percentage_value, $new_color;
+        }
+        @else if $effects=='darken'  {
+            $percentage_value: -1 * Settings.$percent;
+            $new_color: color.scale($new_color, $lightness: $percentage_value);
+            //@warn  $effects, $color-name, $percentage_value, $new_color;
+        }
+        @else { 
+            //@warn 'No effects';
+            @return $new_color;
+
+        }
+        
+       @return $new_color;
+
+    }
+    @else {
+        @warn "Colors map: There is no color with this name '#{$color-name}'";
+        @return "#000";
+    }
+}
+
+// Get color using css variable
+/*------------------------------------------------------------*/
+@function vcolors($color-name, $effects:()) {
+        /* @if $theme == 'dark' {
+            $colors: $dark-colors;
+        }
+        @warn var(--theme); */
+        //@warn len, length($args);
+
+        //$colors: full-colors.$colors;
+    
+        @if is-color($color-name){
+            
+            $new_color: --#{vars.$prefix}-#{$color-name};
+            
+            // Check file ./_full-colors.scss
+            $light-name: #{$color-name}-light;
+            $dark-name: #{$color-name}-dark;
+            
+            @if $color-name == 'light' {
+                $light-name: 'lighten';
+                $dark-name: 'lightless';
+            }
+            @if $color-name == 'dark' {
+                $light-name: 'darkless';
+                $dark-name: 'darken';
+            }                
+            
+            @if maps.is-map($effects) {
+
+                @each $effect, $level in $effects {
+
+                    @if $level == 0 {
+                        @return var($new_color);
+                    }
+
+                    // @if $level > 0 and $level < 1 {
+                    //     $level: $level * 10;
+                    // }
+
+                    @if $effect == opacity {
+                        
+                        @if $level > Settings.$opacity-number {
+                            $level: Settings.$opacity-number;
+                        }
+
+                        $new_color: --#{vars.$prefix}-#{$color-name}-opacity-#{$level};
+                    }
+                    @else {
+                        
+                        @if $level > Settings.$colors-number {
+                            $level: Settings.$colors-number;
+                        }
+
+                        @if $effect == lighten {
+                            //$new_color: --#{vars.$prefix}-#{$color-name}-lighten-#{$level};
+                            $new_color: --#{vars.$prefix}-#{$light-name}-#{$level};
+                        }
+                        @else if $effect == darken {
+                            //$new_color: --#{vars.$prefix}-#{$color-name}-darken-#{$level};
+                            $new_color: --#{vars.$prefix}-#{$dark-name}-#{$level};
+                        }
+                    }
+                }
+            }
+            @else if $effects=='lighten'  {
+                $new_color: --#{vars.$prefix}-#{$light-name};
+
+            }
+            @else if $effects=='darken'  {
+                $new_color: --#{vars.$prefix}-#{$dark-name};
+
+            }
+            //@warn $new_color;
+
+
+            @return var($new_color);
+        }
+        @else {
+            @warn "variable color map: colors dosn't contain key: --#{vars.$prefix}-#{$color-name}";
+        }
+        @return #fff;
+}
+/*------------------------------------------------------------*/
+
+// Get variable color for css properties
+// i.e: border: color-replace('1px solid $', (primary));
+// i.e: border: color-replace('1px solid $', (primary), (light: .4));
+/*------------------------------------------------------------*/
+@function color-replace($str, $colors_names_map:(), $effects_map:(), $use_css_var:false) {
+    //$x: str.replace($str, '$', $colors_names_map);
+    //@warn $x;
+    //@include str.test();
+    //@debug '->>replace: ', $effects_map;
+    $result: "";
+    $length: str-length($str);
+    $color: "";
+    $x: 1;
+    //$x2: 0;
+    
+    //@warn str-index($str, '$');
+    //@debug $str;
+    @for $i from 1 through $length {
+        // خذ الحرف س وخزنه في متغير $حرف
+        $char: str-slice($str, $i, $i );
+        //@debug $i, $x, $char;
+
+        // إذا كان الحرف هو رمز الدولار
+        @if $char == '$' {
+            // خذ الاسم المقابل له من مصفوفة الألوان
+            $color-name: nth($colors_names_map, $x);
+            //@debug $i, $str, $color-name;
+
+            
+            $prepare-effects: ();
+            // إذا كان هناك تأثيرات لونية
+            @if length($effects_map) > 0 {
+                
+                //@debug $color-name;
+                // إذا كانت مصفوفة map
+                @if meta.type-of($effects_map) == 'map' {
+                    // خذ المصفوفة كاملة
+                    //$prepare-effects: nth($effects_map, $x);
+                    $prepare-effects: $effects_map;
+                    //@debug '--map:', $prepare-effects;
+                   
+                }
+                @else if meta.type-of($effects_map) == 'list' {
+                    // إذا كانت قائمة list
+                    // خذ العنصر المقابل للرقم x 
+                    //$prepare-effects: $effects_map;
+                    $prepare-effects: nth($effects_map, $x);
+                    //@debug 'xxxxxxxxxxxxxx', $prepare-effects, $x;
+                    //@debug '--list:', $prepare-effects, $effects_map;
+                }
+                @else {
+                    @debug 'Unknown type for $effects_map';
+                }
+                //@debug $effects_map, $effect-name, $effect-level;
+
+            }
+            //@debug 'prepare-effects',  meta.type-of($prepare-effects), $prepare-effects;
+
+            @if $use_css_var {
+                // استبدل الحرف باللون باستخدام متغيرات سي اس اس
+                $char: vcolors($color-name, $prepare-effects);
+                //@debug 'color:', $color-name, $char;
+            }
+            @else{
+                // استبدل الحرف باللون
+                $char: colors($color-name, $prepare-effects);
+                //@debug 'bg-color:', $color;
+            }
+            $x: $x+1;
+            //$x2: $x2+1;
+        }
+
+        $result: $result + $char;
+    } // end @for
+    //@debug ($result);
+
+    //@debug $result;
+    //@debug zip(10px 50px 100px, short mid); 
+    @return unquote($result);
+}
+
+/*------------------------------------------------------------*/
+// TODO: Next function needs some work..
+/*------------------------------------------------------------*/
+/* @function Xcolor-replace($str, $colors_map, $opacity_map:(), $scale_map:(), $use_css_var:false) {
+    $map: ();
+    $result: "";
+    $length: str-length($str);
+    $color: "";
+    $x: 1;
+    
+    //@warn str-index($str, '$');
+
+    @for $i from 1 through $length {
+        $char: str-slice($str, $i, $i );
+
+        @if $char == '$' {            
+            $char: nth($colors_map, $x);
+            //@warn $i, $str, $char;
+
+            $o: 0;   //-> $opacity[$x]
+            $vo: 0;  //-> $vopacity[$x]
+            
+
+            @if length($opacity_map) > 0 {
+                $o: nth($opacity_map, $x);
+                //$vo: $o;
+                //@debug $o;
+                //@warn 'Opacity', $o;
+                $new: (opacity: $o,);
+                $map: map-merge($map, $new);
+            }
+
+            @if length($scale_map) > 0 {
+                $o: nth($scale_map, $x);
+                //$vo: $o;
+                //@debug $o;
+                //@warn 'Scale', $o;
+                $new: (scale: $o,);
+                $map: map-merge($map, $new);
+            }
+
+            @if $use_css_var {
+                $char: vcolors($char, $map);
+                //@debug 'color:', $color;
+            }
+            @else{
+                $char: colors($char, $map);
+                //@debug 'bg-color:', $color;
+            }
+        }
+        $result: $result + $char;
+
+    } // end @for
+
+    //@each $k, $v in $map {@warn $k, $v;}
+    //@debug $result;
+    //@debug zip(10px 50px 100px, short mid); 
+    @return unquote($result);
+} */
+/*------------------------------------------------------------*/

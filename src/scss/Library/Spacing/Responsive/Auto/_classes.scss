@@ -1,0 +1,13 @@
+@use '../../../../Settings/Options';
+@use './mixins';
+
+
+// todo: I don't think responsive spacing is a good idea!
+// I think I'll delete responsive condetion
+
+// TODO: Next lines will generate a huge code (6175 lines)
+
+
+@if Options.get('spacing', 'responsive-classes') {
+	@include mixins.init_spacing(rem, vmax);
+}

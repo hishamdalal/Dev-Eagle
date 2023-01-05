@@ -1,0 +1,501 @@
+/********************************
+ * Project: Mocha-CSS-Layouts
+ * Created: 14/04/2020
+ * Author: Hisham Dalal
+ */
+
+
+//@use "sass:math";
+
+@use '../Settings';
+@use '../Settings/Options';
+@use '../Library/Colors';
+@use '../Library/Breakpoints' ;
+//@use '../Library/Spacing';
+@use './mixins';
+
+// todo: Add mixins to do things that classes do.. to minimize the code size
+// اضافة إجراءات تقوم بنفس ما تقوم به الكلاسات لتقليل حجم الكود
+
+@if Options.get('layouts', 'classes') { 
+
+
+	//! ====   WIDTH    ==== !//
+	.w-fluid { min-width: 100%; }
+
+	//* How to use:   w-{1 to $columns_count}
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through 10  {
+		$s: $i*10%;
+		.w-#{$i*10} {
+			width: #{$s};
+		}
+	}
+
+	//! ====   CONTAINER   ==== !//
+	.container, [class^="container-"] {
+		display: grid;
+	}
+
+	.container-fluid { padding-left: 0; padding-right: 0; margin: 0 auto;}
+
+	//* How to use:  .container-{padding: 1 to $column_count}
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through Settings.$columns_count {
+		.container-#{$i} { padding-left: #{$i}rem; padding-right: #{$i}rem; margin: 0 auto;}
+	}
+
+	//! ====   Display   ==== !//
+	//------------------------------------------------------------------------------------------//
+
+	.d-none { display: none !important;}	
+	.d-inline { display: inline !important;}	
+	.d-block { display: block !important;}	
+	.d-inline-block { display: inline-block !important;}	
+	.d-flex { display: flex !important;}	
+	.d-grid { display: grid !important;}	
+
+
+	//! ====   FLEX   ==== !//
+	//* How to use:  .d-[flex|flex-col|flex-row]
+	.d-flex { 
+		&, &-col, &-row {
+			display: flex !important; 
+			gap: Settings.$gap;
+			align-items: stretch;
+		}	
+		flex-direction: row;
+
+		&-col, [class^="#{&}-col-"]  { flex-direction: column;}	
+		&-row, [class^="#{&}-row-"]  { flex-direction: row;}	
+	}
+
+	.flex-auto > * {
+		flex: 0 0 auto;
+		width: auto;
+	}
+
+	.flex-equal > div,
+	.flex-equal > section,
+	.flex-equal > aside,
+	.flex-equal > span,
+	.flex-equal > li,
+	.flex-equal > a
+	{
+		flex: 1;
+	}
+
+
+	// todo: not exists !
+	//* How to use:  .d-grid-[col|row]-{$n} -> {$n: from 1 to $column_count}
+	//------------------------------------------------------------------------------------------//
+
+	// todo: flex-{$size}-{$h}
+	//* How to use: .flex-{$size}-{$n}		->		($n: 1 to $columns_count)
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through Settings.$columns_count  {
+		.flex-size-#{$i} {flex: #{$i} !important;}
+	}
+
+	//! ====   GRID   ==== !//
+	//* How to use:  .d-[grid|grid-col|grid-row]
+	//------------------------------------------------------------------------------------------//
+	.d-grid { 
+		&, &-col, &-row {
+			display: grid !important; 
+			gap: Settings.$gap;
+		}
+		grid-auto-flow: column;
+		
+		&-col, [class^="#{&}-col-"] { grid-auto-flow: column;}	
+		&-row, [class*="#{&}-row-"] { grid-auto-flow: row;}	
+	}	
+
+	//* How to use:  .grid-[row|col]-{$num}	->	($num: from 1 to $column_count)
+	//------------------------------------------------------------------------------------------//
+
+	@for $i from 1 through Settings.$columns_count  {
+		.grid-row-#{$i} {grid-template-columns: repeat( #{$i} , 1fr);}
+		.grid-col-#{$i} {grid-template-rows: repeat( #{$i} , 1fr);}
+	}
+
+
+	//* How to use:  .grid-{$row}x{$col}   ->   ($row and $col: from 1 to $column_count)
+	//? _mixins.scss -> grid-table($h, $v)
+	//------------------------------------------------------------------------------------------//
+	@for $row from 1 through Settings.$columns_count  {
+		@for $col from 1 through Settings.$columns_count  {
+			.grid-#{$row}x#{$col} {
+				grid-template-rows: repeat(#{$row}, 1fr);
+				grid-template-columns: repeat(#{$col}, 1fr);
+			}
+		}
+	}
+
+	//! ====   GRID AUTO   ==== !//
+	//* How to use:  .grid-{row: from 1 to $column_count}-auto
+	//* How to use:  .grid-auto-{col: from 1 to $column_count}
+	//? _mixins.scss -> grid-auto($h, $v:'auto')
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through Settings.$columns_count  {
+		.grid-row.grid-#{$i}-auto {
+			grid-template-rows: auto; 
+			grid-template-columns: repeat(#{$i}, 1fr);
+		}
+		.grid-col.grid-auto-#{$i} {
+			grid-template-columns: auto; 
+			grid-template-rows: repeat(#{$i}, 1fr);
+		}
+	}
+
+
+	.grid.merge-last-row {
+		& > *:last-child {
+			grid-column-start: 1;
+			grid-column-end: -1;
+		}
+	}
+	.grid.merge-last-col {
+		& > *:last-child {
+			grid-row-start: 1;
+			grid-row-end: -1;
+		}
+	}
+
+
+	//! ====   POSITION | MERGE | ORDER   ==== !//
+
+	[class^="d-grid-"] > div,
+	[class^="d-grid-"] > section,
+	[class^="d-grid-"] > aside,
+	[class^="d-grid-"] > span,
+	[class^="d-grid-"] > li,
+	[class^="d-grid-"] > a,
+	[class^="d-flex-"] > div,
+	[class^="d-flex-"] > section,
+	[class^="d-flex-"] > aside,
+	[class^="d-flex-"] > span,
+	[class^="d-flex-"] > li,
+	[class^="d-flex-"] > a
+	{
+		order: 999999;
+	}
+
+	// todo: what is this?
+	//! ====   =====!!!=====   ==== !//
+	.col  { grid-column-end: auto; }
+
+	//* How to use:  .[col|start|end|start-v|end-v|order]-{$s} -> ($s: from 1 to $column_count)
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through Settings.$columns_count  {
+		.col-#{$i}  		{ grid-column-end: span #{$i}; }
+		.col-start-#{$i}    { grid-column-start: #{$i}; }
+		.col-end-#{$i}    	{ grid-column-end: #{$i}; }
+
+		.row-#{$i}			{ grid-row-end: span #{$i}; }
+		.row-start-#{$i}  	{ grid-row-start: #{$i}; }
+		.row-end-#{$i}    	{ grid-row-end: #{$i}; }
+		
+		.order-#{$i}		{ order: #{$i};}
+	}
+
+	//* How to use:  .col-{$row}x{$col} 	-> {$row=start, $col=end, $row, $col: from 1 to $column_count)
+	//? _mixins.scss -> col-table($h, $v)
+	//------------------------------------------------------------------------------------------//
+	@for $row from 1 through Settings.$columns_count  {
+		@for $col from 1 through Settings.$columns_count  {
+			.col-#{$row}x#{$col}  { grid-row-end: span #{$row}; grid-column-end: span #{$col};   }
+		}
+	}
+
+	//! ====   MERGE   ==== !//
+	//* How to use:  .col-[start|end]-{$row}x{$col}		-> ($row and $col: from 1 to $column_count}
+	//------------------------------------------------------------------------------------------//
+	@for $row from 1 through Settings.$columns_count  {
+		@for $col from 1 through Settings.$columns_count  {
+			.col-start-#{$row}x#{$col}  { 
+				grid-row-start: #{$row};  
+				grid-column-start: #{$col};  
+			}
+			.col-end-#{$row}x#{$col}  { 
+				grid-row-end: #{$row}; 	
+				grid-column-end: #{$col};   
+			}
+		}
+	}
+
+
+	@for $r from 1 through Settings.$columns_count {
+		.col-#{$r}{ 
+			grid-column-end: span #{$r}; 
+			grid-row-end: span #{$r};
+		}
+		.col-h-#{$r}{ grid-column-end: #{$r};}
+		.col-v-#{$r}{ grid-row-end: #{$r};}
+
+		.start-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
+		.start-h-#{$r}{ grid-column-start: #{$r};}
+		.start-v-#{$r}{ grid-row-start: #{$r};}
+
+		.end-#{$r}{ grid-column-end: #{$r};  grid-row-end: #{$r};}
+		.end-h-#{$r}{ grid-column-end: #{$r};}
+		.end-v-#{$r}{ grid-row-end: #{$r};}
+		
+		.order-#{$r}{ order: #{$r};}
+	}
+
+
+
+	//! ====   ITEMS POSITION   ==== !//
+	//* How to use:  .items-[start|end|center|stretch]
+	//* How to use:  .items-[h|v]-[start|end|center|stretch]
+	//------------------------------------------------------------------------------------------//
+	.items {
+		//.items-start
+		&-start {place-items: start; place-content: start;}
+		//.items-end
+		&-end {place-items: end; place-content: end;}
+		//.items-center
+		&-center {place-items: center; place-content: center;}
+		//.items-stretch
+		&-stretch {place-items: stretch; place-content: stretch;}
+
+		//.items-h-start
+		&-h-start {justify-content: start;}
+		//.items-h-end
+		&-h-end {justify-content: end;}
+		//.items-h-center
+		&-h-center {justify-content: center;}
+		//.items-h-stretch
+		&-h-stretch {justify-content: stretch;}
+		
+		//.items-v-start
+		&-v-start {align-items: start;}
+		//.items-v-end
+		&-v-end {align-items: end;}
+		//.items-v-center
+		&-v-center {align-items: center;}
+		//.items-v-stretch
+		&-v-stretch {align-items: stretch;}
+		
+	}
+
+	//! ====   ITEM POSITION   ==== !//
+	//* How to use:  .self-[start|end|center|stretch]
+	//* How to use:  .self-[h|v]-[start|end|center|stretch]
+	//------------------------------------------------------------------------------------------//
+
+	.self {
+		//.self-start
+		&-start {place-self: start; place-content: start; }
+		//.self-end
+		&-end {place-self: end; place-content: end;}
+		//.self-center
+		&-center {place-self: center; place-content: center;}
+		//.self-stretch
+		&-stretch {place-self: stretch; place-content: stretch;}
+
+		//.self-h-start
+		&-h-start {justify-self: start;}
+		//.self-h-end
+		&-h-end {justify-self: end;}
+		//.self-h-center
+		&-h-center {justify-self: center;}
+		//.self-h-stretch
+		&-h-stretch {justify-self: stretch;}
+		
+		//.self-v-start
+		&-v-start {align-self: start;}
+		//.self-v-end
+		&-v-end {align-self: end;}
+		//.self-v-center
+		&-v-center {align-self: center;}
+		//.self-v-stretch
+		&-v-stretch {align-self: stretch;}	
+	}
+
+	//! ====   CONTENT POSITION   ==== !//
+	//* How to use:  .content-[start|end|center|stretch|around|between|evenly]
+	//* How to use:  .content-[h|v]-[start|end|center|stretch|around|between|evenly]
+	//------------------------------------------------------------------------------------------//
+
+	.content {
+		//.content-start
+		&-start {place-content: start; place-items: start; }
+		//.content-end
+		&-end {place-content: end; place-items: end; }
+		//.content-center
+		&-center {place-content: center; place-items: center; }
+		//.content-stretch
+		&-stretch {place-content: stretch; place-items: stretch; }
+		//.content-around
+		&-around {place-content: space-around;}
+		//.content-between
+		&-between {place-content: space-between;}
+		//.content-evenly
+		&-evenly {place-content: space-evenly;}
+
+
+		//.content-h-start
+		&-h-start {justify-content: start;}
+		//.content-h-end
+		&-h-end {justify-content: end;}
+		//.content-h-center
+		&-h-center {justify-content: center;}
+		//.content-h-stretch
+		&-h-stretch {justify-content: stretch;}
+		//.content-h-around
+		&-h-around {justify-content: space-around;}
+		//.content-h-between
+		&-h-between {justify-content: space-between;}
+		//.content-h-evenly
+		&-h-evenly {justify-content: space-evenly;}
+		
+		//.content-v-start
+		&-v-start {align-content: start;}
+		//.content-v-end
+		&-v-end {align-content: end;}
+		//.content-v-center
+		&-v-center {align-content: center;}
+		//.content-v-stretch
+		&-v-stretch {align-content: stretch;}
+		//.content-v-around
+		&-v-around {align-content: space-around;}
+		//.content-v-between
+		&-v-between {align-content: space-between;}
+		//.content-v-evenly
+		&-v-evenly {align-content: space-evenly;}
+
+	}
+
+	//! ====   TEXT   ==== !//
+	//------------------------------------------------------------------------------------------//
+	.text-center { text-align: center;}
+	.text-left { text-align: left;}
+	.text-rigth { text-align: right;}
+	.text-justify { text-align: justify;}
+
+	//----------------------------------
+	.center-children {
+		//display: flex;
+		& {
+			align-items: center;
+			justify-content: center;
+		}
+		#{&}-v {
+			align-items: center;
+		}
+		#{&}-h {
+			justify-content: center;
+		}
+	}
+
+	//----------------------------------
+	.center-all { 
+		&, * {
+			//display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+	.center-all-v {
+		&, * {
+			//display: flex;
+			align-items: center;
+		}
+	}
+	.center-all-h {
+		&, * {
+			//display: flex;
+			justify-content: center;
+		}
+	}
+
+
+	// SPACING [padding|margin|gap]
+	//------------------------------------------------------------------------------------------//
+
+	//! ====   GAP   ==== !//
+	.gap {
+		gap: Settings.$gap;
+	}
+
+
+	// aspect-ration
+
+	.aspect-ratio {
+		aspect-ratio: 1;
+	}
+	.aspect-ratio-narrow {
+		aspect-ratio: 4/3;
+	}
+	.aspect-ratio-wide {
+		aspect-ratio: 16/9;
+	}
+	.aspect-ratio-narrow-v {
+		aspect-ratio: 3/4;
+	}
+	.aspect-ratio-wide-v {
+		aspect-ratio: 9/16;
+	}
+
+
+
+	/* @for $i from 1 through $columns_count  {
+		@if $i <= $columns_count {
+			
+			$s: math.div(Settings.$i, 10);
+
+			.p-#{Settings.$i} {
+				//padding: $s;
+				padding: #{Settings.$s}rem;
+			}
+		}
+	} */
+
+	/* @each $s, $size in Settings.$media_query_size {
+		@include more-than($size) {
+
+		}
+	} */
+	/* @include more-than-or-equal(lg){
+		article {
+			background-color: red;
+		}
+	} */
+
+	/************** x **************/
+	/* .rowx {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: 100%;
+		justify-items: stretch;
+		
+	}
+	.rowx [class*="col-"] {
+			
+	} */
+
+	/* .row{
+		display: flex;
+		grid-gap: $gap;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: stretch;
+		align-items: stretch;
+		width: 100%;
+	}
+	.row > .col {
+		flex: 1;
+	}
+	*/
+	
+
+	
+	/* 
+	[class*='p-'] {
+		margin: 0 auto;	
+	} */
+
+//@use './classes';
+}

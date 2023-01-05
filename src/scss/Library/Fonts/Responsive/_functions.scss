@@ -1,0 +1,19 @@
+
+//@use '../../../Settings/vars';
+@use '../../../Settings/typography' as settings;
+
+
+/*------------------------------------------------------------*/
+// @function get-font-ratio($screen-size, $element) {
+//     @return deep-get2(settings.$font-size-ratio, $screen-size, $element);
+// }
+// /*------------------------------------------------------------*/
+// @function vget-font-ratio($screen-size, $element) {
+//     @return var(--#{vars.$var-prefix}-fz-#{$screen-size}-#{$element});
+// }
+/*------------------------------------------------------------*/
+@function size($element, $size) {
+	$el: map-get(settings.$font-elements, $element);
+	$sz: map-get(settings.$font-increase, $size);
+	@return ($el * $sz);
+}

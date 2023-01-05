@@ -1,0 +1,33 @@
+@use "sass:map";
+
+/*------------------------------------------------------------*/
+@function append($map, $key, $value) {
+	$new: ($key: $value);
+	@return map-merge($map, $new);
+}
+/*------------------------------------------------------------*/
+@function map-set($map, $key, $value) {
+	@return append($map, $key, $value);
+}
+/*------------------------------------------------------------*/
+@function is-map($var) {
+	@return type-of($var)=='map';
+}
+
+/*------------------------------------------------------------*/
+@function deep-get($map, $keys...) {
+	@return map-get($map, $keys);
+}
+
+/*------------------------------------------------------------*/
+@function deep-get2($map, $keys...) {
+	@each $key in $keys {
+		//@if map-has-key($map, $key) {
+			$map: map-get($map, $key);
+		//}
+	}
+
+	@return $map;
+}
+
+/*------------------------------------------------------------*/

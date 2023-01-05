@@ -1,0 +1,65 @@
+@use "sass:meta";
+
+//@use '../../../Settings/typography' as settings;
+//@use '../../../Settings/vars';
+//@use '../../../Settings/Options';
+//@use '../../Helpers/maps';
+@use './vars';
+@use '../../Breakpoints';
+@use '../../Breakpoints/helpers';
+@use './functions';
+
+// Todo: Put any auto responsive mixins or functions in separate folder
+
+/*------------------------------------------------------------*/
+// User settings
+// Param: $font-size-key: [h1|h2|....|p]
+@mixin size($font-size-key) {
+
+	// @include Breakpoints.less-than(Breakpoints.get(2)){
+	// 	@include calc(100);
+	// }
+
+	@each $breakpoint in Breakpoints.$breakpoints-keys {
+		//$suffix-min: #{$breakpoint}-min;
+		//$suffix-max: #{$breakpoint}-max;
+		$suffix-min: helpers.min($breakpoint);
+
+		$size-min: Breakpoints.breakpoints($suffix-min);
+		//$size-max: breakpoints($suffix-max);
+		$size: 0;
+		//@debug $suffix-min, $suffix-max, $size-min, $size-max;
+		
+		//@media (min-width: $size-min) and (max-width: $size-max) {
+		//@media (min-width: $size-min)  {
+
+		@include Breakpoints.equal-or-more($breakpoint){
+			//  #{$suffix-min}, #{$suffix-max}, #{$size-min}, #{$size-max} */	
+			//--#{$var-prefix}-screen-size: #{$breakpoint};
+			
+			//$size: deep-get2($font-size-ratio, $breakpoint, $font-size);
+			$size: functions.size($font-size-key, $breakpoint);
+			//font-size: #{$size}rem;
+			font-size: #{$size};
+			font-size: var(#{vars.$prefix}-#{$breakpoint}-#{$font-size-key});
+			
+			//$screen-size: $breakpoint
+			//--#{$var-prefix}-screen-size-max: #{$suffix-max};
+		}
+		//@debug $font-size, $suffix-min, $size-min, $size;
+		//@debug $size, $breakpoint, $size-min;
+		
+	}
+
+}
+
+// Manual 
+/*------------------------------------------------------------*/
+@mixin size-map($args...) {
+	@each $screen, $value in meta.keywords($args) {
+		@include Breakpoints.equal-or-more($screen){
+			font-size: #{$value}rem;
+		}
+	}
+}
+/*------------------------------------------------------------*/

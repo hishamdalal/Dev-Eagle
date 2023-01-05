@@ -1,0 +1,21 @@
+
+@mixin btn($props:(), $hover:()){
+    cursor: pointer;
+    border: 1px solid transparent;
+
+
+    @each $k, $v in $props {
+        #{$k}: $v;
+    }
+
+    @if length($hover) {
+        &:hover {
+            @each $args in $hover {
+                @each $kh, $vh in $args {
+                    #{$kh}: $vh;
+                }
+            }
+        }
+    }
+
+}

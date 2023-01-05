@@ -1,0 +1,9 @@
+/*------------------------------------------------------------*/
+@mixin bg($url, $properties-args:()) {
+	background-image: url(#{$url});
+	
+	@each $property-name, $property-value in $properties-args {
+		background-#{$property-name}: #{$property-value}; 
+	}
+	
+}

@@ -1,0 +1,23 @@
+@use '../../Settings/breakpoints' as Settings;
+
+
+
+/*------------------------------------------------------------*/
+@function min($breakpoint) {
+	$suffix: #{$breakpoint}-min;
+	
+	@if not map-has-key(Settings.$breakpoints, $suffix) {
+		@warn 'Breakpoin min key: "', $suffix , '" is not found!';
+	}
+	@return $suffix;
+}
+/*------------------------------------------------------------*/
+@function max($breakpoint) {
+	$suffix: #{$breakpoint}-max;
+	
+	@if not map-has-key(Settings.$breakpoints, $suffix) {
+		@warn 'Breakpoin max key: "', $suffix , '" is not found!';
+	}
+	@return $suffix;
+}
+/*------------------------------------------------------------*/

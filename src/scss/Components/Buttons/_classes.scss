@@ -1,0 +1,59 @@
+@use '../../Library/Colors';
+@use '../../Settings/buttons' as settings;
+@use '../../Library/Spacing';
+@use '../../Settings/Options';
+@use '../../Settings/colors' as base-colors;
+
+
+@if Options.get('components', 'classes') {
+
+    %btn {
+        display: inline-block;
+
+        //padding: settings.$paddings;
+        @include Spacing.spacing(padding, $v:.2, $h:.6);
+        border-radius: settings.$radius;
+    }
+
+    .btn {
+        @extend %btn;
+
+        //--> .btn .btn-primary
+        //&-primary {
+        //    @extend %btn;
+        //}
+        
+        //--> .btn.btn-primary
+        //&#{&}-primary {
+
+        //}
+
+    }
+
+
+    @each $color-name, $color-value in base-colors.$base-colors {
+        //@warn $color-name, $color-value;
+
+        .btn-#{$color-name} {
+            @include Colors.bg($color-name);
+        }
+        @if $color-name != 'transparent' {
+
+            // todo: change hover behavior from settings
+            .btn-#{$color-name}:hover {
+                @include Colors.bg($color-name, (lighten:2) );
+            }
+
+            .btn-#{$color-name}-outline {
+                @include Colors.replace(border, '2px solid $', ($color-name));
+            }
+
+            .btn-#{$color-name}-outline:hover {
+                @include Colors.replace(border, '2px solid $', ($color-name), (lighten:2));
+            }
+        }
+    } 
+
+    
+    
+}

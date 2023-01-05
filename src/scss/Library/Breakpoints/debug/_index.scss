@@ -1,0 +1,19 @@
+@use './mixins';
+@use '../../Colors/mixins' as Colors;
+@use '../../../Settings/Options';
+
+
+@if Options.get('breakpoints', 'debug') {
+    .screen-size {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        @include Colors.bg(primary, (opacity: 2));
+        @include Colors.txt(light);
+        padding: 1rem 2rem;
+        
+        &>div { display: none}
+        @include mixins.screen-size();
+    }
+}
+

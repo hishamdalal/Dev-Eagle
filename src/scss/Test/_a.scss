@@ -1,0 +1,7 @@
+$a: 'a';
+
+@mixin bg {
+    body {
+        background-color: #000;
+    }
+}

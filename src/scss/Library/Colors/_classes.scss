@@ -1,0 +1,18 @@
+@use './full-colors'; 
+@use '../../Settings/Options';
+@use './mixins';
+
+
+@if Options.get('colors', 'classes') {    
+
+    @each $color-name, $color-value in full-colors.$colors {
+        .bg-#{$color-name} {
+            //background-color: #{$color-value};
+            @include mixins.bg($color-name);
+        }
+        .txt-#{$color-name} {
+            //background-color: #{$color-value};
+            @include mixins.txt($color-name);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+/* 
+@use '../../Settings/vars';
+ */
+
+@use '../../Settings/typography' as settings;
+
+/*------------------------------------------------------------*/
+@each $type, $font in settings.$fonts {
+    @import url("#{$font}");
+}

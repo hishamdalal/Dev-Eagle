@@ -1,0 +1,61 @@
+
+//@use '../../../Settings/vars';
+@use '../../../Settings/breakpoints';
+@use '../../../Settings/Options';
+@use '../../../Settings/typography' as settings;
+//@use '../Fonts/mixins';
+@use './vars';
+
+
+@if Options.get('fonts', 'responsive') {
+    
+    :root {
+        
+        /**
+        * TODO: font ratio for h1 will be larger than h6
+        * So the small text will not disapear in small screen
+        *
+        * TODO: Next lines will generate a huge code (368 lines)
+        *       So it's dosn't right to run it
+
+        */
+ 
+        // Font Family
+        @each $breakpoint in breakpoints.$breakpoints-keys {
+            @each $font-type, $font-name in settings.$font-family {
+                --#{vars.$prefix}-family-#{$font-type}-#{$breakpoint}: #{$font-name};
+            }
+        }
+
+        // Collection
+        @each $breakpoint in breakpoints.$breakpoints-keys {
+            @each $font-class, $font-attrs in settings.$collection {
+                @each $attr, $val in $font-attrs {
+                    //@warn 'collect', $font-class, $attr, $val;
+                    --#{vars.$prefix}-collect-#{$font-class}-#{$attr}-#{$breakpoint}: #{$val};
+                }
+            }
+        }
+
+        // Font Elements
+        @each $breakpoint in breakpoints.$breakpoints-keys {
+            @each $fz-key, $fz-value in settings.$font-elements {
+                --#{vars.$prefix}-size-#{$fz-key}-#{$breakpoint}: #{$fz-value}rem;
+            }
+        }
+
+        // Font Weight
+        @each $breakpoint in breakpoints.$breakpoints-keys {
+            @each $fw-key, $fw-value in settings.$font-weight {
+                --#{vars.$prefix}-width-#{$fw-key}-#{$breakpoint}: #{$fw-value};
+            }
+        }
+
+
+        // Font Increase
+        @each $breakpoint, $present in settings.$font-increase {
+            --#{vars.$prefix}-increase-#{$breakpoint}: #{$present};
+        }
+
+    }
+}

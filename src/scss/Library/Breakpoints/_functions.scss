@@ -1,0 +1,20 @@
+//@use '../../settings/vars'; 
+@use '../../Settings/breakpoints' as settings; 
+
+/*------------------------------------------------------------*/
+@function breakpoints($key) {
+    @return map-get(settings.$breakpoints, $key);
+}
+/*------------------------------------------------------------*/
+@function vbreakpoints($key) {
+    @return var(--#{settings.$prefix}-#{$key});
+}
+/*------------------------------------------------------------*/
+// get breakpoint key by value from smallest to largest
+// example: get(1) -> xxxs,  get(2) -> xxs, get(3) -> xs ...
+// Todo: change function name to getByNumber($n)
+
+@function get($number) {
+    @return map-get(settings.$media_query_size, $number);
+}
+/*------------------------------------------------------------*/

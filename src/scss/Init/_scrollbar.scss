@@ -1,0 +1,61 @@
+@use '../Library/Colors';
+@use '../Settings/Options';
+
+@if Options.get('init', 'classes') {
+  // Todo: change these Options from settings
+
+  /* Firefox */
+  body {
+    scrollbar-width: thin;
+    /* "auto" or "thin" */
+    //scrollbar-color: colors(light) colors(secondary);   /* scroll thumb and track */
+    //box-shadow: vcolors-replace('inset 3px 3px % 6px %', (primary, secondary));
+    //@include Colors.bg(accent);
+  }
+}
+
+@if Options.get('init', 'root') {
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    //box-shadow: inset 0 0 6px colors(dark, 0.8);
+  }
+
+  //::-webkit-scrollbar-button       { }
+  /* ::-webkit-scrollbar-corner,
+  ::-webkit-scrollbar-track        {
+    //background: colors(secondary, .8);        // color of the tracking area 
+    //box-shadow: inset 3px 3px 6px colors(secondary);
+    @include Colors.replace(box-shadow, 'inset 3px 3px 6px %', (primary));
+  } */
+  //::-webkit-scrollbar-track-piece  { }
+  ::-webkit-scrollbar-track {
+    @include Colors.bg(primary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @include Colors.bg(secondary);
+    /* color of the scroll thumb */
+    border-radius: 0px;
+    /* roundness of the scroll thumb */
+    //border: 1px solid colors(secondary);  /* creates padding around scroll thumb */
+    //outline: 1px solid colors(secondary-dark);
+    //box-shadow: inset -4px 0px 6px colors(secondary-4);
+    background-clip: padding-box;
+    //@include color-replace(box-shadow, 'inset -4px 0px 6px %', (secondary-4));
+  }
+
+
+
+  ::-webkit-scrollbar-thumb:hover {
+    @include Colors.bg(secondary, (opacity: 8));
+    //box-shadow: inset -2px 0px 2px colors(secondary, (light:7));
+
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    @include Colors.bg(secondary, (opacity: 8))
+  }
+
+}

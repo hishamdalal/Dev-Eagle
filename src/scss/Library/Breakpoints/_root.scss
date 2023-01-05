@@ -1,0 +1,13 @@
+@use './vars';
+@use '../../Settings/breakpoints' as settings;
+@use '../../Settings/Options';
+
+
+
+@if Options.get('breakpoints', 'root') {    
+    :root {
+        @each $point-name, $point-value in settings.$breakpoints {
+            --#{vars.$prefix}-#{$point-name}: #{$point-value};
+        }	
+    }
+}

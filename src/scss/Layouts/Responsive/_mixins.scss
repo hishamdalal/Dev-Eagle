@@ -1,0 +1,62 @@
+@use '../../Library/Breakpoints';
+//@use '../../Settings';
+
+/*------------------------------------------------------------*/
+@mixin container($size, $i:0) {
+	@include Breakpoints.equal-or-more($size) {
+		padding-left: #{$i}rem;
+		padding-right: #{$i}rem;
+		margin-inline: auto;
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-span($size, $i:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-column-end: span #{$i};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-order($size, $i:0) {
+	@include Breakpoints.equal-or-more($size) {
+		order: #{$i};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-start($size, $h:0, $v:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-column-start: #{$h};
+		grid-row-start: #{$v};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-start-h($size, $h:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-column-start: #{$h};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-start-v($size, $v:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-row-start: #{$v};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-end($size, $h:0, $v:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-column-end: #{$h};
+		grid-row-end: #{$v};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-end-h($size, $h:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-column-end: #{$h};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin cell-end-v($size, $v:0) {
+	@include Breakpoints.equal-or-more($size) {
+		grid-row-end: #{$v};
+	}
+}
+/*------------------------------------------------------------*/

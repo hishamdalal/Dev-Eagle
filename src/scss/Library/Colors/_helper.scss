@@ -1,0 +1,10 @@
+
+
+/*------------------------------------------------------------*/
+@function hex-opacity($hex, $opacity:50) {
+    @return #{$hex}#{$opacity};
+}
+/*------------------------------------------------------------*/
+@function hex2rgb($hex) {
+	@return round(red($hex)), round(green($hex)), round(blue($hex));
+}

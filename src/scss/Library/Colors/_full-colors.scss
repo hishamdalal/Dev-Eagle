@@ -1,0 +1,106 @@
+@use "sass:color";
+@use "sass:math";
+
+@use "../../Settings/colors" as vars;
+//@forward "../../Settings/colors";
+//@forward "../../Settings/colors";
+
+
+
+/* $base-colors : (
+    'primary'  : #F012BE,
+    'secondary': #0074D9,
+    'accent'   : #2ECC40,
+    'gray'     : #AAAAAA,
+    'dark'     : #333,
+    'light'    : #ddd,
+);
+
+$gradient-degree: 10%; */
+
+
+$colors : ();
+$color-gradients: light, normal, dark;
+$n: 1;
+
+@each $color-name, $color-value in vars.$base-colors {
+    @if $color-name == 'transparent' {
+        $colors: map-merge($colors, (#{$color-name}: $color-value ) ) ;
+    }
+    @else{
+        
+
+        $light-name: #{$color-name}-light;
+        $dark-name: #{$color-name}-dark;
+        
+        @if $color-name == 'light' {
+            $light-name: 'lighten';
+            $dark-name: 'lightless';
+        }
+        @if $color-name == 'dark' {
+            $light-name: 'darkless';
+            $dark-name: 'darken';
+        }
+        
+
+        @for $i from 1 through vars.$colors-number {
+            $scale: math.div(10, vars.$colors-number);
+            $result: $i * $scale;
+            $fixed: ($result - vars.$accuracy) * 10%;
+            // @debug $color-name, $i, $fixed;
+
+            $colors: map-merge($colors, (#{$light-name}-#{$i}: color.scale($color-value, $lightness:  $fixed )) ) ;
+        }
+
+        // Lighten
+        // $colors: map-merge($colors, (#{$light-name}: color.scale($color-value, $lightness:  1 * vars.$percent )) ) ;
+        // Normal
+        $colors: map-merge($colors, (#{$color-name}: $color-value ) ) ;
+        // Darken
+        //$colors: map-merge($colors, (#{$dark-name}:  color.scale($color-value, $lightness: -1 * vars.$percent )) ) ;
+
+        @for $i from 1 through vars.$colors-number {
+            $scale: math.div(10, vars.$colors-number);
+            $result: $i * $scale;
+            $fixed: ($result - vars.$accuracy) * -10%;
+
+            $colors: map-merge($colors, (#{$dark-name}-#{$i}: color.scale($color-value, $lightness:  $fixed )) ) ;
+        }
+
+        // TODO: colors(primary, (light: .4))
+        //? color effects will contain 3 levels [none|opacity|lighten|darken]
+        
+        // Opacity:
+        @for $i from 1 through vars.$opacity-number {
+            //$n:  $i * vars.$opacity-number;
+            // $n:  (vars.$colors-number - $i + 1) * vars.$colors-number;
+            
+            // $x: math.div(10, vars.$opacity-number);
+            // $y: $i * $x;
+            // $r: math.div($y, 11);
+
+            $scale: math.div(10, vars.$opacity-number);
+            $result: $i * $scale * 10%;
+            $fixed: ($result - vars.$accuracy);
+            
+            //@debug $result, $fixed;
+
+            //@debug '9 / #{vars.$opacity-number} = #{$x} * #{$i} = #{$r}';
+            $colors: map-merge($colors, (#{$color-name}-opacity-#{$i}: rgba($color-value, $fixed ) ) ) ;
+        } 
+
+    }
+}
+
+// @each $color-name, $color-value in $colors {
+//     @if $color-name != 'transparent' {
+//         @for $i from 1 through 3 {
+//             $n: $i * 3;
+//             $colors: map-merge($colors, (#{$color-name}-opacity-#{$i}: rgba($color-value, math.div($n, 10) ) ) ) ;
+//         }   
+//     }
+// }
+
+
+
+

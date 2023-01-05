@@ -1,0 +1,164 @@
+//@use '../../Settings/breakpoints' as settings;
+//@use '../../Settings/spacing';
+//@use '../../Library//Breakpoints';
+@use '../../../../Settings/spacing';
+@use '../../../Breakpoints';
+/*------------------------------------------------------------*/
+// Todo: Move spacing to Layouts/spacing
+//===============================================
+//* How to use:  .[p|m|gap]-{$breakpoint}-{1 to $column_count}
+//* How to use:  .[p|m][s|e|t|b]-{$breakpoint}-{1 to $column_count}
+//* How to use:  .[gap]-[h|v]-{$breakpoint}-{1 to $column_count}
+//* How to use:  .[p|m|gap]-{$breakpoint}-{$h}x{$v} {v and h: 1 to $column_count}
+//===============================================
+
+/* 
+	$r_unit: responsive unit
+	$a_unit: absolute unit
+*/
+@mixin init_spacing($a_unit:rem, $r_unit:vmax) {
+	// init vars
+	$h:1; $v:1;
+
+	@each $size in Breakpoints.$breakpoints-keys {
+		@include Breakpoints.more-than($size) {
+			
+			// margin-auto
+			.ma-#{$size} { margin: auto; }
+			.ma-#{$size}-h { margin-left: auto; margin-right:auto; }
+			.ma-#{$size}-v { margin-top: auto; margin-bottom: auto; }
+			
+			@for $h from 1 through spacing.$spacing_list  {
+
+				.p-#{$size}-#{$h} { padding: #{$h}#{$r_unit};}
+				.m-#{$size}-#{$h} { margin: #{$h}#{$r_unit};}
+
+				.gap-#{$size}-#{$h} { gap: #{$h}#{$r_unit};}
+				
+				.ps-#{$size}-#{$h} { padding-left: #{$h}#{$r_unit}; }
+				.pe-#{$size}-#{$h} { padding-right: #{$h}#{$r_unit}; }
+				.pt-#{$size}-#{$h} { padding-top: #{$h}#{$a_unit}; }
+				.pb-#{$size}-#{$h} { padding-bottom: #{$h}#{$a_unit}; }
+				
+				.ms-#{$size}-#{$h} { margin-left: #{$h}#{$r_unit}; }
+				.me-#{$size}-#{$h} { margin-right: #{$h}#{$r_unit}; }
+				.mt-#{$size}-#{$h} { margin-top: #{$h}#{$a_unit}; }
+				.mb-#{$size}-#{$h} { margin-bottom: #{$h}#{$a_unit}; }
+				
+				
+				.gap-h-#{$size}-#{$h} { row-gap: #{$h}#{$a_unit}; }
+				.gap-v-#{$size}-#{$h} { column-gap: #{$h}#{$a_unit}; }
+
+				@for $v from 1 through spacing.$spacing_list  {			
+					.p-#{$size}-#{$h}x#{$v} { padding: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+					.m-#{$size}-#{$h}x#{$v} { margin: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+
+					.gap-#{$size}-#{$h}x#{$v} { gap: #{$h}#{$r_unit} #{$v}#{$a_unit};}
+				}
+			}
+
+		}
+	}
+}
+
+/*------------------------------------------------------------*/
+@mixin spacing($prop) {
+
+	$map: spacing.$paddings;
+	
+	@if $prop=='margin' {
+		$map: spacing.$margins;
+	}
+
+	
+	//#{$prop}: map-get($map, xxxs) ;
+	
+    @each $breakpoint, $value in $map {
+		//@warn $breakpoint;
+		@include Breakpoints.equal-or-more($breakpoint) {
+            #{$prop}: #{$value};
+        }
+    }
+}
+/*------------------------------------------------------------*/
+
+//? How to use: @include h-spacint('margin', 2, 2) {...}
+@mixin h-spacing($prop, $top:'', $bottom:'') {
+	$map: spacing.$paddings;
+	
+	@if $prop=='margin' {
+		$map: spacing.$margins;
+	}
+
+	@if $top !='' { 
+		$top: #{$top}rem;
+	}
+	@if $bottom !='' {
+		$bottom: #{$bottom}rem;
+	}
+	@if $bottom =='' {
+		$bottom: #{$top};
+	}
+	
+	#{$prop}: #{$top} map-get($map, xxxs) #{$bottom};
+	
+    @each $breakpoint, $value in $map {
+        @include Breakpoints.more-than($breakpoint) {
+            #{$prop}: #{$top} #{$value} #{$bottom};
+        }
+    }
+}
+/*------------------------------------------------------------*/
+@mixin v-spacing($prop, $right:'', $left:'') {
+	$map: spacing.$paddings;
+	
+	@if $prop=='margin' {
+		$map: spacing.$margins;
+	}
+
+	@if $left !='' { 
+		$left: #{$left}rem;
+	}
+	@if $right !='' {
+		$right: #{$right}rem;
+	}
+	@if $right =='' {
+		$right: #{$left};
+	}
+	
+	#{$prop}: map-get($map, xxxs) #{$right} map-get($map, xxxs) #{$left};
+	
+    @each $breakpoint, $value in $map {
+        @include Breakpoints.more-than($breakpoint) {
+            #{$prop}: #{$value} #{$right} #{$value} #{$left};
+        }
+    }
+}
+/*------------------------------------------------------------*/
+/*------------------------------------------------------------*/
+@mixin padding() {
+	@include spacing('padding');
+}
+/*------------------------------------------------------------*/
+@mixin margin() {
+	@include v-spacing('margin');
+}
+/*------------------------------------------------------------*/
+/*------------------------------------------------------------*/
+@mixin v-padding($top:'', $bottom:'') {
+	@include v-spacing('padding', $top, $bottom);
+}
+/*------------------------------------------------------------*/
+@mixin v-margin($top:'', $bottom:'') {
+	@include v-spacing('margin', $top, $bottom);
+}
+/*------------------------------------------------------------*/
+/*------------------------------------------------------------*/
+@mixin h-padding($right:'', $left:'') {
+	@include h-spacing('padding', $right, $left);
+}
+/*------------------------------------------------------------*/
+@mixin h-margin($right:'', $left:'') {
+	@include h-spacing('margin', $right, $left);
+}
+/*------------------------------------------------------------*/

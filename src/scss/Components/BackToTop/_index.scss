@@ -1,0 +1,47 @@
+@use '../../Library/Colors/mixins' as Colors;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.back-to-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 2rem;
+  height: 2rem;
+  @include Colors.txtBg(secondary, light);
+  font-size: 2em;
+  padding: 5px;
+  z-index: 999999999;
+  border-radius: 50%;
+  text-decoration: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .5s;
+  
+  /*
+  transform: translate3d(0, 50px, 0);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1);
+  transition-duration: .3s;
+ */ 
+	&:hover, &:focus {
+    @include Colors.txtBg(light, primary);
+	} 
+  
+	&.back-to-top-is-visible {
+		visibility: visible;
+		opacity: .8;
+    /*
+    transform: translate3d(0, 0, 0);
+		transition-duration: .3s;
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1);
+  */	
+  }
+
+}

@@ -1,0 +1,3 @@
+@use '../../Settings/vars';
+
+$prefix: #{vars.$var-prefix}-color;

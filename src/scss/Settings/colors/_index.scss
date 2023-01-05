@@ -1,0 +1,5 @@
+@forward './settings';
+@use './settings';
+
+
+$base-colors: map-merge(settings.$base-colors, settings.$selected-palete);

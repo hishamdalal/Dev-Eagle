@@ -1,0 +1,9 @@
+// I can't do this:
+/* 
+@function vars(){
+    @supports(--css: variables) {
+
+        @return true;
+    }
+    @return false;
+} */

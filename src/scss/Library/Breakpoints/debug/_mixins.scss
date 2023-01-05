@@ -1,0 +1,13 @@
+@use '../../../Settings/breakpoints' as Settings;
+@use '../../Breakpoints/mixins' as Breakpoints;
+
+/*------------------------------------------------------------*/
+@mixin screen-size(){
+
+	@each $breakpoint in Settings.$breakpoints-keys {
+		@include Breakpoints.equal-to($breakpoint){
+			& > div.#{$breakpoint} { display: block;}
+		}
+	}
+}
+/*------------------------------------------------------------*/

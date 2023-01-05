@@ -1,0 +1,59 @@
+
+@use '../Breakpoints';
+@use '../../Settings/typography' as settings;
+@use '../../Settings/vars';
+@use '../../Settings/Options';
+@use './functions';
+@use '../Helpers/maps';
+
+
+
+/*------------------------------------------------------------*/
+@mixin size($element) {
+	font-size: functions.size($element);
+	@if Options.get('fonts', 'root') { 
+		font-size: functions.vsize($element);
+	}
+}
+
+/*------------------------------------------------------------*/
+@mixin family($name) {
+    font-family: functions.fonts($name);
+    font-family: functions.vfonts($name);
+}
+/*------------------------------------------------------------*/
+@mixin weight($weight) {
+	font-weight: functions.fw($weight);
+	@if Options.get('fonts', 'root') { 
+		font-weight: functions.vfw($weight);
+	}
+}
+/*------------------------------------------------------------*/
+/* @mixin set($name) {
+	font-family: functions.fonts($name);
+	font-weight: functions.fw($name);
+} */
+/*------------------------------------------------------------*/
+@mixin collect($name) {
+
+	$family: maps.deep-get2(settings.$collection, $name, 'font-family');
+	$weight: maps.deep-get2(settings.$collection, $name, 'font-weight');
+	$size: maps.deep-get2(settings.$collection, $name, 'font-size');
+
+	//$item: map-get(settings.$collection, $name);
+	//$family: map-get($item, 'font-family');
+	
+	//@warn $name, $family, $weight;
+	font-family: #{$family};
+	font-weight: #{$weight};
+	font-size: #{$size};
+	
+	font-family: var(--#{vars.$var-prefix}-#{$name}-font-family);
+	font-weight: var(--#{vars.$var-prefix}-#{$name}-font-weight);
+	font-size: var(--#{vars.$var-prefix}-#{$name}-font-size);
+
+	//@include family($family);
+	//@include width($weight);
+	//@include size($size);
+}
+/*------------------------------------------------------------*/

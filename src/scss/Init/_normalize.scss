@@ -1,0 +1,32 @@
+@use '../Settings/Options';
+
+@if Options.get('init', 'classes') {
+    
+    *,
+    ::after,
+    ::before {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: 0;
+    }
+
+    html, body {
+        // min-height: 100vh;
+        min-width: 100vw;
+        overflow-x: hidden;
+        
+    }
+
+    body {
+
+        padding: 0;
+        margin: 0;
+        //font-family: monospace, Verdana, Geneva, Tahoma, sans-serif;
+        //font-family: 'Courier New', Courier, monospace;
+        //font-size: 14px;
+
+        z-index: 1;
+    }
+
+}

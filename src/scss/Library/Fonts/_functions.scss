@@ -1,0 +1,47 @@
+//@use '../../Settings/vars';
+@use './vars';
+@use '../../Settings/typography' as settings;
+
+
+@function fonts($name) {
+    @if map-has-key(settings.$font-family, $name) {
+        @return map-get(settings.$font-family, $name);
+    }
+    @else {
+		@warn 'Font (#{$name}) is not exist';
+	}
+    @return 'system-ui';
+}
+/*------------------------------------------------------------*/
+@function vfonts($name) {
+    @return var(--#{vars.$prefix}-family-#{$name});
+}
+/*------------------------------------------------------------*/
+@function fw($weight) {
+    // $weight: (light, bold, ... )
+    @if map-has-key(settings.$font-weight, "#{$weight}") {
+        @return map-get(settings.$font-weight, "#{$weight}");
+    }
+    @else {
+		@warn 'Font weight (#{$weight}) is not exist';
+	}
+    @return 'normal';
+}
+/*------------------------------------------------------------*/
+@function vfw($weight) {
+    //! Error: i need breakpoint size..
+    //* i need to sapirate auto size from custom size
+    @return var(--#{vars.$prefix}-width-#{$weight});
+}
+/*------------------------------------------------------------*/
+// User settings
+@function size($element) {
+    // $element: big, h1, ...., h6, p, small
+    $size: map-get(settings.$font-elements, $element);
+    @return #{$size}rem;
+}
+/*------------------------------------------------------------*/
+// User settings
+@function vsize($element) {
+    @return var(--#{vars.$prefix}-size-#{$element});
+}

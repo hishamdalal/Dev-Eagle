@@ -1,0 +1,20 @@
+
+
+/*------------------------------------------------------------*/
+// Auto resize
+@mixin calc($persent:60, $viewport-width:.4) {
+	font-size: calc(#{$persent}% + #{$viewport-width}vw);
+}
+/*------------------------------------------------------------*/
+// Auto resize
+@mixin clamp($ideal-size:calc(0.8rem + 0.98vw), $min-size:1rem, $max-size:4rem) {
+	@if is-map($ideal-size) {
+		$min: nth($ideal-size, 1);
+		$max: nth($ideal-size, 2);
+		$ideal-size: #{calc($min + $max)};
+	}
+
+	// i.e: font-size: clamp(1rem, calc(0.97rem + 0.17vw), 1.5rem);
+	font-size: clamp($min-size, $ideal-size, $max-size);
+}
+/*------------------------------------------------------------*/

@@ -1,0 +1,143 @@
+@use "sass:meta";
+@use '../../Settings';
+@use '../Breakpoints';
+@use '../Helpers/numbers' as Numbers;
+
+/*------------------------------------------------------------*
+@mixin h-spacing($type, $args...) {
+	$_top: '0';
+	$_bottom: '0';
+	$_right: '0';
+	$_left: '0';
+
+	$right_spacing: '0';
+	$left_spacing: '0';
+	
+	$horizontal: '0';
+	$horizontal_padding: '';
+	$h_spacing: 0;
+	$unit: '';
+
+	//$length: length($args);
+	@each $name, $value in meta.keywords($args) {
+		@if $value > 0 {
+			$unit: rem;
+		}
+		@else {
+			$unit: '';
+		}
+
+		@if $name ==top or $name==t {
+			$_top: #{$value}#{$unit};
+		}
+		@if $name == bottom or $name==b {
+			$_bottom: #{$value}#{$unit};
+		}
+		
+		@if $name == right  or $name==r {
+			$_right: $value;
+		}
+		@if $name ==left or $name==l {
+			$_left: $value;
+		}
+		
+		@if $name == vertical  or $name==v { //vertical
+			//@warn '===== spacing ======';
+			$_top: #{$value}#{$unit};
+			$_bottom: #{$value}#{$unit};
+		}
+		@if $name == horizontal  or $name==h  { //horizontal
+			$horizontal: $value;
+		}
+		
+	}
+
+
+	$map: Settings.$paddings;
+	@if $type=='margin' {
+		$map: $margins;
+	}
+
+	//@debug($type, $_right, $_left);
+	
+	@include Breakpoints.between(0, xxxs) {
+		$h_spacing: to-number(map-get($map, xxxs));
+		$val: 1rem;
+		$right_spacing: 1rem;
+		$left_spacing: 1rem;
+		
+		@if $_right != '0' or $_left != '0'{
+			@if $_right != '0'{
+				$val_1: to-number($_right);
+				$val_2: to-number(map-get($map, xxxs));
+				$right_spacing:  ($val_1 * $val_2);
+				$right_spacing: math.div($right_spacing, 5);
+				//@debug ($right_spacing, $val_1, $val_2);
+			}
+			@if $_left != '0'{
+				$val_1: to-number($_left);
+				$val_2: to-number(map-get($map, xxxs));
+				$left_spacing:  ($val_1 * $val_2);
+				$left_spacing: math.div($left_spacing, 5);
+
+			}
+			#{$type}: #{$_top} #{$right_spacing} #{$_bottom} #{$left_spacing};
+		}
+		@else if $horizontal == '0' {
+			$h_spacing: 0;
+			#{$type}: #{$_top} #{$h_spacing} #{$_bottom};
+		}	
+		@else if $horizontal != '' {
+			$val_1: Numbers.to-number($horizontal);
+			$val_2: Numbers.to-number(map-get($map, xxxs));
+			$h_spacing: ($val_1 * $val_2);
+			#{$type}: #{$_top} #{$h_spacing} #{$_bottom};
+		}
+
+	}
+
+	@each $point-name, $point-value in Breakpoints.$breakpoints-keys {
+		$h_spacing: Numbers.to-number(map-get($map, $point-name));
+		//@debug($point-name, $h_spacing);
+
+		@include Breakpoints.more-than($point-name) {
+
+			@if $_right != '0' or $_left != '0'{
+				@if $_right != '0'{
+					$val: Numbers.to-number($_right) * Numbers.to-number(map-get($map, $point-name));
+					$right_spacing:  $val;
+				}
+				@if $_left != '0'{
+					$val: Numbers.to-number($_left) * Numbers.to-number(map-get($map, $point-name));
+					$left_spacing:  $val;
+				}
+				#{$type}: #{$_top} #{$right_spacing} #{$_bottom} #{$left_spacing};
+			}
+			@else if $horizontal == '0' {
+				$h_spacing: 0;
+				#{$type}: #{$_top} #{$h_spacing} #{$_bottom};
+			}	
+			@else if $horizontal != '' {
+				$val_1: Numbers.to-number($horizontal);
+				$val_2: Numbers.to-number(map-get($map, $point-name));
+				$h_spacing: ($val_1 * $val_2);
+
+				#{$type}: #{$_top} #{$h_spacing} #{$_bottom};
+			}
+		}
+		//@debug($horizontal, $_top, $h_spacing, $_bottom);
+		//@warn #{$type}, #{$_top}, #{$h_spacing}, #{$_bottom};
+	}
+
+
+
+}
+/*------------------------------------------------------------*
+@mixin paddings($args...) {
+	@include h-spacing('padding', $args...);
+}
+/*------------------------------------------------------------*
+@mixin margins($args...) {
+	@include h-spacing('margin', $args...);
+}
+/*------------------------------------------------------------*/

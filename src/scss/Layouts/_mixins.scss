@@ -1,0 +1,108 @@
+@use '../Library/Breakpoints';
+@use '../Settings';
+
+/*------------------------------------------------------------*/
+@mixin grid-h(){
+	display: grid;
+	grid-auto-flow: column;
+}
+/*------------------------------------------------------------*/
+@mixin grid-v(){
+	display: grid;
+	grid-auto-flow: row;
+}
+/*------------------------------------------------------------*/
+/**
+ private mixins
+ $type: [rows | cols ]
+ $cols: [1fr, 3rem, 30%, ...]
+ */
+@mixin _grid-line($type, $number:1) {
+	display: grid;
+	//grid-auto-flow: #{$type};
+
+	@if $type=='rows' {
+		grid-template-rows: #{$number};
+	}
+	@else if $type=='column' {
+		grid-template-columns: #{$number};
+	}
+}
+/*------------------------------------------------------------*/
+@mixin grid-cols($cols...) {
+	@include _grid-line('column', $cols);
+}
+/*------------------------------------------------------------*/
+@mixin grid-rows($rows...) {
+	@include _grid-line('rows', $rows);
+}
+/*------------------------------------------------------------*/
+@mixin grid-table($h, $v) {
+	grid-template-rows: repeat(#{$v}, 1fr);
+	grid-template-columns: repeat(#{$h}, 1fr);
+}
+/*------------------------------------------------------------*/
+@mixin grid-auto($h, $v:'auto') {
+	@if $h=='auto' {
+		grid-template-rows: auto; 
+		grid-template-columns: repeat(#{$i}, 1fr);
+	}
+	@else if $v=='auto' {
+		grid-template-columns: auto; 
+		grid-template-rows: repeat(#{$i}, 1fr);
+	}
+}
+
+/*------------------------------------------------------------*/
+@mixin container($i:0) {
+	padding-left: #{$i}rem; 
+	padding-right: #{$i}rem; 
+	margin-inline: auto;
+}
+/*------------------------------------------------------------*/
+@mixin cell-span($h:0, $v:0) {
+	grid-column-end: span #{$h}; 
+	grid-row-end: span #{$v};
+}
+/*------------------------------------------------------------*/
+@mixin cell-order($i:0) {
+	order: #{$i}; 
+}
+/*------------------------------------------------------------*/
+@mixin cell-start($h, $v:0) {
+	grid-column-start: #{$h};  
+	grid-row-start: #{$v};  
+}
+/*------------------------------------------------------------*/
+@mixin cell-start-h($h:0) {
+	grid-column-start: #{$h};  
+}
+/*------------------------------------------------------------*/
+@mixin cell-start-v($v:0) {
+	grid-row-start: #{$v};  
+}
+/*------------------------------------------------------------*/
+@mixin cell-end($h, $v:0) {
+	grid-column-end: #{$h};  
+	grid-row-end: #{$v};  
+}
+/*------------------------------------------------------------*/
+@mixin cell-end-h($h:0) {
+	grid-column-end: #{$h};  
+}
+/*------------------------------------------------------------*/
+@mixin cell-end-v($v:0) {
+	grid-row-end: #{$v};  
+}
+/*------------------------------------------------------------*/
+// todo: continue convert classes to mixins
+/*------------------------------------------------------------*/
+@mixin flex-v(){
+	display: flex;
+	flex-direction: column;
+}
+/*------------------------------------------------------------*/
+@mixin flex-h(){
+	display: flex;
+	flex-direction: row;
+}

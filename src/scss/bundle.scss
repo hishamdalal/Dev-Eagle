@@ -1,0 +1,148 @@
+@charset 'utf-8';
+
+@use 'sass:color';
+
+//@use './index.scss';
+@use './vendors';
+@use './Init'; 
+@use './Library/Breakpoints';
+@use './Library/Breakpoints/debug';
+@use './Layouts';
+//@use './Layouts/Responsive' as RLayouts;
+@use './Library/Fonts';
+@use './Library/Fonts/responsive' as rFonts;
+@use './Library/Colors';
+@use './Library/Animations';
+@use './Library/Spacing';
+//@use './Library/Spacing/Responsive' as rSpacing;
+//@use './Library/Spacing/Responsive/Auto' as arSpacing;
+@use './Components/Buttons';
+@use './Components/BackToTop';
+@use './Components/Cards';
+
+// Todo: Add rtl support
+
+//@include debug.print();
+html {
+	//@include Fonts.size(p); 
+	@include rFonts.size-map($xs:.8, $md:1, $xl:1.2);
+	@include Fonts.family(hero);
+}
+
+.main-header {
+	@include Colors.bg(primary);
+	@include Spacing.padding($h:1, $v:.5);
+}
+
+.main-nav {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 3rem auto 2rem;
+	align-items: flex-end;
+	gap: 1rem;
+
+	.logo {
+		img {
+			width: 100%;
+			aspect-ratio: 1/1;
+		}
+	}
+}
+
+.site-name-wrapper {
+	.site-name {
+		@include Fonts.size(h3);
+	}
+	.site-desc {
+		@include Fonts.size(xsmall);
+	}
+}
+
+.nav-list {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	@include Colors.bg(accent);
+	list-style: none;
+	margin: 0;
+	padding: 0 3rem;
+	display: grid;
+	gap: 1rem;
+	grid-auto-flow: column;
+	align-items: center;
+	text-align: center;
+	@include Animations.transition(ease-in-out, 300ms, 0, opacity, visibility);
+
+	a{
+		@include Colors.txt(dark, (darken:7));	
+
+		&:hover {
+			@include Colors.txt(light, (lighten:9));
+			@include Colors.shadow(light, 0, 0, 9px, (lighten:9));	
+			@include Colors.stroke(light, (lighten:4));
+			//@include Colors.stroke2(light, 2);
+		
+		}
+	}
+}
+
+[data-visible="false"] {
+	opacity: 0;
+	visibility: hidden;
+
+}
+[data-visible="true"] {
+	opacity: 1;
+	visibility: visible;
+}
+
+.nav-toggle {
+
+	@include Colors.txt(light, (lighten:4));
+    right: 1rem;
+    top: 1rem;
+	width: 1.6rem;
+    aspect-ratio: 1;
+	z-index: 9999;
+	cursor: pointer;
+	display: flex;
+    place-content: center;
+    align-self: center;
+	justify-self: flex-end;
+	@include Colors.replace(border, '1px solid $', (light), (lighten:4));
+	border-radius: .2rem;
+
+	
+	&::after {
+		content: "\f0c9";
+		font-family: fontAwesome;
+	}
+
+	&.show, &:hover {
+		@include Colors.txt(dark, (darken:4));
+		@include Colors.replace(border, '1px solid $', (dark), (darken:4));
+	}
+	&.show {
+		&:hover {
+			@include Colors.txt(light, (lighten:4));
+			@include Colors.replace(border, '1px solid $', (light), (lighten:4));
+		}
+		
+		&::after {
+			content: "\f00d";
+		}
+	}
+}
+
+.jumpetron {
+	height: 15rem;
+	@include Colors.bg(gray, (lighten:4))
+}
+
+footer {
+	@include Spacing.padding($v:2);
+	@include Colors.bg(light);
+	text-align: center;
+}

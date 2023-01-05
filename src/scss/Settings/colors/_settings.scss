@@ -1,0 +1,22 @@
+@use './paletes';
+
+// $percent: 20%;
+
+$colors-number: 7;
+$opacity-number: 7;
+/*
+    less than 1 => range of colors goes from very light to very dark
+    more than 1 => range of colors goes lighter
+*/
+$accuracy: 1;
+
+
+$selected-palete: paletes.$palete1;
+
+
+$base-colors : (
+    'light':        #c4c4c4,
+    'gray':         #ababab,
+    'dark':         #4a4a4a,
+    'transparent':  #ffffff00
+);

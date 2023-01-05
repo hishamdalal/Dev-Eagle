@@ -1,0 +1,78 @@
+@use "sass:color";
+@use "sass:math";
+
+@use "../../Settings/colors" as vars;
+//@forward "../../Settings/colors";
+//@forward "../../Settings/colors";
+
+
+
+/* $base-colors : (
+    'primary'  : #F012BE,
+    'secondary': #0074D9,
+    'accent'   : #2ECC40,
+    'gray'     : #AAAAAA,
+    'dark'     : #333,
+    'light'    : #ddd,
+);
+
+$gradient-degree: 10%; */
+
+$colors : ();
+$color-gradients: light, normal, dark;
+
+
+@each $color-name, $color-value in vars.$base-colors {
+    @if $color-name == 'transparent' {
+        $colors: map-merge($colors, (#{$color-name}: $color-value ) ) ;
+    }
+    @else{
+        
+
+        $light-name: #{$color-name}-light;
+        $dark-name: #{$color-name}-dark;
+        
+        @if $color-name == 'light' {
+            $light-name: 'lighten';
+            $dark-name: 'lightless';
+        }
+        @if $color-name == 'dark' {
+            $light-name: 'darkless';
+            $dark-name: 'darken';
+        }
+        // @for $i from 1 through vars.$colors-number {
+        //     $colors: map-merge($colors, (#{$light-name}: color.scale($color-value, $lightness:  2 * vars.$percent )) ) ;
+        // }
+
+        // Lighten
+        $colors: map-merge($colors, (#{$light-name}: color.scale($color-value, $lightness:  1 * vars.$percent )) ) ;
+        // Normal
+        $colors: map-merge($colors, (#{$color-name}: $color-value ) ) ;
+        // Darken
+        $colors: map-merge($colors, (#{$dark-name}:  color.scale($color-value, $lightness: -1 * vars.$percent )) ) ;
+
+        // TODO: colors(primary, (light: .4))
+        //? color effects will contain 3 levels [normal|lighten|darken]
+        
+        @for $i from 1 through vars.$colors-number {
+            // $n:  $i * 3;
+            //$n:  (vars.$colors-number - $i + 1) * vars.$colors-number;
+            //@warn $i, $n, $color-value, math.div($n, 10)  ;
+            $colors: map-merge($colors, (#{$color-name}-opacity-#{$i}: rgba($color-value, math.div($i, 10) ) ) ) ;
+        } 
+
+    }
+}
+
+// @each $color-name, $color-value in $colors {
+//     @if $color-name != 'transparent' {
+//         @for $i from 1 through 3 {
+//             $n: $i * 3;
+//             $colors: map-merge($colors, (#{$color-name}-opacity-#{$i}: rgba($color-value, math.div($n, 10) ) ) ) ;
+//         }   
+//     }
+// }
+
+
+
+

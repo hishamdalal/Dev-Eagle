@@ -1,0 +1,64 @@
+@use "sass:color";
+//@use '../../Settings/vars';
+@use '../../Settings/Options';
+@use '../../Settings/colors' as settings;
+@use './vars';
+@use './full-colors' as full;
+@use './mixins';
+//@use './functions';
+
+// Todo: Add themes switch
+// todo: Add "light-full" Colors & "Dark-full" colors instead of invert colors
+
+@if Options.get('colors', 'root') { 
+    // Add opacity colors to root variables
+    @media (prefers-color-scheme: light) {
+        :root {
+
+            @each $color-name, $color-value in full.$colors {
+                --#{vars.$prefix}-#{"" + $color-name + ""}: #{$color-value};
+            }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+
+            @each $color-name, $color-value in full.$colors {
+                --#{vars.$prefix}-#{"" + $color-name + ""}: #{invert($color-value)};
+            }
+        }
+
+    }
+
+    [color-scheme="light"] {
+
+        @each $color-name, $color-value in full.$colors {
+            --#{vars.$prefix}-#{"" + $color-name + ""}: #{$color-value};
+        }
+    }
+
+    [color-scheme="dark"] {
+
+        @each $color-name, $color-value in full.$colors {
+            --#{vars.$prefix}-#{"" + $color-name + ""}: #{invert($color-value)};
+        }
+    }
+
+
+
+
+
+
+    ::placeholder {
+        @include mixins.txt('gray'); // using gray name without quotes cause error!
+    }
+    ::selection {
+        @include mixins.txt(light, (lighten:9));
+        @include mixins.bg(secondary, (opacity: 7));
+        @include mixins.replace(text-shadow, '2px 2px 2px $', (dark), (darken:2));
+        //text-shadow: 1px 2px 2px colors(dark);
+        //text-shadow: 1px 2px 0 colors(darken), -1px -1px 0 colors(darken), 1px -1px 0 colors(darken), -1px 1px 0 colors(darken);
+    }
+
+}

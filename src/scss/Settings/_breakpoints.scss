@@ -1,0 +1,48 @@
+/* breakpoints */
+
+@use './vars';
+
+
+$prefix: --#{vars.$var-prefix}-vbreakpoint;
+
+$columns_count: 12;
+$breakpoints-keys: xxxs, xxs, xs, sm, md, lg, xl, xxl;
+
+
+$font-breakpoints-keys: xxxs, xxs, xs, lg, xl;
+
+// Todo: Change name $breakpoints to $list  
+$breakpoints: (
+	ziro: 0px,
+	infinity: 10000px,
+
+	xxxs-min: 200px,
+	xxxs-max: 299.98px,
+	xxs-min: 300px,
+	xxs-max: 429.98px,
+	xs-min: 430px,
+	xs-max: 575.98px,
+	sm-min: 576px,
+	sm-max: 767.98px,
+	md-min: 768px,
+	md-max: 991.98px,
+	lg-min: 992px,
+	lg-max: 1199.98px,
+	xl-min: 1200px,
+	xl-max: 1399.98px,
+	xxl-min: 1400px,
+	xxl-max: 5000px,
+);
+
+$media_query_size: (
+	1:"xxxs", 
+	2:"xxs", 
+	3:"xs", 
+	4:"sm", 
+	5:"md", 
+	6:"lg", 
+	7:"xl", 
+	8:"xxl"
+);
+
+

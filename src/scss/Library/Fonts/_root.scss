@@ -1,0 +1,50 @@
+
+//@use '../../Settings/vars';
+@use '../../Settings/Options';
+@use '../../Settings/typography' as settings;
+@use './mixins';
+@use './vars';
+
+//! Error: i need breakpoint size..
+
+@if Options.get('fonts', 'root') {
+
+    :root {
+        
+        // TODO: Next lines will generate a huge code (53 lines)
+        
+        // Font Family
+        @each $font-type, $font-name in settings.$font-family {
+            --#{vars.$prefix}-family-#{$font-type}: #{$font-name};
+        }
+
+        // Font Elements
+        @each $fz-key, $fz-value in settings.$font-elements {
+            --#{vars.$prefix}-size-#{$fz-key}: #{$fz-value}rem;
+        }
+
+        // Font Weight
+        @each $fw-key, $fw-value in settings.$font-weight {
+            --#{vars.$prefix}-width-#{$fw-key}: #{$fw-value};
+        }
+
+        // Font Increase
+        @each $breakpoint, $present in settings.$font-increase {
+            --#{vars.$prefix}-increase-#{$breakpoint}: #{$present};
+        }
+
+    }
+
+}
+
+@if Options.get('fonts', 'root-collection') {
+    :root {
+        // Collection
+        @each $font-class, $font-attrs in settings.$collection {
+            @each $attr, $val in $font-attrs {
+                //@warn 'collect', $font-class, $attr, $val;
+                --#{vars.$prefix}-collect-#{$font-class}-#{$attr}: #{$val};
+            }
+        }
+    }
+}

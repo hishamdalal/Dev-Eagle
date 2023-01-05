@@ -1,0 +1,10 @@
+@use "sass:selector";
+
+// https://sass-lang.com/documentation/at-rules/at-root
+
+@mixin unify-parent($child) {
+    @at-root #{selector.unify(&, $child)} {
+      @content;
+    }
+}
+

@@ -1,0 +1,313 @@
+@use "sass:meta";
+@use "sass:math";
+
+@use '../../Settings/breakpoints' as Settings;
+@use '../../Settings/Options';
+@use './vars';
+@use './helpers';
+@use './functions';
+@use '../helpers/maps';
+
+/*------------------------------------------------------------*/
+/*------------------------------------------------------------*/
+//? How to use: @include between(md, lg){ ... }
+@mixin between($min_width, $max_width) {
+	@if $min_width and $max_width  {
+		
+		$min: 0; $max: 0;
+		$min_suffix: helpers.min($min_width);
+		$max_suffix: helpers.max($max_width);
+
+		// @warn 'suffix', $min_width,  $max_width, $min_suffix, $max_suffix;
+		
+		/// MIN
+		@if map-has-key(Settings.$breakpoints, $min_suffix) {
+			//? Get $min_width by pixel
+			//$min: map-get(settings.$breakpoints, $key);
+			$min: functions.breakpoints($min_suffix); //@warn($min, $min_suffix, $min_width);
+		}
+		@else {
+			@warn 'Min breakpoint #{$min_width} is not exists!';
+		}
+
+		/// MAX
+		@if map-has-key(Settings.$breakpoints, $max_suffix){
+			//? Get $max_width by pixel
+			$max: functions.breakpoints($max_suffix); //@warn($max, $max_suffix, $max_width);
+		}		
+		@else {
+			@warn 'Max breakpoint #{$max_width} is not exists!';
+		}
+		//@debug 'between', $min, $max;
+		//@warn 'between', $min, $max;
+
+		@if Options.get('breakpoints', 'root'){
+			$var_min_width: var(#{vars.$prefix}-#{$min_suffix});
+			$var_max_width: var(#{vars.$prefix}-#{$max_suffix});
+			
+			@supports(--css: variables) {
+				
+				@media (min-width: $var_min_width) and (max-width: $var_max_width) { @content; }
+			}
+		}
+		@else {
+			@media (min-width: $min) and (max-width: $max) { @content; }
+		}
+		
+		//@supports (not(--css: variables)) {}
+	}
+}
+/*------------------------------------------------------------*/
+//? How to use: @include between_minmax(md-min, md-max){ ... }
+//? How to use: @include between_minmax(md-min, xl-max){ ... }
+@mixin between_minmax($min_width, $max_width) {
+	@if $min_width and $max_width  {
+		
+		$min: 0; $max: 0;
+		// $min_suffix: helpers.min($min_width);
+		// $max_suffix: helpers.max($max_width);
+
+		// @warn 'suffix', $min_width,  $max_width, $min_suffix, $max_suffix;
+		
+		//*--> MIN
+		@if map-has-key(Settings.$breakpoints, $min_width){
+			//? Get $min_width by pixel
+			//$min: map-get(settings.$breakpoints, $key);
+			$min: functions.breakpoints($min_width);//@debug($min, $min-suffix);
+		}
+		@else {
+			@warn 'Min breakpoint #{$min_width} is not exists!';
+		}
+
+		//*--> MAX
+		@if map-has-key(Settings.$breakpoints, $max_width){
+			//? Get $max_width by pixel
+			$max: functions.breakpoints($max_width);//@debug($max, $max-suffix);
+		}		
+		@else {
+			@warn 'Max breakpoint #{$max_width} is not exists!';
+		}
+		//@debug 'between', $min, $max;
+		//@warn 'between', $min, $max;
+
+		@if Options.get('breakpoints', 'root'){
+			@supports(--css: variables) {
+				$var_min_width: var(#{vars.$prefix}-#{$min_width});
+				$var_max_width: var(#{vars.$prefix}-#{$max_width});
+		
+				@media (min-width: $var_min_width) and (max-width: $var_max_width) { @content; }
+			}
+		}
+		@else {
+			@media (min-width: $min) and (max-width: $max) { @content; }
+		}
+		
+		//@supports (not(--css: variables)) {}
+	}
+}
+/*------------------------------------------------------------*/
+//? How to use: @include less-to(md) { ... }
+@mixin less-than($breakpoint) {
+	$min: helpers.min($breakpoint);
+	
+	@if map-has-key(Settings.$breakpoints, $min) {
+		$breakpoint: functions.breakpoints($min);
+		
+		@if Options.get('breakpoints', 'root'){
+			@supports(--css: variables) {
+
+				$var_min_width: var(#{vars.$prefix}-#{$min});
+
+				@media (max-width: $var_min_width) { @content; }
+			}
+		}
+		@else {
+			@media (max-width: $breakpoint) { @content; }
+		}
+
+	}
+	@else{
+		@warn "This breakpoint dosn't exists #{$min}";
+	}
+}
+
+/*------------------------------------------------------------*/
+//? How to use: @include more-to(md) { ... }
+@mixin more-than($breakpoint) {
+	$max: helpers.max($breakpoint);
+
+	@if map-has-key(Settings.$breakpoints, $max) {
+
+		$breakpoint: functions.breakpoints($max);
+		//@debug($size, $max, $breakpoint);
+
+		@media (min-width: $breakpoint) { @content; }
+
+		@if Options.get('breakpoints', 'root'){
+			$var_max_width: var(#{vars.$prefix}-#{$max});
+			
+			
+			@supports(--css: variables) {
+				@media (min-width: $var_max_width) { @content; }
+			}
+		}
+		// @else {
+		// 	@media (min-width: $breakpoint) { @content; }
+		// }
+
+	}
+	@else{
+		@warn "This breakpoint dosn't exists #{$max}";
+	}
+}
+/*------------------------------------------------------------*/
+//? How to use: @include equal-to(md) { ... }
+@mixin equal-to($breakpoint) {
+
+	$size-min: helpers.min($breakpoint);
+	$size-max: helpers.max($breakpoint);
+	
+	@include between_minmax($size-min, $size-max) {@content;}
+
+}
+
+/*------------------------------------------------------------*/
+@mixin equal-or-more($breakpoint) {
+	$breakpoint-min: helpers.min($breakpoint);
+	$width-by-pexils: functions.breakpoints($breakpoint-min);
+	//@warn $breakpoint-min, $width-pexils;
+
+	@if Options.get('breakpoints', 'root'){
+		@supports(--css: variables) {
+
+			$var_max_width: var(#{vars.$prefix}-#{$breakpoint-min});
+
+			@media (min-width: $var_max_width) { @content; }
+		}
+	}
+	@else {
+		@media (min-width: $width-by-pexils) { @content; }
+	}
+}
+/*------------------------------------------------------------*/
+@mixin equal-or-less($breakpoint) {
+	$breakpoint-max: helpers.max($breakpoint);
+	$width-by-pexils: functions.breakpoints($breakpoint-max);
+	//@warn $breakpoint-max, $width-pexils;
+
+	@if Options.get('breakpoints', 'root'){
+		@supports(--css: variables) {
+
+			$var_min_width: var(#{vars.$prefix}-#{$breakpoint-max});
+
+			@media (max-width: $var_max_width) { @content; }
+		}
+	}
+	@else {
+		@media (max-width: $width-by-pexils) { @content; }
+	}
+}
+/*------------------------------------------------------------*/
+//? How to use: @include custom-size(400px, 500px) { ... }
+// It is not support css variables
+@mixin custom-size($min_width:0, $max_width:0) {
+	
+	@if $min_width > 0 and $max_width > 0 {
+		@media (min-width: $min_width) and (max-width: $max_width) { @content; }
+	}
+	
+	@else if $max_width > 0 {
+		@media (max-width: $max_width) { @content; }
+	}
+	
+	@else if $min_width > 0 {
+		@media (min-width: $min_width) { @content; }
+	}
+}
+
+/*------------------------------------------------------------*/
+//? How to use: @include query(md, max) { ... }
+@mixin query($size, $type) {
+
+	@if $type == 'min' or $type == 'max' {
+		
+		$suffix: #{$size}-#{$type};
+		
+
+		@if map-has-key(Settings.$breakpoints, $suffix) {
+
+			$breakpoint: functions.breakpoints($suffix);
+
+			$width-type: #{$type}-width;
+			//@media ($width-type: $breakpoint) { @content; }
+			$var_width: var(#{vars.$prefix}-#{$suffix});
+			//@warn 'media(', $width-type, $var_width, $breakpoint, $suffix;
+			
+			@if Options.get('breakpoints', 'root'){
+				@supports(--css: variables) {
+					@media ($width-type: $var_width) { @content; }
+				}
+				
+				// @supports (not(--css: variables)) {
+				// 	@media ($width-type: $breakpoint) { @content; }
+				// }
+			}
+			@else {
+				@media ($width-type: $breakpoint) { @content; }
+			}
+
+			
+		}
+		@else{
+			@warn "This breakpoint dosn't exists #{$suffix}";
+		}
+	}
+	@else{
+		@warn "Type '#{$type}' is not valid!";
+	}
+}
+
+/*------------------------------------------------------------*/
+//?How to use: @include for-sizes( (sm, md) ) { ... }
+@mixin for-sizes($breakpoints...) {
+
+	@if length($breakpoints) > 0 {
+		@each $breakpoint in $breakpoints {
+			@include equal-to($breakpoint){ @content; }
+		}
+	}
+	@else {
+		@warn 'Breakpoints args is not valid!';
+	}
+}
+
+/*------------------------------------------------------------*/
+//? How to use: @include for-pairs( (less-than:xs, equal:md, more-than:xl) ) { ... }
+@mixin for-pairs($_breakpoints) {
+	
+	@each $breakpoint in $_breakpoints {
+		$type: 		 nth($breakpoint, 1);
+		$breakpoint: nth($breakpoint, 2);
+
+
+		@if($type=='more-than') {
+			@include more-than($breakpoint){ @content; }
+			//@include more-than(var(#{vars.$prefix})){ @content; }
+
+		}
+		@else if($type=='less-than') {
+			@include less-than($breakpoint){ @content; }
+		}
+		@else if($type=='equal'){
+			$size-min: helpers.min($breakpoint);
+			$size-max: helpers.max($breakpoint);
+	
+			@include between_minmax($size-min, $size-max){ @content; }
+		}
+		@else {
+			@warn "Type '$type' is not valid!";
+		}
+	}
+}
+/*------------------------------------------------------------*/
+

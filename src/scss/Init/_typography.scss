@@ -1,0 +1,95 @@
+@use '../Library/Fonts';
+//@use '../Library/Fonts/responsive/mixins' as Rfonts;
+//@use '../Library/Fonts/responsive/auto' as ARfonts;
+
+//@use '../Library/Colors';
+@use '../Settings/Options';
+
+@if Options.get('init', 'root') {
+    :root {
+        scroll-behavior: smooth;
+        scroll-padding-top: 2rem;
+    }
+}
+
+@if Options.get('init', 'classes') {
+
+    html, html:focus-within {
+        scroll-behavior: smooth;
+    }
+
+    html {
+        font-size: 1em;
+    }
+
+    body {
+        line-height: 1.5;
+        //font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+        //font-family: 'Tajawal', sans-serif;
+        //font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        
+        // @include Fonts.family(primary);
+        // @include Fonts.weight(thin);
+        
+        //! There are 3 files for fonts
+        //? Library/Fonts/_mixins.scss
+        // @include Fonts.size(p); 
+        
+        //? Library/Fonts/Responsive/_mixins.scss
+        //@include Rfonts.size(p); 
+        //@include Rfonts.size-map($xs:1, $md:2, $xl:3);
+
+        //? Library/Fonts/Responsive/Auto/_mixins.scss
+        // @include ARfonts.clamp((0.97rem, 0.17vw), 1rem, 1.5rem);
+        
+        // todo: this command not here.. but in the bundle.scss
+        // @include ARfonts.calc(100, .4);
+
+
+        word-break: break-word;
+        word-wrap: break-word;
+        
+        letter-spacing: 0.033rem;
+        word-spacing: 0.066rem;
+        
+        font-smooth: auto;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-text-size-adjust: 100%;
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        //-webkit-font-smoothing: subpixel-antialiased;
+        
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+        
+        /* Support for IE. */
+        font-feature-settings: 'liga';  
+        
+        -webkit-tap-highlight-color: transparent;
+        
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+        //text-rendering: optimizeSpeed;
+        //text-rendering: geometricPrecision;
+    }
+
+    body * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    // Todo: Change these from settings
+    h1, h2, h3  {
+        @include Fonts.family(primary);
+        font-weight: 700;
+    }
+
+    h4, h5, h6 {
+        @include Fonts.family(secondary);
+        font-weight: 400;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}

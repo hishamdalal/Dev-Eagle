@@ -1,0 +1,8 @@
+@use '../Library/Colors/mixins' as Colors;
+@use '../Settings/Options';
+
+@if Options.get('init', 'classes') {
+	body{
+		@include Colors.txtBg(dark, light, (darken:5),(lighten:9) );
+	}
+}

@@ -1,0 +1,137 @@
+@use '../../Settings';
+@use '../../Settings/Options';
+@use '../../Library/Breakpoints';
+
+
+@if Options.get('layouts', 'responsive-classes') {
+
+    //! ====   WIDTH    ==== !//
+    //* How to use:   w-{$media_query_size}-{1 to $columns_count}
+	//------------------------------------------------------------------------------------------//
+	@each $id, $size in Settings.$media_query_size {
+		$s: 10%;
+		@include Breakpoints.equal-or-more($size) {
+			@for $i from 1 through Settings.$columns_count  {
+				@if $i < Settings.$columns_count - 1 {
+					$s: $i*10%;
+					.w-#{$size}-#{$i*10} {
+						width: #{$s};
+					}
+				}
+			}
+		}
+	}
+
+    //* How to use:   w-{Settings.$media_query_size}-{1 to $columns_count}
+	//------------------------------------------------------------------------------------------//
+	@each $id, $size in Settings.$media_query_size {
+		$s: 10%;
+		@include Breakpoints.equal-or-more($size) {
+			@for $i from 1 through Settings.$columns_count  {
+				@if $i < Settings.$columns_count - 1 {
+					$s: $i*10%;
+					.w-#{$size}-#{$i*10} {
+						width: #{$s};
+					}
+				}
+			}
+		}
+	}
+
+    //! ====   CONTAINER    ==== !//
+    //* How to use:   w-{$media_query_size}-{1 to $columns_count}
+	//------------------------------------------------------------------------------------------//
+	@each $id, $size in Settings.$media_query_size {
+		$s: 10%;
+		@include Breakpoints.equal-or-more($size) {
+			@for $i from 1 through Settings.$columns_count  {
+				@if $i < Settings.$columns_count - 1 {
+					$s: $i*10%;
+					.container-#{$size}-#{$i*10} 
+                    {
+						padding-left: #{$s}rem; 
+                        padding-right: #{$s}rem; 
+                        margin: 0 auto;
+					}
+				}
+			}
+		}
+	}
+
+    
+	//! ====   Display   ==== !//
+    //* How to use:  .d-{Settings.$media_query_size}-[none|inline|block|inline-block]
+	//------------------------------------------------------------------------------------------//
+
+	@each $s, $size in Settings.$media_query_size {
+		@include Breakpoints.more-than($size) {
+			
+			.d-#{$size}-none { display: none !important;}	
+			.d-#{$size}-inline { display: inline !important;}	
+			.d-#{$size}-block { display: block !important;}	
+			.d-#{$size}-inline-block { display: inline-block !important;}	
+
+			.d-#{$size}-flex { display: flex !important;}	
+			.d-#{$size}-grid { display: grid !important;}	
+
+			.flex-#{$size}-row { flex-direction: column !important;}	
+			.flex-#{$size}-col { flex-direction: row !important;}	
+
+			.grid-#{$size}-row { grid-auto-flow: row !important;}	
+			.grid-#{$size}-col { grid-auto-flow: column !important;}	
+		}
+	}
+
+	//! ====   POSITION | MERGE | ORDER   ==== !//
+	//* How to use:  .container-{$breakpoint}-{$width}					-> ($width: 1 to $column_count)
+	//* How to use:  .[col|start|end|order]-{$breakpoint}-{$width}		-> ($width: 1 to $column_count)
+	//* How to use:  .[col|start|end]-[h|v]-{$breakpoint}-{$width}		-> ($width: 1 to $column_count)
+	//===============================================
+
+	@each $x, $size in Settings.$media_query_size {
+		//$s: $i;
+		@include Breakpoints.equal-or-more($size) {
+			//@warn $size;
+
+			@for $r from 1 through Settings.$columns_count {
+				.container-#{$size}-#{$r}{ 
+					padding-left: #{$r}rem; 
+					padding-right: #{$r}rem; 
+					margin: 0 auto;
+				}
+				.col-#{$size}-#{$r}{ grid-column-end: span #{$r}; grid-row-end: span #{$r};}
+				.col-h-#{$size}-#{$r}{ grid-column-end: span #{$r};}
+				.col-v-#{$size}-#{$r}{ grid-row-end: span #{$r};}
+
+				.start-#{$size}-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
+				.start-h-#{$size}-#{$r}{ grid-column-start: #{$r};}
+				.start-v-#{$size}-#{$r}{ grid-row-start: #{$r};}
+
+				.end-#{$size}-#{$r}{ grid-column-end: #{$r};}
+				.end-h-#{$size}-#{$r}{ grid-column-end: #{$r};}
+				.end-v-#{$size}-#{$r}{ grid-row-end: #{$r};}
+
+				.order-#{$size}-#{$r}{ order: #{$r};}
+			}
+		}
+
+		
+		@include Breakpoints.equal-or-more($size) {
+			@for $row from 1 through Settings.$columns_count  {
+				@for $col from 1 through Settings.$columns_count  {
+					.col-start-#{$size}-#{$row}x#{$col}  { 
+						grid-row-start: #{$row};  
+						grid-column-start: #{$col};  
+					}
+					.col-end-#{$size}-#{$row}x#{$col}  { 
+						grid-row-end: #{$row}; 	
+						grid-column-end: #{$col};   
+					}
+				}
+			}
+		}
+
+	}
+
+
+}

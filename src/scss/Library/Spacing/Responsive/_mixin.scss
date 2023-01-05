@@ -1,0 +1,52 @@
+@use "sass:meta";
+@use '../../../Settings';
+@use '../../Breakpoints';
+//@use '../Helpers/numbers' as Numbers;
+
+/*------------------------------------------------------------*/
+
+// spacing(padding, $md:(h:2, v:4), $xl:(vertical:3) )
+
+@mixin spacing($type, $args...) {
+
+	@each $screen, $values in meta.keywords($args) {
+		@include Breakpoints.equal-or-more($screen){
+
+			//$el: map-get($values, 'h');
+			@each $k, $v in $values {
+				@if $k == 'h' {
+					#{$type}-left: #{$v}rem;
+					#{$type}-right: #{$v}rem;
+				}
+				@else if $k == 'v' {
+					#{$type}-top: #{$v}rem;
+					#{$type}-bottom: #{$v}rem;
+				}
+				@else if $k == 'l' {
+					#{$type}-left: #{$v}rem;
+				}
+				@else if $k == 'r' {
+					#{$type}-right: #{$v}rem;
+				}
+				@else if $k == 't' {
+					#{$type}-top: #{$v}rem;
+				}
+				@else if $k == 'b' {
+					#{$type}-bottom: #{$v}rem;
+				}
+				@else{
+					#{$type}: #{$v}rem;
+				}
+			}
+		}
+	}
+}
+/*------------------------------------------------------------*/
+@mixin padding($args...) {
+	@include spacing('padding', $args...);
+}
+/*------------------------------------------------------------*/
+@mixin margin($args...) {
+	@include spacing('margin', $args...);
+}
+/*------------------------------------------------------------*/

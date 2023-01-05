@@ -1,0 +1,184 @@
+
+$fonts: (
+    font-family: 'https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Merriweather:wght@300;700;900&display=swap',
+    icons: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+);
+
+
+$font-family: (
+    hero: ('Fira Sans', sans-serif),
+    primary: (Merriweather, serif),
+    secondary: (Merriweather, serif),
+	normal: (Merriweather, serif), 
+);
+
+$font-weight: (
+	'thin': 		100,
+	'extra-light': 	200,
+	'light': 		300,
+	'regular': 		400,
+	'medium': 		500,
+	'semi-bold': 	600,
+	'bold': 		700,
+	'extra-bold': 	800,
+	'black': 		900,
+);
+
+$collection: (
+	hero: (
+		family: ('Fira Sans', sans-serif),
+		weight: 900,
+		size: 3rem,
+	),
+	primary: (
+		family: (Merriweather, serif),
+		weight: 800,
+		size: 2\,5rem,
+	),
+	secondary: (
+		family: (Merriweather, serif),
+		weight: 300,
+		size: 2rem,
+	),
+	tertiary: (
+		family: (Merriweather, serif),
+		weight: 300,
+		size: 1.5rem,
+	),
+	normal: (
+		family: (Merriweather, serif),
+		weight: 100,
+		size: 1rem,
+	),
+	small: (
+		family: (Merriweather, serif),
+		weight: 100,
+		size: .7rem,
+	),
+);
+
+
+
+$font-elements: (
+	elephant: 	4,
+	hero: 		3,
+	very-big: 	2.5,
+	big: 		2,
+	h1:			1.6,
+	h2:			1.5,
+	h3:			1.4,
+	h4:			1.3,
+	h5:			1.2,
+	h6:			1.1,
+	p:			1.0,
+	small:		0.9,
+	xsmall:		0.8,
+	xxsmall:	0.65,
+);
+
+$font-increase: (
+	xxl: 	125%,
+	xl:		120%,
+	lg:		115%,
+	md:		110%,
+	sm:		100%,
+	xs:		95%,
+	xxs:	90%,
+	xxxs:	87%,
+);
+
+/* $font-size-ratio: (
+	xxs: (
+		big: 	0,
+		h1: 	0,
+		h2: 	0,
+		h3: 	0,
+		h4: 	0,
+		h5: 	0,
+		h6: 	0,
+		p:  	0,
+		small: 	0,
+		xsmall:	0,
+		html:	83.3333333333333%,
+	),
+	xs:  (
+		big: 	1.096687,
+		h1: 	0.967221,
+		h2: 	0.879167,
+		h3: 	0.817411,
+		h4: 	0.773602,
+		h5: 	0.742776,
+		h6: 	0.721824,
+		p:  	0.708725,
+		small: 	0.702132,
+		xsmall:	0.701141,
+		html:	83.3333333333333%,
+	),
+	sm:  (
+		big: 	1.312164,
+		h1: 	1.144211,
+		h2: 	1.027906,
+		h3: 	0.944170,
+		h4: 	0.882432,
+		h5: 	0.836377,
+		h6: 	0.802015,
+		p:  	0.776715,
+		small: 	0.758686,
+		xsmall:	0.746680,
+		html:	86.6666666666667%,
+	),
+	md:  (
+		big: 	1.587248,
+		h1: 	1.368478,
+		h2: 	1.215029,
+		h3: 	1.102583,
+		h4: 	1.017646,
+		h5: 	0.952133,
+		h6: 	0.900917,
+		p:  	0.860592,
+		small: 	0.828814,
+		xsmall:	0.803924,
+		html:	90%,
+	),
+	lg:  (
+		big: 	1.941120,
+		h1: 	1.654706,
+		h2: 	1.452015,
+		h3: 	1.301738,
+		h4: 	1.186486,
+		h5: 	1.095833,
+		h6: 	1.023148,
+		p:  	0.964015,
+		small: 	0.915383,
+		xsmall:	0.875078,
+		html:	93.3333333333333%,		
+		),
+		xl:  (
+		big: 	2.400000,
+		h1: 	2.022809,
+		h2: 	1.754311,
+		h3: 	1.553770,
+		h4: 	1.398557,
+		h5: 	1.275094,
+		h6: 	1.174743,
+		p:  	1.091745,
+		small: 	1.022115,
+		xsmall:	0.963007,		
+		html:	96.6666666666666%,		
+	),
+	xxl: (
+		big: 	3.000000,
+		h1: 	2.500000,
+		h2: 	2.142857,
+		h3: 	1.875000,
+		h4: 	1.666667,
+		h5: 	1.500000,
+		h6: 	1.363636,
+		p:  	1.250000,
+		small: 	1.153846,
+		xsmall:	1.071429,
+		html:	1.250000,		
+	),
+);  */
+
+//$font-size-ratio: .1;

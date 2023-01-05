@@ -1,0 +1,11 @@
+@use '../Settings/Options';
+
+/* --- DEBUG --- */
+
+@if Options.get('layouts', 'debug') {
+    body{ background: #0c0c0c; color: #fff}
+    body * {border: 1px dotted #00ff66;}
+
+    [class*="flex"], [class*="grid"]  { border: 2px solid yellow; padding: 12px;}
+    [class*="row"], [class*="col"] {  border: 1px dotted #00f3ff; padding: 2px;}
+}

@@ -1,0 +1,7 @@
+//@use './transition';
+@use '../../Settings/Options';
+
+
+@if Options.get('animation', 'classes') {
+    // do something
+}
