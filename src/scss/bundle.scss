@@ -37,8 +37,8 @@ html {
 .main-nav {
 	display: grid;
 	grid-auto-flow: column;
-	grid-template-columns: 3rem auto 2rem;
-	align-items: flex-end;
+	grid-template-columns: 3rem auto 2rem 2rem;
+    align-items: center;
 	gap: 1rem;
 
 	.logo {
