@@ -1,0 +1,15 @@
+@use './options' as *;
+
+@function get($component, $item) {
+    @if map-get($options, $component, $item) == true {
+        @return map-get($options, $component, $item);
+    }
+    @else if map-get($options, $component, $item) == false {
+        @return false;
+    }
+    @else{
+        @warn "Cann't find (#{$component} -> #{$item})!";
+    }
+    @return false;
+}
+

@@ -1,0 +1,5 @@
+// root: use css var() and initial --vars
+// classes: initial .helper-classes like .txt-primary, .bg-secondary ets.
+// debug: load and run component debug.
+// todo: add option to use basic colors and option to use full colors (with transparent)
+// todo: Change 'responsive' names & folders to 'Auto' -> DONE

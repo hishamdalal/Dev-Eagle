@@ -1,0 +1,40 @@
+$options: (
+  animation: (
+    classes: false
+  ),
+  breakpoints: (
+    root: false,
+    debug: true
+  ),
+  colors: (
+    root: true,
+    classes: false
+  ),
+  components: (
+    classes: true
+  ),
+  fonts: (
+    root: true,
+    responsive: false,
+    root-collection: false
+  ),
+  init: (
+    root: true,
+    classes: true
+  ),
+  layouts: (
+    classes: true,
+    debug: false,
+    responsive-classes: false
+  ),
+  spacing: (
+    classes: true,
+    responsive: false,
+    responsive-classes: false
+  ),
+  vendors: (
+    reseter: false,
+    bulma: false,
+    fontawesome: false
+  )
+)!default

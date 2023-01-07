@@ -1,8 +1,8 @@
 
 @use '../../Library/Spacing';
 @use '../../Library/Colors';
-@use '../../Settings/options' with (
-    $Options: (
+@use '../../Settings/options/options' with (
+    $options: (
         fontawesome: true
     )
 );

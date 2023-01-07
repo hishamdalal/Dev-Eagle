@@ -43,14 +43,10 @@ function smoothScroll(target, duration) {
 
 
 let back_to_top = document.querySelector('.back-to-top');
-//let back_to_bottom = document.querySelector('.hello');
 let header = document.querySelector('.main-header');
-let footer = document.querySelector('footer');
 
 back_to_top.addEventListener('click', function() {
   smoothScroll(header, 1000);
 });
-/* back_to_bottom.addEventListener('click', function() {
-  smoothScroll(footer, 1000);
-}); */
+
 
