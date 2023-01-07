@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "options": "json-to-scss options.json src/scss/Settings/options/_options.scss --s='!default'",
-    "dev": "npm run options && npm run vite",
+    "dev": "npm run options && vite",
     "build": "npm run options && vite build",
     "preview": "vite preview"
   },
