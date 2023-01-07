@@ -3,10 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev:options": "json-to-scss options.json src/scss/Settings/options/_options.scss --s='!default'",
-    "dev:run": "vite",
-    "dev": "npm run dev:options && npm run dev:run",
-    "build": "vite build",
+    "options": "json-to-scss options.json src/scss/Settings/options/_options.scss --s='!default'",
+    "dev": "npm run options && npm run vite",
+    "build": "npm run options && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
