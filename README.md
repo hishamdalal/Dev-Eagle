@@ -1,5 +1,5 @@
 # Dev-Eagle
-[logo](src/logo.png)
+![src/logo.png](logo)
 Web Development Starter via Vite
 
 ### Commands
