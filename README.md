@@ -1,5 +1,5 @@
 # Dev-Eagle
-![https://github.com/hishamdalal/Dev-Eagle/blob/master/src/logo.png](logo)
+![/hishamdalal/Dev-Eagle/blob/master/src/logo.png?raw=true](logo)
 
 Web Development Starter via Vite
 
