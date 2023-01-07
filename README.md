@@ -3,11 +3,17 @@
 
 Web Development Starter via Vite
 
-### Commands
-```
-npm run dev
-npm run build
-```
+### How to use:
+1. download or clone repository
+2. Install dependencies
+  ```
+  npm i
+  ```
+3. Run for development or production 
+  ```
+  npm run dev
+  npm run build
+  ```
 
 
 
