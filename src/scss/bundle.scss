@@ -14,7 +14,7 @@
 @use './Library/Colors';
 @use './Library/Animations';
 @use './Library/Spacing';
-//@use './Library/Spacing/Responsive' as rSpacing;
+@use './Library/Spacing/Responsive' as rSpacing;
 //@use './Library/Spacing/Responsive/Auto' as arSpacing;
 @use './Components/Buttons';
 @use './Components/BackToTop';
@@ -26,26 +26,60 @@
 //@include debug.print();
 html {
 	//@include Fonts.size(p); 
-	@include rFonts.size-map($xs:.8, $md:1, $xl:1.2);
+	@include rFonts.size-map($xxxs:.8, $sm:.9, $md:1, $xl:1.2);
 	@include Fonts.family(hero);
 }
 
 .main-header {
 	@include Colors.bg(primary);
 	@include Spacing.padding($h:1, $v:.5);
+	@include rSpacing.padding($md:(h:1.5), $lg:(h:2) );
 }
 
 .main-nav {
 	display: grid;
-	grid-auto-flow: column;
-	grid-template-columns: 3rem auto 2rem 2rem;
-    align-items: center;
+	grid-auto-flow: row;
+	align-items: center;
 	gap: 1rem;
+
+	@include Breakpoints.equal-or-less(xxs) {
+		justify-self: center;
+		text-align: center;
+		padding-top: 3rem;
+	}
+	@include Breakpoints.more-than(xxs) {
+		grid-auto-flow: column;
+		grid-template-columns: 3rem auto 5rem;
+	}
+	@include Breakpoints.more-than(sm) {
+		grid-template-columns: 4rem auto 5rem;
+	}
+    
 
 	.logo {
 		img {
 			width: 100%;
 			aspect-ratio: 1/1;
+
+			@include Breakpoints.equal-or-less(xxs) {
+				width: 50%;
+			}
+		}
+	}
+
+	.controls {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		z-index: 9999;
+
+		@include Breakpoints.equal-or-less(xxs) {
+			position: absolute;
+			top: 1rem;
+			place-self: center;
+			width: 100%;
+			justify-content: space-between;
+			padding-inline: 1rem;
 		}
 	}
 }
@@ -81,11 +115,19 @@ html {
 	list-style: none;
 	margin: 0;
 	padding: 0 3rem;
+
+	
 	display: grid;
+	grid-auto-flow: row;
+	align-content: space-evenly;
 	gap: 1rem;
-	grid-auto-flow: column;
 	align-items: center;
 	text-align: center;
+
+	@include Breakpoints.more-than(xxs) {
+		grid-auto-flow: column;
+	}
+
 	@include Animations.transition(ease-in-out, 300ms, 0, opacity, visibility);
 
 	a{
@@ -118,7 +160,7 @@ html {
     top: 1rem;
 	width: 1.6rem;
     aspect-ratio: 1;
-	z-index: 9999;
+	
 	cursor: pointer;
 	display: flex;
     place-content: center;
