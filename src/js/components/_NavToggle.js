@@ -25,4 +25,15 @@ export function NavToggle_Run (){
       navToggle.classList.remove('show');
     }
   });
+
+
+  // Make .nav-list height = body height
+
+  var body = document.body,
+  html = document.documentElement;
+
+  var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                      html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+  document.querySelector('.nav-list').style.height = height + "px";  
 }

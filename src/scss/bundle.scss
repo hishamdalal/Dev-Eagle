@@ -111,6 +111,8 @@ html {
 	top: 0;
 	width: 100%;
 	height: 100%;
+	height: 100vh;
+	height: 100vmax;
 	@include Colors.bg(accent);
 	list-style: none;
 	margin: 0;
@@ -119,9 +121,9 @@ html {
 	
 	display: grid;
 	grid-auto-flow: row;
-	align-content: space-evenly;
 	gap: 1rem;
-	align-items: center;
+	align-content: baseline;
+	@include rSpacing.padding($xxxs:(t:4), $xxs:(t:6), $sm:(t:12), $lg:(t:17));
 	text-align: center;
 
 	@include Breakpoints.more-than(xxs) {
@@ -130,8 +132,12 @@ html {
 
 	@include Animations.transition(ease-in-out, 300ms, 0, opacity, visibility);
 
+	li {
+		display: grid;
+	}
 	a{
 		@include Colors.txt(dark, (darken:7));	
+		@include Spacing.padding($v:2);
 
 		&:hover {
 			@include Colors.txt(light, (lighten:9));
