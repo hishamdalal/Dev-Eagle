@@ -1,4 +1,6 @@
+@use "sass:list";
 @use "sass:map";
+@use "sass:meta";
 
 /*------------------------------------------------------------*/
 @function append($map, $key, $value) {
@@ -15,19 +17,28 @@
 }
 
 /*------------------------------------------------------------*/
-@function deep-get($map, $keys...) {
+@function deep-get2($map, $keys...) {
 	@return map-get($map, $keys);
 }
 
 /*------------------------------------------------------------*/
+@function deep-get($map, $keys...) {
+	$scope: $map; $i: 1;
+	@while (meta.type-of($scope) == map) and ($i <= list.length($keys)) {
+	   $scope: map.get($scope, list.nth($keys, $i));
+	   $i: $i + 1;
+	}
+	@return $scope;
+ }
+
+/*------------------------------------------------------------*
 @function deep-get2($map, $keys...) {
+	$new_map: ();
 	@each $key in $keys {
-		//@if map-has-key($map, $key) {
-			$map: map-get($map, $key);
-		//}
+		$new_item: map-get($map, $key);
+		$x: map-merge($new_map, $new_item);
 	}
 
-	@return $map;
+	@return $new_map;
 }
-
 /*------------------------------------------------------------*/

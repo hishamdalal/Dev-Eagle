@@ -1,8 +1,14 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+
 @use './options' as *;
+
+
 
 @function get($component, $item) {
     @if map-get($options, $component, $item) == true {
-        @return map-get($options, $component, $item);
+        @return true;
     }
     @else if map-get($options, $component, $item) == false {
         @return false;
@@ -13,3 +19,13 @@
     @return false;
 }
 
+
+
+@function deep-get($keys...) {
+   $scope: $options; $i: 1;
+   @while (meta.type-of($scope) == map) and ($i <= list.length($keys)) {
+      $scope: map.get($scope, list.nth($keys, $i));
+      $i: $i + 1;
+   }
+   @return $scope;
+}

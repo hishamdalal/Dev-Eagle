@@ -91,18 +91,20 @@ class DarkMode
     //----------------------------------------------------------------//
 }
 
+export function DarkMode_Run(){
+    
+    window.addEventListener("DOMContentLoaded", function () {
 
-window.addEventListener("DOMContentLoaded", function () {
+        if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+            console.log('🎉 Dark mode is supported');
+            
+            const darkMode = new DarkMode('.mode-switch');
+            darkMode.run();
 
-    if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
-        console.log('🎉 Dark mode is supported');
-        
-        const darkMode = new DarkMode('.mode-switch');
-        darkMode.run();
+        }
+        else {
+            console.error(" Dark mode is not supported");
+        }
 
-    }
-    else {
-        console.error(" Dark mode is not supported");
-    }
-
-});
+    });
+}

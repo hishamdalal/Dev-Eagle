@@ -11,7 +11,7 @@
 //@use '../../Settings/colors' as base-colors;
 
 
-@if Options.get('components', 'classes') {
+@if Options.deep-get('components', 'Cards', 'classes') {
 
     .h-cards {
         display: grid;
@@ -31,8 +31,6 @@
         gap: 1.4rem;
         margin: auto;
         
-        
-
 
         .card {
             display: grid;
@@ -92,6 +90,7 @@
                 @include Fonts.size(small);
 
             }
+
             .btn {
                 justify-self: flex-end;
                 
@@ -116,5 +115,4 @@
             }
         }
     }
-
 }

@@ -5,7 +5,7 @@
 @use '../../Settings/colors' as base-colors;
 
 
-@if Options.get('components', 'classes') {
+@if Options.deep-get('components', 'Buttons', 'classes') {
 
     %btn {
         display: inline-block;

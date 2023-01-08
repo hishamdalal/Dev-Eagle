@@ -14,7 +14,26 @@
     },
 
     "components": {
-        "classes": "true"
+        "NavToggle": {
+            "js":"true"
+        },
+        "DarkMode": {
+            "js": "true"
+        },
+        "Accordion": {
+            "classes": "true",
+            "js": "true"
+        },
+        "BackToTop": {
+            "classes": "true",
+            "js": "true"
+        },
+        "Buttons": {
+            "classes": "true"
+        },
+        "Cards": {
+            "classes": "true"
+        }
     },
 
     "fonts": {
@@ -43,6 +62,7 @@
     "vendors": {
         "reseter": "false",
         "bulma": "false",
-        "fontawesome": "false" 
+        "googleFonts": "true",
+        "fontAwesome": "true" 
     }
 }
