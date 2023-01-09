@@ -199,7 +199,16 @@ html {
 
 .jumpetron {
 	height: 15rem;
-	@include Colors.bg(gray, (lighten:4))
+	@include Colors.bg(gray, (lighten:4));
+}
+
+#alert {
+
+    @include Buttons.btn($hover:( 
+    	( background-color: Colors.get(secondary, (lighten:3)) ), 
+        ( background-color: Colors.get(secondary, (lighten:3), true) ) 
+    ));
+
 }
 
 footer {

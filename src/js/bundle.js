@@ -1,13 +1,19 @@
-
+// Our Compnents:
 import {Accordion_Run} from './components/_Accordion';
 import {BackToTop_Run} from './components/_BackToTop';
 import {DarkMode_Run}  from './components/_DarkMode';
 import {NavToggle_Run} from './components/_NavToggle';
 
+// Vendors:
+import {SweetAlert_run} from './Vendors/_SweetAlert';
+import {EggyJS_run} from './Vendors/_EggyJS';
+
+// Options:
 import Options from '../../Options.json';
 
 //console.log(Options);
 
+// Our Compnents:
 if (Options.components.Accordion.js) {
     Accordion_Run();
 }
@@ -19,4 +25,12 @@ if (Options.components.DarkMode.js) {
 }
 if (Options.components.NavToggle.js) {
     NavToggle_Run();
+}
+
+// Vendors:
+if (Options.vendors.SweetAlert.js) {
+    SweetAlert_run();
+}
+if (Options.vendors.EggyJs.js) {
+    EggyJS_run();
 }
