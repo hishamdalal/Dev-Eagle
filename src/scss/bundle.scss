@@ -20,6 +20,7 @@
 @use './Components/BackToTop';
 @use './Components/Cards';
 @use './Components/Accordion';
+@use './Components/Badge';
 
 // Todo: Add rtl support
 
@@ -209,6 +210,11 @@ html {
         ( background-color: Colors.get(secondary, (lighten:3), true) ) 
     ));
 
+}
+
+.badge-example {
+	padding: 2rem;
+	
 }
 
 footer {

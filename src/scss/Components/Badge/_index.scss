@@ -1,0 +1,14 @@
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: .1rem .3rem ;
+    border-radius: 1rem;
+}
+
+:has(>.badge) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
