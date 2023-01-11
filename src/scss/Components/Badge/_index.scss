@@ -1,7 +1,7 @@
+@use '../../Library/Colors';
 
 .badge {
-    background-color: red;
-    color: white;
+    @include Colors.txtBg(light, accent, $bg-effects:(darken:3));
     padding: .1rem .3rem ;
     border-radius: 1rem;
 }

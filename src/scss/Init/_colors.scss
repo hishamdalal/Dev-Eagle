@@ -3,6 +3,6 @@
 
 @if Options.get('init', 'classes') {
 	body{
-		@include Colors.txtBg(dark, light, (darken:5),(lighten:9) );
+		@include Colors.txtBg(dark, light);
 	}
 }

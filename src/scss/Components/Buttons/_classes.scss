@@ -10,6 +10,7 @@
     %btn {
         display: inline-block;
         cursor: pointer;
+        border: none;
 
         //padding: settings.$paddings;
         @include Spacing.spacing(padding, $v:.2, $h:.6);

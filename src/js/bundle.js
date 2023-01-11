@@ -3,6 +3,7 @@ import {Accordion_Run} from './components/_Accordion';
 import {BackToTop_Run} from './components/_BackToTop';
 import {DarkMode_Run}  from './components/_DarkMode';
 import {NavToggle_Run} from './components/_NavToggle';
+import {Tabs_Run} from './components/_Tabs';
 
 // Vendors:
 import {SweetAlert_run} from './Vendors/_SweetAlert';
@@ -25,6 +26,9 @@ if (Options.components.DarkMode.js) {
 }
 if (Options.components.NavToggle.js) {
     NavToggle_Run();
+}
+if (Options.components.Tabs.js) {
+    Tabs_Run();
 }
 
 // Vendors:

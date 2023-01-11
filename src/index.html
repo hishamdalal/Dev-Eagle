@@ -101,10 +101,16 @@
                 Notifications <span class="badge text-bg-secondary">4</span>
             </button>
 
-            <ul class="nav nav-v w-10 bg-secondary">
-                <li><a href="#">Item 1 <div class="badge">8</div></a></li>
-                <li><a href="#">Item 2</a></li>
-            </ul>
+            <section class="tabs tab-v">
+                <div class="titles">
+                    <button data-id="1" class="title active" type="button">Item 1</button>
+                    <button data-id="2" class="title" type="button">Item 2</button>
+                </div>
+                <div class="contents">
+                    <div data-parent-id="1" class="content active">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae odit nemo minus itaque est quasi fuga odio aliquid molestias ad consectetur officiis quam similique ex vero mollitia, exercitationem non!</div>
+                    <div data-parent-id="2" class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nostrum unde itaque obcaecati earum praesentium aspernatur quia magni voluptatum, odio illum temporibus adipisci architecto reiciendis. Voluptas odio accusantium provident reiciendis!</div>
+                </div>
+            </section>
               
         </section>
 

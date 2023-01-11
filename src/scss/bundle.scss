@@ -21,6 +21,7 @@
 @use './Components/Cards';
 @use './Components/Accordion';
 @use './Components/Badge';
+@use './Components/Tabs';
 
 // Todo: Add rtl support
 
@@ -219,6 +220,6 @@ html {
 
 footer {
 	@include Spacing.padding($v:2);
-	@include Colors.bg(light);
+	@include Colors.txtBg(light, dark);
 	text-align: center;
 }

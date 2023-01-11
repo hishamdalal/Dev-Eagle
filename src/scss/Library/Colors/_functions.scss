@@ -35,6 +35,20 @@
     @return '#fff';
 }
 /*------------------------------------------------------------*/
+//! fix problem that you need to add effects to get lighter or darken color
+// now you get lighter color if you select colors(light)
+// and you'll get darker color if you select colors(dark)
+// you don't need to add effects colors(light, (lighten:9))
+@function darkerOrLighter($color-name) {
+    @if $color-name == 'light' {
+        @return (lighten:Settings.$colors-number);
+    }
+    @else if $color-name == 'dark' {
+        @return (darken:Settings.$colors-number);
+    }
+    @return ();
+}
+/*------------------------------------------------------------*/
 // Get color value
 //! not alowed: color: @colors(primary, (light: 2, opacity: 5) )
 //? alowed: color: @colors(primary, (light: 9, opacity: 5))
@@ -52,10 +66,18 @@
     //@each $k,$v in $colors { @if $k == gray {@warn 'color: ', $k, $v;}}
     //@each $k,$v in $colors { @if $k == $color-name {@warn 'color: ', $k, $v;}}
 
+
+
     @if is-color($color-name) {
 
         $new_color: map-get(full-colors.$colors, $color-name);
         
+        @if maps.length($effects) == 0 {
+            $effects: darkerOrLighter($color-name);
+            //@debug $effects;
+            //@debug maps.length($effects);
+        }
+
         @if maps.is-map($effects) {
             
             @each $effect, $level in $effects {
@@ -182,6 +204,10 @@
                 $light-name: 'darkless';
                 $dark-name: 'darken';
             }                
+            
+            @if maps.length($effects) == 0 {
+                $effects: darkerOrLighter($color-name);
+            }
             
             @if maps.is-map($effects) {
 

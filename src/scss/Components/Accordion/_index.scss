@@ -59,7 +59,7 @@
 
             &.active {
                 .title {
-                    @include Colors.bg(accent);
+                    @include Colors.bg(primary);
 
                     &::after {
                         transform: rotate(180deg);

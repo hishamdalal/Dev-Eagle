@@ -3,7 +3,7 @@ import path from "path";
 import {normalizePath} from 'vite'
 import {viteStaticCopy} from 'vite-plugin-static-copy';
 //import compress from 'vite-plugin-compress';
-
+/* 
 import watch from 'watch';
 import {exec} from 'node:child_process';
 
@@ -17,7 +17,7 @@ watch.watchTree('./', {
     if (err) console.log(err);
   });
 });
-
+ */
 module.exports = {
   base: '',
   root: path.join(__dirname, "src"),
