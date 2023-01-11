@@ -2,9 +2,21 @@ import path from "path";
 //import glob from "glob";
 import {normalizePath} from 'vite'
 import {viteStaticCopy} from 'vite-plugin-static-copy';
-
 //import compress from 'vite-plugin-compress';
 
+import watch from 'watch';
+import {exec} from 'node:child_process';
+
+const ignoredFiles = ['dist', 'vite.config.js'];
+
+watch.watchTree('./', {
+  filter: (path) =>  !ignoredFiles.includes(path)
+}, () => {
+  exec('npm run options', (_, output, err) => {
+    if (output) console.log(output);
+    if (err) console.log(err);
+  });
+});
 
 module.exports = {
   base: '',

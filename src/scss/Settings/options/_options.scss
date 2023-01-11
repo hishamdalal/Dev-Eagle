@@ -30,12 +30,6 @@ $options: (
     ),
     Cards: (
       classes: true
-    ),
-    SweetAlert: (
-      js: true
-    ),
-    EggyJs: (
-      js: true
     )
   ),
   fonts: (
@@ -61,6 +55,12 @@ $options: (
     reseter: false,
     bulma: false,
     googleFonts: true,
-    fontAwesome: true
+    fontAwesome: true,
+    SweetAlert: (
+      js: true
+    ),
+    EggyJs: (
+      js: true
+    )
   )
 )!default
