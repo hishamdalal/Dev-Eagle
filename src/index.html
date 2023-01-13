@@ -102,13 +102,13 @@
             </button>
 
             <section class="tabs tab-v">
-                <div class="titles">
-                    <button data-id="1" class="title active" type="button">Item 1</button>
-                    <button data-id="2" class="title" type="button">Item 2</button>
+                <div class="titles" role="tablist">
+                    <button data-id="1" class="title active" role="tab" type="button">Item 1</button>
+                    <button data-id="2" class="title" role="tab" type="button">Item 2</button>
                 </div>
                 <div class="contents">
-                    <div data-parent-id="1" class="content active">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae odit nemo minus itaque est quasi fuga odio aliquid molestias ad consectetur officiis quam similique ex vero mollitia, exercitationem non!</div>
-                    <div data-parent-id="2" class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nostrum unde itaque obcaecati earum praesentium aspernatur quia magni voluptatum, odio illum temporibus adipisci architecto reiciendis. Voluptas odio accusantium provident reiciendis!</div>
+                    <div data-parent-id="1" class="content active" role="tabpanel">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae odit nemo minus itaque est quasi fuga odio aliquid molestias ad consectetur officiis quam similique ex vero mollitia, exercitationem non!</div>
+                    <div data-parent-id="2" class="content" role="tabpanel">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem nostrum unde itaque obcaecati earum praesentium aspernatur quia magni voluptatum, odio illum temporibus adipisci architecto reiciendis. Voluptas odio accusantium provident reiciendis!</div>
                 </div>
             </section>
               
@@ -138,7 +138,7 @@
             class="fa fa-arrow-circle-up"></i></a>
     <!-- /back to top -->
 
-    <script type="module" src="js/bundle.js"></script>
+    <script type="module" src="js/bundle.js" defer></script>
 </body>
 
 </html>

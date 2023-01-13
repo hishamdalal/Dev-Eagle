@@ -284,6 +284,13 @@
 	// }
 }
 /*------------------------------------------------------------*/
+@mixin border-color($color:accent, $sides...) {
+	@each $side in $sides {
+		#{$side}: Colors.color($color); 
+		#{$side}: Colors.vcolor($color); 
+	}
+}
+/*------------------------------------------------------------*/
 @mixin outline($color:accent, $prop-string:'1px solid $') {
 	@include replace(outline, $prop-string, ($color) );
 	@if Options.get('colors', 'root') {
