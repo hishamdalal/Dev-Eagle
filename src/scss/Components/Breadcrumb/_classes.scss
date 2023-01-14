@@ -1,0 +1,111 @@
+@use '../../Library/Colors/mixins' as Colors;
+
+.breadcrumb {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+
+        &:not(:last-child) {
+            padding-inline-end: .3rem;
+            
+            &::after {
+                content: "/";
+                content: var(--data-divider, '/');
+                padding-inline-start: .3rem;
+            }
+            // &:hover::after {
+            //     @include Colors.txt(accent);
+            // }
+
+            a {
+                @include Colors.txt(primary);
+                padding: .1rem .2rem;
+
+                &:hover {
+                    @include Colors.txt(accent);
+                }
+            }
+        }
+        
+    }
+}
+
+
+// https://codepen.io/dp_lewis/pen/MWYgbOY
+.breadcrumb-2 {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: .1rem;
+
+    a {
+        //@include Colors.bg(accent);
+        position: relative;
+        display: flex;
+        padding: .2rem 1rem;
+        @include Colors.txt(light);
+        
+        &::after, &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            left: 0;
+            transition: background 0.2s linear;
+            @include Colors.bg(primary);
+        
+            // border-top: .8rem solid transparent;
+            // border-left: .8rem solid red;
+            // border-bottom: .8rem solid transparent;
+      
+            z-index: -1;
+        }
+        &:before {
+            top: 0;
+            transform: skew(20deg);
+        }
+        &:after {
+            bottom: 0;
+            transform: skew(-20deg);
+        }
+
+    }
+    
+    //&:has(a) {}
+    li:not(:last-child) a {
+        &:hover{
+            &::after, &::before {
+                @include Colors.bg(primary, (darken:3));
+            }
+        }
+        
+        &:focus, &:active {
+            @include Colors.txt(dark);
+
+            &::after, &::before {
+                @include Colors.bg(primary, (lighten:3));
+            }
+        }
+    }
+
+    li:last-child {
+        padding: .2rem 1rem;
+        display: flex;
+        @include Colors.txt(primary);
+        &:hover{
+            @include Colors.txt(primary, (darken:3));
+        }
+    }
+}
+// for more: https://www.frontendplanet.com/css-breadcrumb-examples/
+
+
+// content: attr() -> https://developer.mozilla.org/en-US/docs/Web/CSS/attr#formal_syntax
+

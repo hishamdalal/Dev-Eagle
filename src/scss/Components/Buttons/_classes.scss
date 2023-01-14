@@ -36,23 +36,24 @@
     @each $color-name, $color-value in base-colors.$base-colors {
         //@warn $color-name, $color-value;
 
-        .btn-#{$color-name} {
-            @include Colors.bg($color-name);
-        }
+
         @if $color-name != 'transparent' {
 
             // todo: change hover behavior from settings
             .btn-#{$color-name}:hover {
-                @include Colors.bg($color-name, (lighten:2) );
+                @include Colors.bg($color-name, (lighten:3) );
             }
 
-            .btn-#{$color-name}-outline {
+            .btn-#{$color-name}-outline, .btn-#{$color-name}-outline:active {
                 @include Colors.replace(border, '2px solid $', ($color-name));
             }
 
             .btn-#{$color-name}-outline:hover {
-                @include Colors.replace(border, '2px solid $', ($color-name), (lighten:2));
+                @include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
             }
+        }
+        .btn-#{$color-name}, .btn-#{$color-name}:active {
+            @include Colors.bg($color-name);
         }
     } 
 

@@ -14,5 +14,12 @@
             //background-color: #{$color-value};
             @include mixins.txt($color-name);
         }
+        
+        // :has(>.txt-#{$color-name}-hover):hover > .bg-#{$color-name}-hover {
+        //     @include mixins.bg($color-name);
+        // }
+        // :has(>.txt-#{$color-name}-hover):hover > .txt-#{$color-name}-hover {
+        //     @include mixins.txt($color-name);
+        // }
     }
 }

@@ -10,7 +10,7 @@
 
     "colors": {
         "root": "true",
-        "classes": "false"
+        "classes": "true"
     },
 
     "components": {

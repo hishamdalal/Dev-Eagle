@@ -22,6 +22,8 @@
 @use './Components/Accordion';
 @use './Components/Badge';
 @use './Components/Tabs';
+@use './Components/Breadcrumb';
+
 
 // Todo: Add rtl support
 
@@ -30,6 +32,10 @@ html {
 	//@include Fonts.size(p); 
 	@include rFonts.size-map($xxxs:.8, $sm:.9, $md:1, $xl:1.2);
 	@include Fonts.family(hero);
+}
+
+section {
+	@include Spacing.padding($all:1);
 }
 
 .main-header {

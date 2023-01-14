@@ -1,7 +1,18 @@
 @use '../../Library/Colors';
+@use '../../Settings/colors' as base-colors;
 
 .badge {
-    @include Colors.txtBg(light, accent, $bg-effects:(darken:3));
+    //@include Colors.txtBg(light, accent, $bg-effects:(darken:3));
+    
+    // @each $color-name, $color-value in base-colors.$base-colors {
+    //     &.bg-#{$color-name} {
+    //         @include Colors.bg($color-name, $color-value);
+    //     }
+    //     &.txt-#{$color-name} {
+    //         @include Colors.txt($color-name, $color-value);
+    //     }
+    // }
+
     padding: .1rem .3rem ;
     border-radius: 1rem;
 }
@@ -12,3 +23,4 @@
     justify-content: space-between;
     gap: .5rem;
 }
+
