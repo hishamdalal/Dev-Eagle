@@ -3,19 +3,24 @@
 
 // $percent: 20%;
 
-$colors-number: 4;
+$colors-number: 5;
 $opacity-number: 4;
 /*
     less than 1 => range of colors goes from very light to very dark
-    more than 1 => range of colors goes lighter
+    more than 1 => range of white colors goes darker & dark colors goes lighter
 */
-$accuracy: 5;
+$accuracy: 2.5;
 
 
 $selected-palete: paletes.$palete1;
 
-// if it is false you have to add alert colors to paletes.scss like pallete2
+// if alert colors is false you have to 
+// add alert colors to paletes.scss like pallete2
 $use-alert-colors: true;
+
+// todo: remove pallets and add one pallete with base-colors
+// todo: so you can add dark-base-colors 
+// todo: fix white & black color problem
 
 $base-colors : (
     'light':        #c4c4c4,

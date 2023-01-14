@@ -8,3 +8,7 @@ $base-colors: settings.$base-colors;
     $base-colors: map-merge(settings.$base-colors, alert.$colors);
 }
 $base-colors: map-merge($base-colors, settings.$selected-palete);
+
+
+// todo: All color system needs rethink
+// but mybe in another project

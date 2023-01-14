@@ -97,17 +97,17 @@
 }
 /*------------------------------------------------------------*/
 //? How to: @include Colors.txtBg(light, dark, (), (darken:1), (opacity:.4))
-@mixin txtBg($txt-color, $bg-color, $txt-effects:(), $bg-effects:()) {
+@mixin txtBg($txt-color, $bg-color, $txt-effects:(), $bg-effects:(), $_important:'') {
 
-	@include txt($txt-color, $txt-effects);
-	@include bg($bg-color, $bg-effects);
+	@include txt($txt-color, $txt-effects, $important:$_important);
+	@include bg($bg-color, $bg-effects, $important:$_important);
 }
 /*------------------------------------------------------------*/
 
-@mixin set($prop, $color-name, $effects:()){
-	#{$prop}: #{functions.colors($color_name, $effects)};
+@mixin set($prop, $color-name, $effects:(), $_important:''){
+	#{$prop}: #{functions.colors($color_name, $effects, $important:$_important)};
 	@if Options.get('colors', 'root') {
-		#{$prop}: #{functions.vcolors($color_name, $effects)};
+		#{$prop}: #{functions.vcolors($color_name, $effects, $important:$_important)};
 	}
 }
 /*------------------------------------------------------------*/
@@ -118,16 +118,19 @@
 
 /*------------------------------------------------------------*/
 
-@mixin replace($prop-name, $str, $colors_map:(), $effects_map:()) {
+@mixin replace($prop-name, $str, $colors_map:(), $effects_map:(), $important:'') {
 	//@debug 'replace', $effects_map;
 	// @if length($colors_map) == 1 and length($effects_map) > 0 {
 	// 	$effects_map: helper.append($effects_map, s, 1);
 	// 	@debug 'zzzz', $prop-name, length($colors_map), length($effects_map);
 	// }
+	@if $important == true { 
+		$important: '!important'; 
+	}
 
-	#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map);
+	#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map) #{$important};
 	@if Options.get('colors', 'root') {
-		#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map, true);
+		#{$prop-name}: functions.color-replace($str, $colors_map, $effects_map, true) #{$important};
 	}
 }
 /*------------------------------------------------------------*/
@@ -136,7 +139,8 @@
 // 	//#{$prop-name}: functions.color-replace($str, $colors_map, $opacity_map, $scale, true);
 // }
 /*------------------------------------------------------------*/
-// Todo: i forget what this procedur/mixin do!
+// change char '$' in string to color
+//? How to: Colors.replaceOnce(border, '1px solid $', accent);
 @mixin replaceOnce($prop, $string, $color_name: '') {
 	$search: '$';
 	$index: str-index($string, $search);
@@ -157,6 +161,9 @@
 	
 	$result: functions.colors($color);
 	//$vresult: functions.vcolors($color, $amount);
+	@if $important == true { 
+		$important: '!important'; 
+	}
 
 	$amount_percent: $amount * 1%;
 	$rounded-amount:  math.div($amount, 10);
@@ -307,26 +314,17 @@
 @mixin pseudo($place, $args:()) {
 	position: relative;
 
+	$default:(
+		content: '',
+		position: absolute,
+		top: 0,
+		left: 0
+	);
+	$args: map-merge($map1: $default, $map2: $args);
+
 	&:#{$place} {
-		content: '';
-		position: absolute;
 		
-		@if length($args) > 0 {
-			
-			@each $effect, $value in $args {
-
-				@if $effect  == 'bg' {
-					@include bg($value);
-				}
-				@if $effect != 'color' {
-					@include txt($value);
-				}
-				@if $effect != 'border' {
-					@include replace(border, '1px solid $', ($value));
-				}
-
-			}
-		}
+		@include patch($args);
 
 		@content;
 	}
