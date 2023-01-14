@@ -49,11 +49,12 @@
             }
 
             .btn-#{$color-name}-outline:hover {
-                @include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
+                //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
+                @include Colors.bg($color-name);
             }
-        }
-        .btn-#{$color-name}, .btn-#{$color-name}:active {
-            @include Colors.bg($color-name);
+            .btn-#{$color-name}, .btn-#{$color-name}:active {
+                @include Colors.bg($color-name);
+            }
         }
     } 
 

@@ -10,8 +10,19 @@
             //background-color: #{$color-value};
             @include mixins.bg($color-name);
         }
+
+        .bg\:hover-#{$color-name}:hover {
+            //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
+            @include mixins.bg($color-name, $important:true);
+        }
+
         .txt-#{$color-name} {
             //background-color: #{$color-value};
+            @include mixins.txt($color-name);
+        }
+
+        .txt\:hover-#{$color-name}:hover {
+            //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
             @include mixins.txt($color-name);
         }
         

@@ -48,9 +48,12 @@
 /*------------------------------------------------------------*/
 // Todo: Convert $effect to map -> (light: 20, opacity: 50) -> (effect: level)
 /*------------------------------------------------------------*/
-@mixin txt($color_name, $effects:()) {
+@mixin txt($color_name, $effects:(), $important:'') {
 
 	$color_name: ''+$color_name+'';
+	@if $important == true { 
+		$important: '!important'; 
+	}
 
 	//$rounded-opacity: 0;
 
@@ -59,16 +62,19 @@
 	// 	//@debug($opacity, $rounded-opacity);
 	// }
 
-	color: #{functions.colors($color_name, $effects)};
+	color: #{functions.colors($color_name, $effects)} #{$important};
 	@if Options.get('colors', 'root') {
-		color: #{functions.vcolors($color_name, $effects)};
+		color: #{functions.vcolors($color_name, $effects)} #{$important};
 	}
 }
 /*------------------------------------------------------------*/
 //@include bg(primary, $lighten:2, $opacity:3, $important:true);
-@mixin bg($color_name, $effects:(), $backdrop-filter-effects:(), $filter-effects:()) {
+@mixin bg($color_name, $effects:(), $backdrop-filter-effects:(), $filter-effects:(), $important:'') {
 
 	$color_name: ''+$color_name+'';  // Convert to string [add quotes]
+	@if $important == true { 
+		$important: '!important'; 
+	}
 
 	// @if $opacity < 10 {
 	// 	$rounded-opacity:  decimal.round($opacity, 1) * 10;
@@ -78,7 +84,7 @@
 
 	background-color: #{functions.colors($color_name, $effects)};
 	@if Options.get('colors', 'root') {
-		background-color: #{functions.vcolors($color_name, $effects)};
+		background-color: #{functions.vcolors($color_name, $effects)} #{$important};
 	}
 
 	@if length( $backdrop-filter-effects ) {

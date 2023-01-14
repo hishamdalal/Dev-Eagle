@@ -13,14 +13,15 @@
         content: attr(data-badge);
         padding: .1rem .3rem ;
         border-radius: 1rem;
-        background-color: red;
+        //font-weight: 500;
+        //font-size: .8rem;
     }
     
     @each $color-name, $color-value in base-colors.$base-colors {
-        .badge-bg-#{$color-name}::after {
+        &.badge-bg-#{$color-name}::after {
             @include Colors.bg($color-name, $color-value);
         }
-        .badge-txt-#{$color-name}::after {
+        &.badge-txt-#{$color-name}::after {
             @include Colors.txt($color-name, $color-value);
         }
     }

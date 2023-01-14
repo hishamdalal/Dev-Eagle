@@ -1,5 +1,10 @@
 @forward './settings';
 @use './settings';
+@use './alert';
 
 
-$base-colors: map-merge(settings.$base-colors, settings.$selected-palete);
+$base-colors: settings.$base-colors;
+@if settings.$use-alert-colors {
+    $base-colors: map-merge(settings.$base-colors, alert.$colors);
+}
+$base-colors: map-merge($base-colors, settings.$selected-palete);
