@@ -1,26 +1,44 @@
 @use '../../Library/Colors';
+@use '../../Library/Colors/vars';
 @use '../../Settings/colors' as base-colors;
 
-.badge {
-    //@include Colors.txtBg(light, accent, $bg-effects:(darken:3));
-    
-    // @each $color-name, $color-value in base-colors.$base-colors {
-    //     &.bg-#{$color-name} {
-    //         @include Colors.bg($color-name, $color-value);
-    //     }
-    //     &.txt-#{$color-name} {
-    //         @include Colors.txt($color-name, $color-value);
-    //     }
-    // }
 
-    padding: .1rem .3rem ;
-    border-radius: 1rem;
-}
-
-:has(>.badge) {
+.badge, .badge-pill {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: .5rem;
+
+    &::after {
+        display: flex;
+        content: attr(data-badge);
+        padding: .1rem .3rem ;
+        border-radius: 1rem;
+        background-color: red;
+    }
+    
+    @each $color-name, $color-value in base-colors.$base-colors {
+        .badge-bg-#{$color-name}::after {
+            @include Colors.bg($color-name, $color-value);
+        }
+        .badge-txt-#{$color-name}::after {
+            @include Colors.txt($color-name, $color-value);
+        }
+    }
 }
+
+.badge-pill {
+    margin-block-start: .7rem;
+
+    &::after {
+        margin-inline-end: -5px;
+        margin-block-start: -10px;
+    }
+}
+
+// :has(>.badge) {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: .5rem;
+// }
 
