@@ -2,7 +2,7 @@
 @use '../../Settings/buttons' as settings;
 @use '../../Library/Spacing';
 @use '../../Settings/Options';
-@use '../../Settings/colors' as base-colors;
+//@use '../../Settings/colors' as base-colors;
 
 
 @if Options.deep-get('components', 'Buttons', 'classes') {
@@ -30,32 +30,30 @@
 
         //}
 
-    }
 
+        // @each $color-name, $color-value in base-colors.$base-colors {
+        //     //@warn $color-name, $color-value;
 
-    @each $color-name, $color-value in base-colors.$base-colors {
-        //@warn $color-name, $color-value;
+        //     @if $color-name != 'transparent' {
 
+        //         // todo: change hover behavior from settings
+        //         &.btn-#{$color-name}:hover, &.btn-#{$color-name}:active {
+        //             @include Colors.bg($color-name, (lighten:3) );
+        //         }
 
-        @if $color-name != 'transparent' {
-
-            // todo: change hover behavior from settings
-            .btn-#{$color-name}:hover {
-                @include Colors.bg($color-name, (lighten:3) );
-            }
-
-            .btn-#{$color-name}-outline, .btn-#{$color-name}-outline:active {
-                @include Colors.replace(border, '2px solid $', ($color-name));
-            }
-
-            .btn-#{$color-name}-outline:hover {
-                //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
-                @include Colors.bg($color-name);
-            }
-            .btn-#{$color-name}, .btn-#{$color-name}:active {
-                @include Colors.bg($color-name);
-            }
-        }
+        //         &.btn-#{$color-name}-outline:hover, &.btn-#{$color-name}-outline:active {
+        //             //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
+        //             @include Colors.bg($color-name);
+        //         }
+                
+        //         &.btn-#{$color-name} {
+        //             @include Colors.bg($color-name);
+        //         }
+        //         &.btn-#{$color-name}-outline {
+        //             @include Colors.replace(border, '2px solid $', ($color-name));
+        //         }
+        //     }
+        // } 
     } 
 
     

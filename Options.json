@@ -33,7 +33,10 @@
             "js": "true"
         },
         "Buttons": {
-            "classes": "true"
+            "classes": "true",
+            "ButtonsGroup": {
+                "classes": "true"
+            }
         },
         "Cards": {
             "classes": "true"

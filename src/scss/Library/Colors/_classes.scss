@@ -1,19 +1,32 @@
 @use './full-colors'; 
+@use "../../Settings/colors" as settings;
 @use '../../Settings/Options';
 @use './mixins';
 
 
 @if Options.get('colors', 'classes') {    
 
-    @each $color-name, $color-value in full-colors.$colors {
+    @each $color-name, $color-value in settings.$base-colors {
+
+        .\:hover-bg-#{$color-name}:hover {
+            //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
+            @include mixins.bg($color-name, $important:true);
+        }
+ 
+        .\:hover-txt-#{$color-name}:hover {
+            //@include mixins.replace(border, '2px solid $', ($color-name), (lighten:3));
+            @include mixins.txt($color-name, $important:true);
+        }
+
+        .\:hover-outline-#{$color-name}:hover {
+            //@include mixins.bg($color-name, (lighten:3), $important:true);
+            @include mixins.replace(border, '2px solid $', ($color-name), $important:true);
+
+        }
+
         .bg-#{$color-name} {
             //background-color: #{$color-value};
             @include mixins.bg($color-name);
-        }
-
-        .bg\:hover-#{$color-name}:hover {
-            //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
-            @include mixins.bg($color-name, $important:true);
         }
 
         .txt-#{$color-name} {
@@ -21,9 +34,8 @@
             @include mixins.txt($color-name);
         }
 
-        .txt\:hover-#{$color-name}:hover {
-            //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
-            @include mixins.txt($color-name);
+        .outline-#{$color-name} {
+            @include mixins.replace(border, '2px solid $', ($color-name), $important:true);
         }
         
         // :has(>.txt-#{$color-name}-hover):hover > .bg-#{$color-name}-hover {

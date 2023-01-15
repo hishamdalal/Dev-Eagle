@@ -82,7 +82,7 @@
 	// }
 	//@debug $page, $name, $opacity, $rounded-opacity;
 
-	background-color: #{functions.colors($color_name, $effects)};
+	background-color: #{functions.colors($color_name, $effects)} #{$important};
 	@if Options.get('colors', 'root') {
 		background-color: #{functions.vcolors($color_name, $effects)} #{$important};
 	}

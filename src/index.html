@@ -125,8 +125,16 @@
         </section>
 
         <section class="buttons">
-            <button class="btn btn-primary-outline bg:hover-secondary txt:hover-light">Click</button>
-            <button class="btn btn-accent-outline txt:hover-dark">Click</button>
+            <button class="btn outline-primary :hover-bg-secondary :hover-txt-light">Click</button>
+            <button class="btn outline-accent :hover-txt-dark :hover-txt-accent">Click</button>
+        </section>
+
+        <section class="buttons-group">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn outline-dark :hover-outline-secondary txt-dark :hover-bg-accent :hover-txt-light">Left</button>
+                <button type="button" class="btn outline-accent :hover-outline-dark bg-secondary :hover-bg-accent :hover-txt-light">Middle</button>
+                <button type="button" class="btn bg-primary :hover-txt-light">Right</button>
+              </div>
         </section>
 
     </main>

@@ -1,0 +1,18 @@
+@use '../../../Settings/Options';
+
+@if Options.deep-get(components, Buttons, ButtonsGroup, classes){
+    .btn-group {
+        display: flex;
+        gap: 0.1rem;
+
+        .btn:not(:first-child, :last-child) {
+            border-radius: 0;
+        }
+        .btn:first-child {
+            border-radius: 1rem 0 0 1rem;
+        }
+        .btn:last-child {
+            border-radius: 0 1rem 1rem 0;
+        }
+    }
+}
