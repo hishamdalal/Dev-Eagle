@@ -8,17 +8,20 @@
 
     @each $color-name, $color-value in settings.$base-colors {
 
-        .\:hover-bg-#{$color-name}:hover {
+        .\:hover-bg-#{$color-name}:hover,
+        .\:hover-bg-#{$color-name}:focus {
             //@include Colors.replace(border, '2px solid $', ($color-name), (lighten:3));
             @include mixins.bg($color-name, $important:true);
         }
  
-        .\:hover-txt-#{$color-name}:hover {
+        .\:hover-txt-#{$color-name}:hover,
+        .\:hover-txt-#{$color-name}:focus {
             //@include mixins.replace(border, '2px solid $', ($color-name), (lighten:3));
             @include mixins.txt($color-name, $important:true);
         }
 
-        .\:hover-outline-#{$color-name}:hover {
+        .\:hover-outline-#{$color-name}:hover,
+        .\:hover-outline-#{$color-name}:focus {
             //@include mixins.bg($color-name, (lighten:3), $important:true);
             @include mixins.replace(border, '2px solid $', ($color-name), $important:true);
 

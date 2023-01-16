@@ -2,6 +2,7 @@
 @use '../../Settings/buttons' as settings;
 @use '../../Library/Spacing';
 @use '../../Settings/Options';
+@use '../../Library/Fonts/mixins' as Fonts;
 //@use '../../Settings/colors' as base-colors;
 
 
@@ -13,8 +14,9 @@
         border: none;
 
         //padding: settings.$paddings;
-        @include Spacing.spacing(padding, $v:.2, $h:.6);
         border-radius: settings.$radius;
+        @include Spacing.spacing(padding, $v:.2, $h:.6);
+        @include Fonts.size(small);
     }
 
     .btn {

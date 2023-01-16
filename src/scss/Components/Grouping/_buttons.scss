@@ -1,4 +1,4 @@
-@use '../../../Settings/Options';
+@use '../../Settings/Options';
 
 @if Options.deep-get(components, Buttons, ButtonsGroup, classes){
     .btn-group {

@@ -104,10 +104,14 @@
 }
 /*------------------------------------------------------------*/
 
-@mixin set($prop, $color-name, $effects:(), $_important:''){
-	#{$prop}: #{functions.colors($color_name, $effects, $important:$_important)};
+@mixin set($prop, $color-name, $effects:(), $important:''){
+	@if $important == true { 
+		$important: '!important'; 
+	}
+
+	#{$prop}: #{functions.colors($color_name, $effects)} #{$important};
 	@if Options.get('colors', 'root') {
-		#{$prop}: #{functions.vcolors($color_name, $effects, $important:$_important)};
+		#{$prop}: #{functions.vcolors($color_name, $effects)} #{$important};
 	}
 }
 /*------------------------------------------------------------*/
