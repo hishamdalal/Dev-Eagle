@@ -1,0 +1,52 @@
+@use '../Library/Colors/mixins' as Colors;
+@use '../Settings/borders';
+
+.dropdown-button {
+    position: relative;
+
+    .dropdown-menu {
+        list-style: none;
+        position: absolute;
+        inset-inline-start: 0;
+        margin-block-start: .3rem;
+        border-radius: .4rem;
+        width: max-content;
+        
+        @include Colors.bg(light);
+        @include Colors.replace(border, '#{borders.$width} solid $', ('gray'), (lighten:2));
+
+        display: none;
+
+        li {
+            display: grid;
+        }
+        a {
+            display: block;
+            padding: .2rem .6rem;
+            &:hover {
+                @include Colors.bg(gray, (lighten:-1));
+            }
+        }
+    }
+
+    .dropdown-menu-end {
+        inset-inline-end: 0; 
+        inset-inline-start: auto; 
+    }
+
+
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    gap: .2rem;
+    
+    &::after {
+        content: '\f0d7';
+        font-family: fontAwesome;
+    }    
+    &:focus-within + .dropdown-menu {
+        display: block;
+    }
+}

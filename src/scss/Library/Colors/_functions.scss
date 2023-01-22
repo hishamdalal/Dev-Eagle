@@ -50,8 +50,9 @@
 }
 /*------------------------------------------------------------*/
 // Get color value
-//! not alowed: color: @colors(primary, (light: 2, opacity: 5) )
-//? alowed: color: @colors(primary, (light: 9, opacity: 5))
+//! not alowed: color: @colors(primary, (lighten: 2, opacity: 5) )
+//? alowed: color: @colors(primary, (darken: 9, opacity: 5))
+//? alowed: color: @colors(primary, (light: -2))
 //* How to use: color: colors(primary, (dark: 4, opacity: 5));
 // param: $effect => [light|dark|opacity| any css 'filter']
 /*------------------------------------------------------------*/
@@ -94,7 +95,10 @@
 
                 @if $effect == 'opacity' {
 
-                    @if $level > Settings.$opacity-number {
+                    @if $level < 0 {
+                        $level: Settings.$opacity-number + $level;
+                    }
+                    @else if $level > Settings.$opacity-number {
                         $level: Settings.$opacity-number;
                     }
                     
@@ -119,8 +123,11 @@
                     }
                 }
                 @else {
-
-                    @if $level > Settings.$colors-number {
+                    
+                    @if $level < 0 {
+                        $level: Settings.$colors-number + $level;
+                    }
+                    @else if $level > Settings.$colors-number {
                         $level: Settings.$colors-number;
                     }
 
@@ -223,7 +230,10 @@
 
                     @if $effect == opacity {
                         
-                        @if $level > Settings.$opacity-number {
+                        @if $level < 0 {
+                            $level: Settings.$opacity-number + $level;
+                        }
+                        @else if $level > Settings.$opacity-number {
                             $level: Settings.$opacity-number;
                         }
 
@@ -231,7 +241,10 @@
                     }
                     @else {
                         
-                        @if $level > Settings.$colors-number {
+                        @if $level < 0 {
+                            $level: Settings.$colors-number + $level;
+                        }
+                        @else if $level > Settings.$colors-number {
                             $level: Settings.$colors-number;
                         }
 

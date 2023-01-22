@@ -46,8 +46,6 @@
 
 }
 /*------------------------------------------------------------*/
-// Todo: Convert $effect to map -> (light: 20, opacity: 50) -> (effect: level)
-/*------------------------------------------------------------*/
 @mixin txt($color_name, $effects:(), $important:'') {
 
 	$color_name: ''+$color_name+'';
@@ -308,10 +306,10 @@
 	}
 }
 /*------------------------------------------------------------*/
-@mixin outline($color:accent, $prop-string:'1px solid $') {
-	@include replace(outline, $prop-string, ($color) );
+@mixin outline($color:accent, $effects:(), $prop-string:'1px solid $') {
+	@include replace(outline, $prop-string, ($color), $effects );
 	@if Options.get('colors', 'root') {
-		@include replace(outline, $prop-string, ($color), true);
+		@include replace(outline, $prop-string, ($color), $effects, true);
 	}
 }
 /*------------------------------------------------------------*/
