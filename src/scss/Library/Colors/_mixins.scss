@@ -292,8 +292,8 @@
 	}
 }
 /*------------------------------------------------------------*/
-@mixin border($color:accent, $effects:(), $prop-string:'1px solid $'){
-	@include replace(border, $prop-string, ($color), $effects );
+@mixin border($color:accent, $effects:(), $prop-string:'1px solid $', $important:true){
+	@include replace(border, $prop-string, ($color), $effects, $important );
 	// @if Options.get('colors', 'root') {
 	// 	@include replace(border, $prop-string, ($color), $effects, true);
 	// }

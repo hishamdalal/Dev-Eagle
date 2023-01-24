@@ -1,0 +1,13 @@
+@use '../Library/Colors/mixins'as Colors;
+//@use '../Library/Fonts/mixins'as Fonts;
+@use '../Settings/borders';
+
+fieldset {
+    border-radius: 0.4rem;
+    padding: .3rem;
+    @include Colors.replace(border, '#{borders.$width} solid $', ('gray'), (lighten:2));
+    
+    legend {
+        @include Colors.txt(dark, (lighten: 2));
+    }
+}

@@ -15,7 +15,7 @@
 
         //padding: settings.$paddings;
         border-radius: settings.$radius;
-        @include Spacing.spacing(padding, $v:.2, $h:.6);
+        @include Spacing.spacing(padding, $v:.4, $h:.6);
         @include Fonts.size(small);
     }
 

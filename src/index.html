@@ -39,7 +39,35 @@
 
     <main>
 
-        <section class="jumpetron d-flex center-children">
+        <section class="jumpetron slider">
+
+            <!-- Slider main container -->
+            <div class="swiper" dir="rtl">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide bg-accent">Slide 1</div>
+                    <div class="swiper-slide bg-primary">Slide 2</div>
+                    <div class="swiper-slide bg-secondary">Slide 3</div>
+                    <div class="swiper-slide bg-warning">Slide 4</div>
+                    <div class="swiper-slide bg-info">Slide 5</div>
+
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+                <!-- If we need scrollbar
+                <div class="swiper-scrollbar"></div> -->
+            </div>
+
+
+        </section>
+
+        <section class="call2action text-center">
             <botton id="alert" type="submit" class="btn btn-accent ">Alert</botton>
             <botton id="toast" type="submit" class="btn btn-accent ">Toast</botton>
         </section>
@@ -236,97 +264,176 @@
             </div>
         </section>
 
-        <section class="inputs-group-v">
-            <div class="input-group-item">
-                <span class="label" id="basic-addon1">@</span>
-                <input type="text" class="input" placeholder="Username" aria-label="Username"
-                    aria-describedby="basic-addon1">
-            </div>
-
-            <div class="input-group-item">
-                <input type="text" class="input" placeholder="Recipient's username" aria-label="Recipient's username">
-                <span class="label" id="basic-addon2">@example.com</span>
-            </div>
-
-            <div class="input-group-item">
-                <label class="label" for="textarea1">With textarea</label>
-                <textarea class="input" id="textarea1" aria-label="With textarea"></textarea>
-            </div>
-
-
-            <div class="input-group-item">
-                <div class="label">
-                    <input type="checkbox" class="checkbox" />
+        <form action="get" onsubmit="return false;">
+            <section class="inputs-group-v">
+                <span>test</span>
+                <!-- todo: Add label to descripe field -->
+                <div class="input-group-item" data-validate="incorrect email only small letters and spaces allowed">
+                    <label class="label" id="basic-addon1">@</label>
+                    <input type="text" class="input" pattern="[a-z\s]+" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1">
                 </div>
-                <input type="text" class="input" placeholder="Recipient's username" aria-label="Recipient's username">
-            </div>
 
-            <div class="input-group-item">
-                <div class="label">
-                    <input type="radio" class="radio" />
+                <div class="input-group-item" data-validate="Error: spaces & special characters not allowed">
+                    <input type="text" class="input" pattern="[a-z0-9._%+-]+" placeholder="Recipient's username"
+                        aria-label="Recipient's username">
+                    <label class="label" id="basic-addon2">@example.com</label>
                 </div>
-                <input type="text" class="input" placeholder="First name" aria-label="First name">
-                <input type="text" class="input" placeholder="Second name" aria-label="Second name">
-            </div>
-            <div class="input-group-item">
-                <input type="button" class="label" value="Button" />
-                <input type="button" class="label" value="Button" />
-                <input type="text" class="input" placeholder="First name" aria-label="First name">
-            </div>
 
-            <div class="input-group-item">
-                <input type="text" class="input" aria-label="Text input with dropdown button" disabled>
-
-                <div class="dropdown-button">
-                    <button class="input dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Dropdown</button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Separated link</a></li>
-                    </ul>
+                <div class="input-group-item">
+                    <label class="label" for="textarea1">With textarea</label>
+                    <textarea class="input" id="textarea1" aria-label="With textarea"></textarea>
                 </div>
-            </div>
 
+
+                <div class="input-group-item">
+                    <div class="label">
+                        <input type="checkbox" class="checkbox" />
+                    </div>
+                    <input type="text" class="input" placeholder="Recipient's username"
+                        aria-label="Recipient's username">
+                </div>
+
+                <div class="input-group-item">
+                    <div class="label">
+                        <input type="radio" class="radio" />
+                    </div>
+                    <input type="text" class="input" placeholder="First name" aria-label="First name">
+                    <input type="text" class="input" placeholder="Second name" aria-label="Second name">
+                </div>
+                <div class="input-group-item">
+                    <input type="button" class="label" value="Button" />
+                    <input type="button" class="label" value="Button" />
+                    <input type="text" class="input" placeholder="First name" aria-label="First name">
+                </div>
+
+                <div class="input-group-item">
+                    <input type="text" class="input" aria-label="Text input with dropdown button" disabled>
+
+                    <div class="dropdown-button">
+                        <button class="input dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Dropdown</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="input-group-item">
+                    <label for="formFile" class="label">Default file input example</label>
+                    <input id="formFile" class="input" type="file">
+
+                </div>
+
+                <div class="input-group-item">
+                    <label for="exampleColorInput" class="label">Color picker</label>
+                    <input type="color" class="form-control input color" id="exampleColorInput" value="#e84d8a"
+                        title="Choose your color">
+                </div>
+
+                <input type="color" class="form-control input-color" id="exampleColorInput2" value="#e84d8a"
+                    title="Choose your color">
+
+                <div class="input-group-item">
+                    <label for="exampleDataList" class="label">Datalist example</label>
+                    <input class="input" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                    <datalist id="datalistOptions">
+                        <option value="San Francisco">
+                        <option value="New York">
+                        <option value="Seattle">
+                        <option value="Los Angeles">
+                        <option value="Chicago">
+                    </datalist>
+                </div>
+
+                <div class="input-group-item">
+                    <label for="select1" class="label">Select example</label>
+                    <select class="input select" id="select1" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+                <div class="d-block">
+                    <button type="submit" class="btn bg-accent">Submit</button>
+                </div>
+            </section>
+        </form>
+
+        <section class="inputs-group-h d-grid grid-1x2">
             <div class="input-group-item">
-                <label for="formFile" class="label">Default file input example</label>
-                <input  id="formFile" class="input" type="file">
-                
+                <label class="label" id="username-label">Username</label>
+                <input type="text" class="input" id="username" pattern="[a-z]+" placeholder="Username"
+                    aria-label="Username" aria-describedby="username-label">
             </div>
-
             <div class="input-group-item">
-                <label for="exampleColorInput" class="label">Color picker</label>
-                <input type="color" class="form-control input color" id="exampleColorInput" value="#563d7c" title="Choose your color">
-            </div>
-
-            <input type="color" class="form-control input-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
-
-            <div class="input-group-item">
-                <label for="exampleDataList" class="label">Datalist example</label>
-                <input class="input" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
-                <datalist id="datalistOptions">
-                  <option value="San Francisco">
-                  <option value="New York">
-                  <option value="Seattle">
-                  <option value="Los Angeles">
-                  <option value="Chicago">
-                </datalist>
-            </div>
-
-            <div class="input-group-item">
-                <label for="select1" class="label">Select example</label>
-                <select class="input select" id="select1" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                <label class="label" id="email-label">Email</label>
+                <input type="email" class="input" id="email" placeholder="Email" aria-label="Email"
+                    aria-describedby="email-label">
             </div>
         </section>
+
+        <section class="inputs-group-h ">
+            <form>
+                <div class="d-grid grid-1x2 mb-1">
+                    <label for="inputEmail3" class="label">Email</label>
+                    <input type="email" class="input" id="inputEmail3">
+                </div>
+                <div class="d-grid grid-1x2 mb-1">
+                    <label for="inputPassword3" class="label">Password</label>
+                    <input type="password" class="input" pattern=".{6,}" id="inputPassword3">
+                </div>
+                <div class="d-grid grid-1x2 mb-1">
+                    <label for="inputUrl" class="label">Url</label>
+                    <input type="url" class="input" pattern="https?://.+" id="inputUrl">
+                </div>
+                <fieldset class="d-grid grid-1x2 mb-1">
+                    <legend>Radios</legend>
+                    <div class="col-start-1x2">
+                        <div class="item">
+                            <input class="input radio" type="radio" name="gridRadios" id="gridRadios1" value="option1"
+                                checked>
+                            <label class="label" for="gridRadios1">
+                                First radio
+                            </label>
+                        </div>
+                        <div class="item">
+                            <input class="input radio" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                            <label class="label" for="gridRadios2">
+                                Second radio
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="input radio" type="radio" name="gridRadios" id="gridRadios3" value="option3"
+                                disabled>
+                            <label class="label" for="gridRadios3">
+                                Third disabled radio
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="d-grid grid-1x2 mb-1">
+                    <div class="col-start-1x2">
+                        <div class="form-check">
+                            <input class="input checkbox" type="checkbox" id="gridCheck1">
+                            <label class="label" for="gridCheck1">
+                                Example checkbox
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn bg-primary txt-light">Sign in</button>
+            </form>
+        </section>
+
     </main>
 
     <div class="screen-size">

@@ -45,6 +45,8 @@
     &::after {
         content: '\f0d7';
         font-family: fontAwesome;
+        //color: currentColor;
+        //filter: invert(1);
     }    
     &:focus-within + .dropdown-menu {
         display: block;

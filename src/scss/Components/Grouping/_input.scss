@@ -30,7 +30,7 @@
     
     //@include Colors.bg('gray');
     @include Colors.bg(light);
-    @include Colors.border(('gray'), $prop-string:'#{borders.$width} solid $');
+    @include Colors.border(('gray'), $prop-string: '#{borders.$width} solid $');
     border-radius: .4rem;
     //overflow: hidden;
     
@@ -89,7 +89,7 @@
     &:has(:focus) {
         @include Colors.set(border-color, (primary));
     }
-    &>*:not(:first-child) {
+    &>*:not(:first-child):not(:invalid) {
         @include Colors.replace(border-inline-start, '#{borders.$width} solid $', ('gray'), (lighten:2));
 
         // &:focus {
@@ -100,7 +100,22 @@
     &:has([type="file"]) > .label {
         cursor: pointer;
     }
+
 }
 
 
 
+.inputs-group-h {
+    .input-group-item {
+        flex-direction: column;
+
+        & > *:first-child {
+            border-radius: 0.4rem 0.4rem 0 0;
+        }
+
+        & > *:not(:first-child) {
+            border: none;
+            border-radius: 0 0 0.4rem 0.4rem;
+        }
+    }
+}
