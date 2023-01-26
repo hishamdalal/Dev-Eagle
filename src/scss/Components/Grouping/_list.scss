@@ -1,0 +1,48 @@
+@use '../../Library/Colors/mixins' as Colors;
+
+
+ul.list-group, ol.list-group {
+    list-style-type: none;
+
+    &>li {
+
+        display: flex;
+        gap: 0.4rem;
+        padding: .3rem 1rem;
+        @include Colors.replace(border-inline, '1px solid $', (light), (lighten:1));
+        @include Colors.replace(border-block-end, '1px solid $', (light), (lighten:1));
+
+        &:hover {
+            @include Colors.bg(light, (lighten:-1));
+        }
+
+        &:first-child {
+            border-top-left-radius: .3rem;
+            border-top-right-radius: .3rem;
+            @include Colors.replace(border-block-start, '1px solid $', (light), (lighten:1));
+
+        }
+        &:last-child {
+            border-bottom-left-radius: .3rem;
+            border-bottom-right-radius: .3rem;
+        }
+
+        &>* {
+            // for badge
+            width: 100%;
+        }
+
+    }
+}
+ol.list-group {
+    // reset counter
+    counter-reset: section;
+    &>li {
+        // start counting and print counter numbers
+        &::before {
+            content: counters(section, ".") ". ";
+            counter-increment: section;
+            word-break: keep-all;
+        }
+    }
+}

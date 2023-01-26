@@ -46,7 +46,9 @@
     "fonts": {
         "root": "true",
         "responsive": "false",
-        "root-collection": "false"
+        "root-collection": "false",
+        "classes": "true",
+        "classes-collection": "true"
     },
 
     "init": {

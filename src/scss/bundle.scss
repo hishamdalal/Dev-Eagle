@@ -26,11 +26,13 @@
 @use './Components/Tabs';
 @use './Components/Breadcrumb';
 @use './Components/grouping';
+@use './Components/Details';
 //@use './Components/Slider';
 
 
 
-// Todo: Add rtl support
+// Todo: Add rtl support -> x-inline-start, x-inline-end
+// todo: Add common css like: .txt-mute, .cursor-pointer, ...ets  
 
 //@include debug.print();
 html {

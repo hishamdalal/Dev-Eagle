@@ -1,0 +1,24 @@
+@use '../../Library/Colors/mixins'as Colors;
+
+details {
+    padding-block: .4rem;
+    
+    &[open] > summary , summary:hover {
+        @include Colors.txt(accent);
+    }
+
+    summary {
+        padding: 0 1rem 0 1rem;
+        cursor: pointer;
+        text-indent: -1rem;
+
+        &+* {
+            padding-inline-start: 1rem;
+        }
+    }
+}
+
+// ::slotted(summary) {
+//     display: inline;
+//     color: red;
+// }
