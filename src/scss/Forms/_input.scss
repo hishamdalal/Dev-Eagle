@@ -2,6 +2,7 @@
 @use '../Library/Fonts/mixins'as Fonts;
 @use '../Settings/borders';
 
+$border-width: borders.get(width, thin);
 
 .input,
 .label {
@@ -12,10 +13,10 @@
 
 .input {
     appearance: none;
-    border-radius: .2rem;
+    border-radius: .3rem;
     padding: .3rem .5rem;
 
-    @include Colors.replace(border, '#{borders.$width} solid $', ('gray'), (lighten:2));
+    @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
     @include Colors.bg(light);
 
 
@@ -70,7 +71,7 @@
     &-color {
         appearance: button;
         border-radius: .2rem;
-        @include Colors.border('gray', (), '#{borders.$width} solid $');
+        @include Colors.border('gray', (), '#{$border-width} solid $');
         width:  1.8rem;
         height: 1.8rem;
         padding: .1rem;

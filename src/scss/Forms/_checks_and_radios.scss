@@ -1,6 +1,8 @@
 @use '../Library/Colors/mixins'as Colors;
 @use '../Settings/borders';
 
+$border-width: borders.get(width, thin);
+
 
 .checkboxes,
 .radios,
@@ -48,7 +50,7 @@ input.radio {
     width: 1rem;
     appearance: none;
     border: none;
-    @include Colors.replace(outline, '#{borders.$width} solid $', ('gray'));
+    @include Colors.replace(outline, '#{$border-width} solid $', ('gray'));
     overflow: hidden;
     line-height: 1;
 
@@ -125,7 +127,7 @@ input.switch {
     padding-inline: .1rem;
     border: none;
     border-radius: .5rem;
-    @include Colors.replace(outline, '#{borders.$width} solid $', ('gray'));
+    @include Colors.replace(outline, '#{$border-width} solid $', ('gray'));
 
     display: flex;
     flex-direction: row;

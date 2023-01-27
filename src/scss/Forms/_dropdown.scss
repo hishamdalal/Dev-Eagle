@@ -1,6 +1,9 @@
 @use '../Library/Colors/mixins' as Colors;
 @use '../Settings/borders';
 
+$border-width: borders.get(width, thin);
+
+
 .dropdown-button {
     position: relative;
 
@@ -13,7 +16,7 @@
         width: max-content;
         
         @include Colors.bg(light);
-        @include Colors.replace(border, '#{borders.$width} solid $', ('gray'), (lighten:2));
+        @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
 
         display: none;
 

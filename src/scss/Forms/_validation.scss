@@ -2,14 +2,16 @@
 //@use '../Library/Fonts/mixins'as Fonts;
 @use '../Settings/borders';
 
+$border-width: borders.get(width, thin);
+
 
 .input:invalid {
-    @include Colors.border(accent, (), '#{borders.$width} solid $');
+    @include Colors.border(accent, (), '#{$border-width} solid $');
 }
 
 .input-group-item {
     &:has(.input:invalid) {
-        @include Colors.border((accent), $prop-string: '#{borders.$width} solid $');
+        @include Colors.border((accent), $prop-string: '#{$border-width} solid $');
         position: relative;
         margin-bottom: 2rem;
 
@@ -36,7 +38,7 @@
         }
         .input {
             border:none !important;
-            //@include Colors.replace(border-inline-start, '#{borders.$width} solid $', ('gray'), (lighten:2), $important:true);
+            //@include Colors.replace(border-inline-start, '#{$border-width} solid $', ('gray'), (lighten:2), $important:true);
             @include Colors.txt(danger);
         }
     }

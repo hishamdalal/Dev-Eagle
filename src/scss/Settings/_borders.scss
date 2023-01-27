@@ -1,1 +1,26 @@
-$width: .1rem;
+//$width: 1px;
+
+
+$styles: (
+    width: (
+        thin: 1px,
+        normal: 2px,
+        thick: 4px
+    ),
+    style: (
+        normal: solid,
+        note: dotted,
+        emphasis: double,
+    ),
+
+);
+
+@function get($type, $item) {
+    @if map-get($styles, $type, $item) {
+        @return  map-get($styles, $type, $item);
+    }
+    @else{
+        @warn "Cann't find border (#{$type} -> #{$item})!";
+    }
+    @return null;
+}

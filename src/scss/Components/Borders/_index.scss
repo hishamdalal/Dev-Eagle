@@ -1,0 +1,34 @@
+@use '../../Settings/colors' as colors-settings;
+@use '../../Library/Colors/mixins' as Colors;
+@use '../../Settings/borders' as settings;
+@use '../../Settings/Options';
+
+$border-width: settings.get(width, thin);
+
+
+@if Options.deep-get('components', 'Borders', 'classes') {
+    @each $color-name, $color-value in colors-settings.$base-colors {
+
+        .border-#{$color-name} {
+            //@include Colors.border($color-name, (), '#{$border-width} solid $');
+            @include Colors.set(border-color, $color-name);
+        }
+    }
+}
+
+// $widths: map-get(settings.$styles, width);
+
+// @each $key, $val in $widths {
+//     .border-#{$key} {
+//         border-width: #{$val};
+//         border-style: solid;
+//     }
+// }
+
+@each $type, $map in settings.$styles {
+    @each $key, $value in $map {
+        .border-#{$type}-#{$key} {
+            border-#{$type}: #{$value};
+        } 
+    }
+}

@@ -40,6 +40,9 @@
         },
         "Cards": {
             "classes": "true"
+        },
+        "Borders": {
+            "classes": "true"
         }
     },
 

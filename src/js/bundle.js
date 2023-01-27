@@ -7,8 +7,11 @@ import {Tabs_Run} from './components/_Tabs';
 //import {Slider_Run} from './components/_Slider';
 
 // Vendors:
+// alert
 import {SweetAlert_run} from './Vendors/_SweetAlert';
+// toast
 import {EggyJS_run} from './Vendors/_EggyJS';
+// slider
 import {Swiper_run} from './Vendors/_Swiper';
 
 // Options:

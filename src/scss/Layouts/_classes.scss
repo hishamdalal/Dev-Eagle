@@ -16,6 +16,9 @@
 
 // todo: Add mixins to do things that classes do.. to minimize the code size
 // اضافة إجراءات تقوم بنفس ما تقوم به الكلاسات لتقليل حجم الكود
+// todo: Break class to groups and add options to choose what group you want to get.
+// تقسيم الكلاسات الى مجموعات وعمل خيارات لتحديد ما تريد استخدامه منها
+
 
 @if Options.get('layouts', 'classes') { 
 
@@ -58,7 +61,7 @@
 
 	//! ====   FLEX   ==== !//
 	//* How to use:  .d-[flex|flex-col|flex-row]
-	.d-flex { 
+	.flex { 
 		&, &-col, &-row {
 			display: flex !important; 
 			gap: Settings.$gap;
@@ -66,8 +69,8 @@
 		}	
 		flex-direction: row;
 
-		&-col, [class^="#{&}-col-"]  { flex-direction: column;}	
-		&-row, [class^="#{&}-row-"]  { flex-direction: row;}	
+		&-col { flex-direction: column;}	
+		&-row { flex-direction: row;}	
 	}
 
 	.flex-auto > * {
@@ -100,37 +103,47 @@
 	//! ====   GRID   ==== !//
 	//* How to use:  .d-[grid|grid-col|grid-row]
 	//------------------------------------------------------------------------------------------//
-	.d-grid { 
-		&, &-col, &-row {
-			display: grid !important; 
-			gap: Settings.$gap;
-		}
+	[class*="grid"] {
+		display: grid !important; 
+		gap: Settings.$gap;
 		grid-auto-flow: column;
-		
-		&-col, [class^="#{&}-col-"] { grid-auto-flow: column;}	
-		&-row, [class*="#{&}-row-"] { grid-auto-flow: row;}	
-	}	
+	}
+	
+	.grid { 	
+		&-col { grid-auto-flow: column;}	
+		&-row { grid-auto-flow: row;}	
+
+		// ! Removed to lightwight css file size
+		//* How to use:  .grid-{$row}x{$col}   ->   ($row and $col: from 1 to $column_count)
+		//? _mixins.scss -> grid-table($h, $v)
+		//------------------------------------------------------------------------------------------//
+		// @for $row from 1 through Settings.$columns_count  {
+		// 	@for $col from 1 through Settings.$columns_count  {
+		// 		&-#{$row}x#{$col} {
+		// 			grid-template-rows: repeat(#{$row}, 1fr);
+		// 			grid-template-columns: repeat(#{$col}, 1fr);
+		// 		}
+		// 	}
+		// }
+	}
+	// .rows-$i, .cols-$i instead of .grid-$rowX$col
+	@for $i from 1 through Settings.$columns_count  {
+		.rows-#{$i} {
+			grid-template-rows: repeat(#{$i}, 1fr);
+		}
+		.cols-#{$i} {
+			grid-template-columns: repeat(#{$i}, 1fr);
+		}
+	}
 
 	//* How to use:  .grid-[row|col]-{$num}	->	($num: from 1 to $column_count)
 	//------------------------------------------------------------------------------------------//
+	//! Make css size smaller so i comment the next lines
+	// @for $i from 1 through Settings.$columns_count  {
+	// 	.grid-row-#{$i} {grid-template-columns: repeat( #{$i} , 1fr);}
+	// 	.grid-col-#{$i} {grid-template-rows: repeat( #{$i} , 1fr);}
+	// }
 
-	@for $i from 1 through Settings.$columns_count  {
-		.grid-row-#{$i} {grid-template-columns: repeat( #{$i} , 1fr);}
-		.grid-col-#{$i} {grid-template-rows: repeat( #{$i} , 1fr);}
-	}
-
-
-	//* How to use:  .grid-{$row}x{$col}   ->   ($row and $col: from 1 to $column_count)
-	//? _mixins.scss -> grid-table($h, $v)
-	//------------------------------------------------------------------------------------------//
-	@for $row from 1 through Settings.$columns_count  {
-		@for $col from 1 through Settings.$columns_count  {
-			.grid-#{$row}x#{$col} {
-				grid-template-rows: repeat(#{$row}, 1fr);
-				grid-template-columns: repeat(#{$col}, 1fr);
-			}
-		}
-	}
 
 	//! ====   GRID AUTO   ==== !//
 	//* How to use:  .grid-{row: from 1 to $column_count}-auto
@@ -138,30 +151,19 @@
 	//? _mixins.scss -> grid-auto($h, $v:'auto')
 	//------------------------------------------------------------------------------------------//
 	@for $i from 1 through Settings.$columns_count  {
-		.grid-row.grid-#{$i}-auto {
-			grid-template-rows: auto; 
-			grid-template-columns: repeat(#{$i}, 1fr);
+		.d-grid-row {
+			&.grid-#{$i}-auto {
+				grid-template-rows: auto; 
+				grid-template-columns: repeat(#{$i}, 1fr);
+			}
 		}
-		.grid-col.grid-auto-#{$i} {
-			grid-template-columns: auto; 
-			grid-template-rows: repeat(#{$i}, 1fr);
-		}
-	}
-
-
-	.grid.merge-last-row {
-		& > *:last-child {
-			grid-column-start: 1;
-			grid-column-end: -1;
+		.d-grid-col {
+			.grid-auto-#{$i} {
+				grid-template-columns: auto; 
+				grid-template-rows: repeat(#{$i}, 1fr);
+			}
 		}
 	}
-	.grid.merge-last-col {
-		& > *:last-child {
-			grid-row-start: 1;
-			grid-row-end: -1;
-		}
-	}
-
 
 	//! ====   POSITION | MERGE | ORDER   ==== !//
 
@@ -199,52 +201,114 @@
 		.order-#{$i}		{ order: #{$i};}
 	}
 
+	//! not correct
 	//* How to use:  .col-{$row}x{$col} 	-> {$row=start, $col=end, $row, $col: from 1 to $column_count)
 	//? _mixins.scss -> col-table($h, $v)
 	//------------------------------------------------------------------------------------------//
-	@for $row from 1 through Settings.$columns_count  {
-		@for $col from 1 through Settings.$columns_count  {
-			.col-#{$row}x#{$col}  { grid-row-end: span #{$row}; grid-column-end: span #{$col};   }
-		}
-	}
+	// @for $start from 1 through Settings.$columns_count  {
+	// 	@for $end from 1 through Settings.$columns_count  {
+	// 		.cell-#{$start}x#{$end}  { 
+	// 			grid-row-end: span #{$start}; 
+	// 			grid-column-end: span #{$end};   
+	// 		}
+	// 	}
+	// }
+
+
+
 
 	//! ====   MERGE   ==== !//
+
+	//? How to use:
+	// .[colspan|rowspan]-$start:$end
+	//------------------------------------------------------------------------------------------//
+	@for $start from 1 through Settings.$columns_count  {
+		@for $end from 1 through Settings.$columns_count  {
+			.colspan-#{$start}\:#{$end}, .h-#{$start}\:#{$end} {
+				grid-column: #{$start} / #{$end};
+			}
+			.rowspan-#{$start}\:#{$end}, .v-#{$start}\:#{$end} {
+				grid-row: #{$start} / #{$end};
+			}
+		}
+		.colspan-#{$start}\:end, .h-#{$start}\:end {
+			grid-column: #{$start} / #{-1};
+		}
+		.rowspan-#{$start}\:end, .v-#{$start}\:end {
+			grid-row: #{$start} / #{-1};
+		}
+	}	
+
 	//* How to use:  .col-[start|end]-{$row}x{$col}		-> ($row and $col: from 1 to $column_count}
 	//------------------------------------------------------------------------------------------//
-	@for $row from 1 through Settings.$columns_count  {
-		@for $col from 1 through Settings.$columns_count  {
-			.col-start-#{$row}x#{$col}  { 
-				grid-row-start: #{$row};  
-				grid-column-start: #{$col};  
-			}
-			.col-end-#{$row}x#{$col}  { 
-				grid-row-end: #{$row}; 	
-				grid-column-end: #{$col};   
-			}
-		}
-	}
+	// $r: 0;
+	// $c: 0;
+	// @for $row from 0 through Settings.$columns_count  {
+	// 	@for $col from 0 through Settings.$columns_count  {
+	// 		$r:  $row + 1;
+	// 		$c:  $col + 1;
+	// 		.cell-start-#{$row}x#{$col}  { 
+	// 			grid-row-start: #{$r};  
+	// 			grid-column-start: #{$c};  
+	// 		}
+	// 		.cell-end-#{$row}x#{$col}  { 
+	// 			grid-row-end: #{$r}; 	
+	// 			grid-column-end: #{$c};   
+	// 		}
+	// 	}
+	// }
+
+	// @for $row from 1 through Settings.$columns_count  {
+	// 	@for $col from 1 through Settings.$columns_count  {
+	// 		.start-#{$row}x#{$col}  { 
+	// 			grid-row-start: #{$row};  
+	// 			grid-column-start: #{$col};  
+	// 		}
+	// 		.end-#{$row}x#{$col}  { 
+	// 			grid-row-end: #{$row}; 	
+	// 			grid-column-end: #{$col};   
+	// 		}
+	// 	}
+	// }
 
 
-	@for $r from 1 through Settings.$columns_count {
-		.col-#{$r}{ 
-			grid-column-end: span #{$r}; 
-			grid-row-end: span #{$r};
-		}
-		.col-h-#{$r}{ grid-column-end: #{$r};}
-		.col-v-#{$r}{ grid-row-end: #{$r};}
+	
 
-		.start-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
-		.start-h-#{$r}{ grid-column-start: #{$r};}
-		.start-v-#{$r}{ grid-row-start: #{$r};}
+	// @for $r from 1 through Settings.$columns_count {
+	// 	// ! not correct
+	// 	// .col-#{$r}{ 
+	// 	// 	grid-column-end: span #{$r}; 
+	// 	// 	grid-row-end: span #{$r};
+	// 	// }
+	// 	// ! Make css file size smaller
+	// 	// .col-h-#{$r}{ grid-column-end: #{$r};}
+	// 	// .col-v-#{$r}{ grid-row-end: #{$r};}
 
-		.end-#{$r}{ grid-column-end: #{$r};  grid-row-end: #{$r};}
-		.end-h-#{$r}{ grid-column-end: #{$r};}
-		.end-v-#{$r}{ grid-row-end: #{$r};}
+	// 	// .start-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
+	// 	// .start-h-#{$r}{ grid-column-start: #{$r};}
+	// 	// .start-v-#{$r}{ grid-row-start: #{$r};}
+
+	// 	// .end-#{$r}{ grid-column-end: #{$r};  grid-row-end: #{$r};}
+	// 	// .end-h-#{$r}{ grid-column-end: #{$r};}
+	// 	// .end-v-#{$r}{ grid-row-end: #{$r};}
 		
-		.order-#{$r}{ order: #{$r};}
+	// 	//.order-#{$r}{ order: #{$r};}
+	// }
+
+	
+	.grid.merge-last-row {
+		& > *:last-child {
+			grid-column-start: 1;
+			grid-column-end: -1;
+		}
 	}
-
-
+	.grid.merge-last-col {
+		& > *:last-child {
+			grid-row-start: 1;
+			grid-row-end: -1;
+		}
+	}
+	
 
 	//! ====   ITEMS POSITION   ==== !//
 	//* How to use:  .items-[start|end|center|stretch]

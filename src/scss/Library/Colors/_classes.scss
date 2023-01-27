@@ -40,6 +40,8 @@
         .outline-#{$color-name} {
             @include mixins.replace(border, '2px solid $', ($color-name), $important:true);
         }
+
+
         
         // :has(>.txt-#{$color-name}-hover):hover > .bg-#{$color-name}-hover {
         //     @include mixins.bg($color-name);
