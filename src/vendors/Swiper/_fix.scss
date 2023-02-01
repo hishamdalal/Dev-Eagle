@@ -1,4 +1,4 @@
-@use '../Settings/Options';
+@use '../../scss/Settings/Options';
 
 @if Options.deep-get('vendors', 'Swiper', 'css-fix') == true {
     .slider {

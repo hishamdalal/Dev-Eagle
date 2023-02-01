@@ -60,6 +60,18 @@
 
 
 	//! ====   FLEX   ==== !//
+	[class*="flex"] {
+
+		& > .col  { display: flex; }
+			
+		//* How to use: .flex-{$n} -> ($n: 1 to $columns_count)
+		//---------------------------------------------------------------------------------------//
+		@for $i from 1 through Settings.$columns_count  {
+			&> .col-#{$i} { display: flex; flex: #{$i} !important;}
+		}
+	}
+	
+	//------------------------------------------------------------------------------------------//
 	//* How to use:  .d-[flex|flex-col|flex-row]
 	.flex { 
 		&, &-col, &-row {
@@ -93,12 +105,7 @@
 	//* How to use:  .d-grid-[col|row]-{$n} -> {$n: from 1 to $column_count}
 	//------------------------------------------------------------------------------------------//
 
-	// todo: flex-{$size}-{$h}
-	//* How to use: .flex-{$size}-{$n}		->		($n: 1 to $columns_count)
-	//------------------------------------------------------------------------------------------//
-	@for $i from 1 through Settings.$columns_count  {
-		.flex-size-#{$i} {flex: #{$i} !important;}
-	}
+
 
 	//! ====   GRID   ==== !//
 	//* How to use:  .d-[grid|grid-col|grid-row]
@@ -107,6 +114,23 @@
 		display: grid !important; 
 		gap: Settings.$gap;
 		grid-auto-flow: column;
+
+		& > .col  { 
+			display: grid;
+		}
+		
+		@for $i from 1 through Settings.$columns_count  {
+			& > .col-#{$i} {
+				display: grid;
+				grid-column-start: span #{$i};
+				grid-column-end: auto; 
+			}
+			& > .row-#{$i} {
+				display: grid;
+				grid-row-start: span #{$i};
+				grid-row-end: auto; 
+			}
+		}
 	}
 	
 	.grid { 	
@@ -126,16 +150,18 @@
 		// 	}
 		// }
 	}
-	// .rows-$i, .cols-$i instead of .grid-$rowX$col
+	// .rowsnum-$i, .colsnum-$i instead of .grid-$rowX$col
 	@for $i from 1 through Settings.$columns_count  {
-		.rows-#{$i} {
+		.rowsnum-#{$i}, .children-rowsnum-#{$i} > *   {
 			grid-template-rows: repeat(#{$i}, 1fr);
 		}
-		.cols-#{$i} {
+		.colsnum-#{$i}, .children-colsnum-#{$i} > *  {
 			grid-template-columns: repeat(#{$i}, 1fr);
 		}
 	}
-
+	// .\3cols {
+	// 	color: red;
+	// }
 	//* How to use:  .grid-[row|col]-{$num}	->	($num: from 1 to $column_count)
 	//------------------------------------------------------------------------------------------//
 	//! Make css size smaller so i comment the next lines
@@ -151,13 +177,13 @@
 	//? _mixins.scss -> grid-auto($h, $v:'auto')
 	//------------------------------------------------------------------------------------------//
 	@for $i from 1 through Settings.$columns_count  {
-		.d-grid-row {
+		.grid-row {
 			&.grid-#{$i}-auto {
 				grid-template-rows: auto; 
 				grid-template-columns: repeat(#{$i}, 1fr);
 			}
 		}
-		.d-grid-col {
+		.grid-col {
 			.grid-auto-#{$i} {
 				grid-template-columns: auto; 
 				grid-template-rows: repeat(#{$i}, 1fr);
@@ -167,42 +193,46 @@
 
 	//! ====   POSITION | MERGE | ORDER   ==== !//
 
-	[class^="d-grid-"] > div,
-	[class^="d-grid-"] > section,
-	[class^="d-grid-"] > aside,
-	[class^="d-grid-"] > span,
-	[class^="d-grid-"] > li,
-	[class^="d-grid-"] > a,
-	[class^="d-flex-"] > div,
-	[class^="d-flex-"] > section,
-	[class^="d-flex-"] > aside,
-	[class^="d-flex-"] > span,
-	[class^="d-flex-"] > li,
-	[class^="d-flex-"] > a
-	{
+	[class*="grid-"] > div,
+	[class*="grid-"] > section,
+	[class*="grid-"] > aside,
+	[class*="grid-"] > span,
+	[class*="grid-"] > li,
+	[class*="grid-"] > a {
 		order: 999999;
+		display: grid;
 	}
 
-	// todo: what is this?
-	//! ====   =====!!!=====   ==== !//
-	.col  { grid-column-end: auto; }
+	[class*="flex-"] > div,
+	[class*="flex-"] > section,
+	[class*="flex-"] > aside,
+	[class*="flex-"] > span,
+	[class*="flex-"] > li,
+	[class*="flex-"] > a
+	{
+		order: 999999;
+		display: flex;
+	}
 
-	//* How to use:  .[col|start|end|start-v|end-v|order]-{$s} -> ($s: from 1 to $column_count)
-	//------------------------------------------------------------------------------------------//
-	@for $i from 1 through Settings.$columns_count  {
-		.col-#{$i}  		{ grid-column-end: span #{$i}; }
-		.col-start-#{$i}    { grid-column-start: #{$i}; }
-		.col-end-#{$i}    	{ grid-column-end: #{$i}; }
-
-		.row-#{$i}			{ grid-row-end: span #{$i}; }
-		.row-start-#{$i}  	{ grid-row-start: #{$i}; }
-		.row-end-#{$i}    	{ grid-row-end: #{$i}; }
-		
-		.order-#{$i}		{ order: #{$i};}
+	[class*="grid"]{
+		@for $i from 1 through Settings.$columns_count  {
+			//.col,  [class*="col-"]:has(:nth-of-type(#{$i})) {
+			*:nth-of-type(#{$i}) {
+				order: #{$i};
+			}
+			// [class*="flex"] > [class*="col-"]:nth-of-type(#{$i}) {
+			// 	display: flex;
+			// 	order: #{$i};
+			// }
+			// [class*="grid"] > [class*="col-"]:nth-of-type(#{$i}) {
+			// 	display: grid;
+			// 	order: #{$i};
+			// }
+		}
 	}
 
 	//! not correct
-	//* How to use:  .col-{$row}x{$col} 	-> {$row=start, $col=end, $row, $col: from 1 to $column_count)
+	//* How to use:  .cell-{$row}x{$col} 	-> {$row=start, $col=end, $row, $col: from 1 to $column_count)
 	//? _mixins.scss -> col-table($h, $v)
 	//------------------------------------------------------------------------------------------//
 	// @for $start from 1 through Settings.$columns_count  {
@@ -215,6 +245,17 @@
 	// }
 
 
+	//* How to use:  .[col|start|end|start-v|end-v|order]-{$s} -> ($s: from 1 to $column_count)
+	//------------------------------------------------------------------------------------------//
+	@for $i from 1 through Settings.$columns_count  {
+		.col-start-#{$i}    { grid-column-start: #{$i}; }
+		.col-end-#{$i}    	{ grid-column-end: #{$i}; }
+
+		.row-start-#{$i}  	{ grid-row-start: #{$i}; }
+		.row-end-#{$i}    	{ grid-row-end: #{$i}; }
+		
+		.order-#{$i}		{ order: #{$i} !important;}
+	}
 
 
 	//! ====   MERGE   ==== !//
@@ -223,21 +264,41 @@
 	// .[colspan|rowspan]-$start:$end
 	//------------------------------------------------------------------------------------------//
 	@for $start from 1 through Settings.$columns_count  {
+		.colspan-#{$start} 		{ grid-column-start: span #{$start}; }
+		.rowspan-#{$start}		{ grid-row-start: span #{$start}; }
+
 		@for $end from 1 through Settings.$columns_count  {
-			.colspan-#{$start}\:#{$end}, .h-#{$start}\:#{$end} {
+			.colspan-#{$start}\:#{$end} {
 				grid-column: #{$start} / #{$end};
 			}
-			.rowspan-#{$start}\:#{$end}, .v-#{$start}\:#{$end} {
+			.rowspan-#{$start}\:#{$end} {
 				grid-row: #{$start} / #{$end};
 			}
 		}
-		.colspan-#{$start}\:end, .h-#{$start}\:end {
+
+		.colspan-#{$start}\:end {
 			grid-column: #{$start} / #{-1};
 		}
-		.rowspan-#{$start}\:end, .v-#{$start}\:end {
+		.rowspan-#{$start}\:end {
 			grid-row: #{$start} / #{-1};
 		}
 	}	
+
+	//* How to use: .grid-h-{$start}/{$end}
+	//------------------------------------------------------------------------------------------//
+	@for $start from 1 through Settings.$columns_count  {
+		@for $end from 1 through Settings.$columns_count  {
+
+			.grid-h-#{$start}\/#{$end} {
+				&, &>* { display: grid; }
+        		grid-template-columns: #{$start}fr #{$end}fr;
+    		}
+			.grid-v-#{$start}\/#{$end} {
+				&, &>* { display: grid; }
+				grid-template-columns: #{$start}fr #{$end}fr;
+    		}
+    	}
+    }
 
 	//* How to use:  .col-[start|end]-{$row}x{$col}		-> ($row and $col: from 1 to $column_count}
 	//------------------------------------------------------------------------------------------//
@@ -324,23 +385,23 @@
 		//.items-stretch
 		&-stretch {place-items: stretch; place-content: stretch;}
 
-		//.items-h-start
-		&-h-start {justify-content: start;}
-		//.items-h-end
-		&-h-end {justify-content: end;}
-		//.items-h-center
-		&-h-center {justify-content: center;}
-		//.items-h-stretch
-		&-h-stretch {justify-content: stretch;}
+		//.items-start-h
+		&-start-h {justify-content: start;}
+		//.items-end-h
+		&-end-h {justify-content: end;}
+		//.items-center-h
+		&-center-h {justify-content: center;}
+		//.items-stretch-h
+		&-stretch-h {justify-content: stretch;}
 		
-		//.items-v-start
-		&-v-start {align-items: start;}
-		//.items-v-end
-		&-v-end {align-items: end;}
-		//.items-v-center
-		&-v-center {align-items: center;}
-		//.items-v-stretch
-		&-v-stretch {align-items: stretch;}
+		//.items-start-v
+		&-start-v {align-items: start;}
+		//.items-end-v
+		&-end-v {align-items: end;}
+		//.items-center-v
+		&-center-v {align-items: center;}
+		//.items-stretch-v
+		&-stretch-v {align-items: stretch;}
 		
 	}
 
@@ -359,23 +420,23 @@
 		//.self-stretch
 		&-stretch {place-self: stretch; place-content: stretch;}
 
-		//.self-h-start
-		&-h-start {justify-self: start;}
-		//.self-h-end
-		&-h-end {justify-self: end;}
-		//.self-h-center
-		&-h-center {justify-self: center;}
-		//.self-h-stretch
-		&-h-stretch {justify-self: stretch;}
+		//.self-start-h
+		&-start-h {justify-self: start;}
+		//.self-end-h
+		&-end-h {justify-self: end;}
+		//.self-center-h
+		&-center-h {justify-self: center;}
+		//.self-stretch-h
+		&-stretch-h {justify-self: stretch;}
 		
-		//.self-v-start
-		&-v-start {align-self: start;}
-		//.self-v-end
-		&-v-end {align-self: end;}
-		//.self-v-center
-		&-v-center {align-self: center;}
-		//.self-v-stretch
-		&-v-stretch {align-self: stretch;}	
+		//.self-start-v
+		&-start-v {align-self: start;}
+		//.self-end-v
+		&-end-v {align-self: end;}
+		//.self-center-v
+		&-center-v {align-self: center;}
+		//.self-stretch-v
+		&-stretch-v {align-self: stretch;}	
 	}
 
 	//! ====   CONTENT POSITION   ==== !//
@@ -400,44 +461,37 @@
 		&-evenly {place-content: space-evenly;}
 
 
-		//.content-h-start
-		&-h-start {justify-content: start;}
-		//.content-h-end
-		&-h-end {justify-content: end;}
-		//.content-h-center
-		&-h-center {justify-content: center;}
-		//.content-h-stretch
-		&-h-stretch {justify-content: stretch;}
-		//.content-h-around
-		&-h-around {justify-content: space-around;}
-		//.content-h-between
-		&-h-between {justify-content: space-between;}
-		//.content-h-evenly
-		&-h-evenly {justify-content: space-evenly;}
+		//.content-start-h
+		&-start-h {justify-content: start;}
+		//.content-end-h
+		&-end-h {justify-content: end;}
+		//.content-center-h
+		&-center-h {justify-content: center;}
+		//.content-stretch-h
+		&-stretch-h {justify-content: stretch;}
+		//.content-around-h
+		&-around-h {justify-content: space-around;}
+		//.content-between-h
+		&-between-h {justify-content: space-between;}
+		//.content-evenly-h
+		&-evenly-h {justify-content: space-evenly;}
 		
-		//.content-v-start
-		&-v-start {align-content: start;}
-		//.content-v-end
-		&-v-end {align-content: end;}
-		//.content-v-center
-		&-v-center {align-content: center;}
-		//.content-v-stretch
-		&-v-stretch {align-content: stretch;}
-		//.content-v-around
-		&-v-around {align-content: space-around;}
-		//.content-v-between
-		&-v-between {align-content: space-between;}
-		//.content-v-evenly
-		&-v-evenly {align-content: space-evenly;}
+		//.content-start-v
+		&-start-v {align-content: start;}
+		//.content-end-v
+		&-end-v {align-content: end;}
+		//.content-center-v
+		&-center-v {align-content: center;}
+		//.content-stretch-v
+		&-stretch-v {align-content: stretch;}
+		//.content-around-v
+		&-around-v {align-content: space-around;}
+		//.content-between-v
+		&-between-v {align-content: space-between;}
+		//.content-evenly-v
+		&-evenly-v {align-content: space-evenly;}
 
 	}
-
-	//! ====   TEXT   ==== !//
-	//------------------------------------------------------------------------------------------//
-	.text-center { text-align: center;}
-	.text-left { text-align: left;}
-	.text-rigth { text-align: right;}
-	.text-justify { text-align: justify;}
 
 	//----------------------------------
 	.center-children {
@@ -446,10 +500,10 @@
 			align-items: center;
 			justify-content: center;
 		}
-		#{&}-v {
+		&-v {
 			align-items: center;
 		}
-		#{&}-h {
+		&-h {
 			justify-content: center;
 		}
 	}
@@ -476,6 +530,15 @@
 	}
 
 
+	
+	//! ====   TEXT   ==== !//
+	//------------------------------------------------------------------------------------------//
+	.text-center { text-align: center;}
+	.text-left { text-align: left;}
+	.text-rigth { text-align: right;}
+	.text-justify { text-align: justify;}
+
+	
 	// SPACING [padding|margin|gap]
 	//------------------------------------------------------------------------------------------//
 
@@ -485,23 +548,7 @@
 	}
 
 
-	// aspect-ration
-
-	.aspect-ratio {
-		aspect-ratio: 1;
-	}
-	.aspect-ratio-narrow {
-		aspect-ratio: 4/3;
-	}
-	.aspect-ratio-wide {
-		aspect-ratio: 16/9;
-	}
-	.aspect-ratio-narrow-v {
-		aspect-ratio: 3/4;
-	}
-	.aspect-ratio-wide-v {
-		aspect-ratio: 9/16;
-	}
+	//#################################################
 
 
 
@@ -561,5 +608,8 @@
 		margin: 0 auto;	
 	} */
 
-//@use './classes';
+	//@use './classes';
+
+
+
 }

@@ -1,57 +1,64 @@
-@use '../Library/Colors/mixins' as Colors;
+@use '../Library/Colors/mixins'as Colors;
 @use '../Settings/borders';
+@use '../Settings/Options';
 
-$border-width: borders.get(width, thin);
+
+@if Options.get('forms', 'classes') {
+    $border-width: borders.get(width, thin);
 
 
-.dropdown-button {
-    position: relative;
+    .dropdown-button {
+        position: relative;
 
-    .dropdown-menu {
-        list-style: none;
-        position: absolute;
-        inset-inline-start: 0;
-        margin-block-start: .3rem;
-        border-radius: .4rem;
-        width: max-content;
-        
-        @include Colors.bg(light);
-        @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
+        .dropdown-menu {
+            list-style: none;
+            position: absolute;
+            inset-inline-start: 0;
+            margin-block-start: .3rem;
+            border-radius: .4rem;
+            width: max-content;
 
-        display: none;
+            @include Colors.bg(light);
+            @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
 
-        li {
-            display: grid;
-        }
-        a {
-            display: block;
-            padding: .2rem .6rem;
-            &:hover {
-                @include Colors.bg(gray, (lighten:-1));
+            display: none;
+
+            li {
+                display: grid;
+            }
+
+            a {
+                display: block;
+                padding: .2rem .6rem;
+
+                &:hover {
+                    @include Colors.bg(gray, (lighten:-1));
+                }
             }
         }
+
+        .dropdown-menu-end {
+            inset-inline-end: 0;
+            inset-inline-start: auto;
+        }
+
+
     }
 
-    .dropdown-menu-end {
-        inset-inline-end: 0; 
-        inset-inline-start: auto; 
-    }
+    .dropdown-toggle {
+        cursor: pointer;
+        display: flex;
+        gap: .2rem;
 
+        &::after {
+            content: '\f0d7';
+            font-family: fontAwesome;
+            //color: currentColor;
+            //filter: invert(1);
+        }
 
-}
-
-.dropdown-toggle {
-    cursor: pointer;
-    display: flex;
-    gap: .2rem;
-    
-    &::after {
-        content: '\f0d7';
-        font-family: fontAwesome;
-        //color: currentColor;
-        //filter: invert(1);
-    }    
-    &:focus-within + .dropdown-menu {
-        display: block;
+        &:focus-within+.dropdown-menu {
+            display: block;
+        }
     }
 }

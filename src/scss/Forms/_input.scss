@@ -1,46 +1,48 @@
 @use '../Library/Colors/mixins'as Colors;
 @use '../Library/Fonts/mixins'as Fonts;
 @use '../Settings/borders';
+@use '../Settings/Options';
 
-$border-width: borders.get(width, thin);
+@if Options.get('forms', 'classes') {
+    $border-width: borders.get(width, thin);
 
-.input,
-.label {
-    @include Fonts.family(hero);
-    @include Fonts.size(small);
-    @include Colors.txt(dark, (lighten:2));
-}
-
-.input {
-    appearance: none;
-    border-radius: .3rem;
-    padding: .3rem .5rem;
-
-    @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
-    @include Colors.bg(light);
-
-
-
-
-
-    &:focus {
-        @include Colors.set(border-color, (primary));
-        @include Colors.bg(gray, (lighten:5));
+    input,
+    label {
+        @include Fonts.family(hero);
+        @include Fonts.size(small);
+        @include Colors.txt(dark, (lighten:2));
     }
 
-    //&:is([type="text"], [type="email"], [type="password"], [type="number"]) {}
+    input {
+        appearance: none;
+        border-radius: .3rem;
+        padding: .3rem .5rem;
+
+        @include Colors.replace(border, '#{$border-width} solid $', ('gray'), (lighten:2));
+        @include Colors.bg(light);
 
 
-    &:disabled {
-        cursor: not-allowed;
-        @include Colors.set(border-color, ('gray'), (lighten:5));
-    }
 
 
 
-    //&:has([type="file"])  {}
+        &:focus {
+            @include Colors.set(border-color, (primary));
+            @include Colors.bg(gray, (lighten:5));
+        }
 
-    /*  &:has([type="file"]) {
+        //&:is([type="text"], [type="email"], [type="password"], [type="number"]) {}
+
+
+        &:disabled {
+            cursor: not-allowed;
+            @include Colors.set(border-color, ('gray'), (lighten:5));
+        }
+
+
+
+        //&:has([type="file"])  {}
+
+        /*  &:has([type="file"]) {
         position: relative;
         padding: 0.3rem 0.5rem;;
         width: 2rem;
@@ -68,111 +70,112 @@ $border-width: borders.get(width, thin);
         
     } */
 
-    &-color {
-        appearance: button;
-        border-radius: .2rem;
-        @include Colors.border('gray', (), '#{$border-width} solid $');
-        width:  1.8rem;
-        height: 1.8rem;
-        padding: .1rem;
-        cursor: pointer;
+        &[type="color"] {
+            appearance: button;
+            border-radius: .2rem;
+            @include Colors.border('gray', (), '#{$border-width} solid $');
+            width: 1.8rem;
+            height: 1.8rem;
+            padding: .1rem;
+            cursor: pointer;
 
-        &:hover {
-            @include Colors.set(border-color, primary);
+            &:hover {
+                @include Colors.set(border-color, primary);
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+                @include Colors.set(border-color, ('gray'), (darken:2));
+                @include Colors.bg('gray')
+            }
         }
-        &:disabled {
-            cursor: not-allowed;
-            @include Colors.set(border-color, ('gray'), (darken:2));
-            @include Colors.bg('gray')
 
-        }
-    }
-}
-
-
-.label {
-    word-break: keep-all;
-    white-space: nowrap;
-    padding-inline: .3rem;
-}
-
-
-input[type="file"] {
-    margin: 0;
-    padding: 0rem 0rem;
-    overflow: hidden;
-    border-radius: .2rem;
-    outline: none;
-    cursor: pointer;
-    @include Colors.bg(light);
-    appearance: textfield;
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-
-    &:visited,
-    &:hover,
-    &:focus,
-    &:active {
-        @include Colors.bg(gray, (lighten:5));
     }
 
-    &:disabled {
-        border: 2px solid #bbb;
-        @include Colors.bg(gray, (lighten:4));
-        cursor: not-allowed;
 
-        &:hover {
-            @include Colors.bg(gray, (lighten:3));
-            /* disabled-readonly buttons should be grey */
-        }
-    }
-
-}
-
-//? can't extend in Pseudo-classes, so i use @each 
-
-$vendors: ('::-ms-browse','::file-selector-button','::-webkit-file-upload-button');
-
-@each $vendor in $vendors{
-    #{$vendor} {
-        display: inline-block;
-        appearance: button;
-        text-align: center;
-        outline: unset;
-        border: unset;
+    label {
+        word-break: keep-all;
         white-space: nowrap;
+        padding-inline-end: .3rem;
+    }
+
+
+    input[type="file"] {
+        margin: 0;
+        padding: 0rem 0rem;
+        overflow: hidden;
+        border-radius: .2rem;
+        outline: none;
         cursor: pointer;
-        
-        @include Colors.bg(gray, (lighten:5));
-    
-        &:hover {
-            @include Colors.bg(gray, (lighten:3));
+        @include Colors.bg(light);
+        appearance: textfield;
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+
+        &:visited,
+        &:hover,
+        &:focus,
+        &:active {
+            @include Colors.bg(gray, (lighten:5));
+        }
+
+        &:disabled {
+            border: 2px solid #bbb;
+            @include Colors.bg(gray, (lighten:4));
+            cursor: not-allowed;
+
+            &:hover {
+                @include Colors.bg(gray, (lighten:3));
+                /* disabled-readonly buttons should be grey */
+            }
+        }
+
+    }
+
+    //? can't extend in Pseudo-classes, so i use @each 
+
+    $vendors: ('::-ms-browse', '::file-selector-button', '::-webkit-file-upload-button');
+
+    @each $vendor in $vendors {
+        #{$vendor} {
+            display: inline-block;
+            appearance: button;
+            text-align: center;
+            outline: unset;
+            border: unset;
+            white-space: nowrap;
+            cursor: pointer;
+
+            @include Colors.bg(gray, (lighten:5));
+
+            &:hover {
+                @include Colors.bg(gray, (lighten:3));
+            }
         }
     }
-}
 
-::-ms-browse {
-    //@extend %file-selector-button;
-    /* IE */
-    margin: 0;
-    padding: .2rem .5rem;
-}
+    ::-ms-browse {
+        //@extend %file-selector-button;
+        /* IE */
+        margin: 0;
+        padding: .2rem .5rem;
+    }
 
-::file-selector-button {
-    //@extend %file-selector-button;
-    /* firefox */
-    margin: 0rem 1rem 0rem 0rem;
-    padding: .18rem .5rem;
-}
+    ::file-selector-button {
+        //@extend %file-selector-button;
+        /* firefox */
+        margin: 0rem 1rem 0rem 0rem;
+        padding: .18rem .5rem;
+    }
 
-::-webkit-file-upload-button {
-    //all:unset;
-    //@extend %file-selector-button;
-    /* chrome and edge */
-    margin: 0rem 1rem 0rem 0rem;
-    padding: .18rem .5rem;
+    ::-webkit-file-upload-button {
+        //all:unset;
+        //@extend %file-selector-button;
+        /* chrome and edge */
+        margin: 0rem 1rem 0rem 0rem;
+        padding: .18rem .5rem;
+    }
 }
-
 
 // todo: Add floating input
 // https://getbootstrap.com/docs/5.3/forms/floating-labels/

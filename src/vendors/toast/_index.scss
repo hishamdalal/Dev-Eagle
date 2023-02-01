@@ -1,0 +1,194 @@
+@use '../../scss/Library/Colors/mixins'as Colors;
+@use '../../scss/Settings/Options';
+
+// Resource
+// https://dev.to/arafat4693/how-to-create-a-toast-notification-in-javascript-261d
+/* Import Google font - Poppins */
+//@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+$btn-types: danger, warning, info, success, accent;
+
+@if Options.deep-get('vendors', 'Toast', 'scss')==true {
+
+    .notifications {
+        position: fixed;
+        top: 30px;
+        inset-inline-end: 20px;
+        z-index: 99;
+
+    }
+
+    .notifications :where(.toast, .column) {
+        display: flex;
+        align-items: center;
+    }
+
+    .notifications .toast {
+        width: 400px;
+        position: relative;
+        overflow: hidden;
+        list-style: none;
+        border-radius: 4px;
+        padding: 16px 17px;
+        margin-bottom: 10px;
+        @include Colors.bg(light);
+        @include Colors.border('gray');
+        justify-content: space-between;
+        animation: show_toast 0.3s ease forwards;
+
+        [dir="rtl"] & {
+            animation: rtl_show_toast 0.3s ease forwards !important;
+        }
+    }
+
+    @keyframes show_toast {
+        0% {
+            transform: translateX(100%);
+        }
+
+        40% {
+            transform: translateX(-5%);
+        }
+
+        80% {
+            transform: translateX(0%);
+        }
+
+        100% {
+            transform: translateX(-10px);
+        }
+    }
+    @keyframes rtl_show_toast {
+        0% {
+            transform: translateX( calc(-100% + 10px) );
+        }
+
+        40% {
+            transform: translateX(5%);
+        }
+
+        80% {
+            transform: translateX(0%);
+        }
+
+        100% {
+            transform: translateX(10px);
+        }
+    }
+
+    .notifications .toast.hide {
+        animation: hide_toast 0.3s ease forwards;
+        [dir="rtl"] & {
+            animation: rtl_hide_toast 0.3s ease forwards;
+        }
+    }
+
+    @keyframes hide_toast {
+        0% {
+            transform: translateX(-10px);
+        }
+
+        40% {
+            transform: translateX(0%);
+        }
+
+        80% {
+            transform: translateX(-5%);
+        }
+
+        100% {
+            transform: translateX(calc(100% + 20px));
+        }
+    }
+
+    @keyframes rtl_hide_toast {
+        0% {
+            transform: translateX(10px);
+        }
+
+        40% {
+            transform: translateX(0%);
+        }
+
+        80% {
+            transform: translateX(5%);
+        }
+
+        100% {
+            transform: translateX(calc(-100% - 20px));
+        }
+    }
+
+    .toast::before {
+        position: absolute;
+        content: "";
+        height: 3px;
+        width: 100%;
+        bottom: 0px;
+        inset-inline-start: 0;
+        animation: progress 5s linear forwards;
+    }
+
+    @keyframes progress {
+        100% {
+            width: 0%;
+        }
+    }
+
+    .toast .column i {
+        font-size: 1.4rem;
+    }
+
+    @each $type in $btn-types {
+        .toast.#{$type}::before,
+        .btn[data-type="#{$type}"] {
+            @include Colors.bg($type);
+        }
+        .toast.#{$type} .column i {
+            @include Colors.txt($type);
+        }
+    }
+
+    .toast .column span {
+        font-size: .9rem;
+        margin-inline-start: 12px;
+    }
+
+    .toast i:last-child {
+        @include Colors.txt('gray');
+        cursor: pointer;
+    }
+
+    .toast i:last-child:hover {
+        @include Colors.txt(dark);
+    }
+
+    // .toast-buttons .btn {
+    //     border: none;
+    //     outline: none;
+    //     cursor: pointer;
+    //     margin: 0 5px;
+    //     @include Colors.txt(light);
+    //     font-size: 1rem;
+    //     padding: 10px 20px;
+    //     border-radius: 4px;
+    // }
+
+    @media screen and (max-width: 530px) {
+        .notifications {
+            width: 95%;
+        }
+
+        .notifications .toast {
+            width: 100%;
+            font-size: 1rem;
+            margin-inline-start: 20px;
+        }
+
+        // .toast-buttons .btn {
+        //     margin: 0 1px;
+        //     font-size: 1.1rem;
+        //     padding: 8px 15px;
+        // }
+    }
+}

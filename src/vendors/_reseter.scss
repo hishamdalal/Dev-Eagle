@@ -1,4 +1,4 @@
-@use '../Settings/Options';
+@use '../scss/Settings/Options';
 
 @if Options.get('vendors', 'reseter') {
 

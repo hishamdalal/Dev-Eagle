@@ -1,4 +1,4 @@
-@use '../Settings/Options';
+@use '../scss/Settings/Options';
 
 @if Options.get('vendors', 'bulma') {
     @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";

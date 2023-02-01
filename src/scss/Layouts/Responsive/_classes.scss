@@ -3,26 +3,10 @@
 @use '../../Library/Breakpoints';
 
 
-@if Options.get('layouts', 'responsive-classes') {
+@if Options.deep-get('layouts', 'responsive', 'classes') {
 
     //! ====   WIDTH    ==== !//
     //* How to use:   w-{$media_query_size}-{1 to $columns_count}
-	//------------------------------------------------------------------------------------------//
-	@each $id, $size in Settings.$media_query_size {
-		$s: 10%;
-		@include Breakpoints.equal-or-more($size) {
-			@for $i from 1 through Settings.$columns_count  {
-				@if $i < Settings.$columns_count - 1 {
-					$s: $i*10%;
-					.w-#{$size}-#{$i*10} {
-						width: #{$s};
-					}
-				}
-			}
-		}
-	}
-
-    //* How to use:   w-{Settings.$media_query_size}-{1 to $columns_count}
 	//------------------------------------------------------------------------------------------//
 	@each $id, $size in Settings.$media_query_size {
 		$s: 10%;
@@ -60,11 +44,11 @@
 
     
 	//! ====   Display   ==== !//
-    //* How to use:  .d-{Settings.$media_query_size}-[none|inline|block|inline-block]
+    //* How to use:  .d-{$media_query_size}-[none|inline|block|inline-block]
 	//------------------------------------------------------------------------------------------//
 
 	@each $s, $size in Settings.$media_query_size {
-		@include Breakpoints.more-than($size) {
+		@include Breakpoints.equal-or-more($size) {
 			
 			.d-#{$size}-none { display: none !important;}	
 			.d-#{$size}-inline { display: inline !important;}	
@@ -82,56 +66,448 @@
 		}
 	}
 
+	//! ====   FLEX   ==== !//
+	[class*="flex"] {
+		@each $s, $size in Settings.$media_query_size {
+			@include Breakpoints.equal-or-more($size) {
+				//* How to use: .flex-{$media-query}-{$n} -> ($n: 1 to $columns_count)
+				//---------------------------------------------------------------------------------------//
+				@for $i from 1 through Settings.$columns_count  {
+					&> .col-#{$size}-#{$i} { display: flex; flex: #{$i} !important;}
+				}
+			}
+		}
+	}
+	//------------------------------------------------------------------------------------------//
+	//* How to use:  .d-[flex|flex-col|flex-row]
+	@each $s, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-flex { 
+				&, &-col, &-row {
+					display: flex !important; 
+					gap: Settings.$gap;
+					align-items: stretch;
+				}	
+				flex-direction: row;
+
+				&-col { flex-direction: column;}	
+				&-row { flex-direction: row;}	
+			}
+
+			.#{$size}-flex-auto > * {
+				flex: 0 0 auto;
+				width: auto;
+			}
+
+			.flex-#{$size}-equal > div,
+			.flex-#{$size}-equal > section,
+			.flex-#{$size}-equal > aside,
+			.flex-#{$size}-equal > span,
+			.flex-#{$size}-equal > li,
+			.flex-#{$size}-equal > a
+			{
+				flex: 1;
+			}
+		}
+	}
+
+	//! ====   GRID   ==== !//
+	//* How to use:  .d-[grid|grid-col|grid-row]
+	//------------------------------------------------------------------------------------------//
+	@each $s, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			[class*="grid"] {
+
+				@for $i from 1 through Settings.$columns_count  {
+					& > .col-#{$size}-#{$i} {
+						display: grid;
+						grid-column-start: span #{$i};
+						grid-column-end: auto; 
+					}
+				}
+			}
+			
+			.#{$size}-grid { 	
+				&-col { grid-auto-flow: column;}	
+				&-row { grid-auto-flow: row;}	
+			}			
+		}
+	}
+
+
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			// .rowsnum-$i, .colsnum-$i instead of .grid-$rowX$col
+			@for $i from 1 through Settings.$columns_count  {
+				.#{$size}-rowsnum-#{$i}, .#{$size}-children-rowsnum-#{$i} > *   {
+					grid-template-rows: repeat(#{$i}, 1fr);
+				}
+				.#{$size}-colsnum-#{$i}, .#{$size}-children-colsnum-#{$i} > *  {
+					grid-template-columns: repeat(#{$i}, 1fr);
+				}
+			}
+		}
+	}
+
+	//! ====   GRID AUTO   ==== !//
+	//* How to use:  .grid-{row: from 1 to $column_count}-auto
+	//* How to use:  .grid-auto-{col: from 1 to $column_count}
+	//? _mixins.scss -> grid-auto($h, $v:'auto')
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			@for $i from 1 through Settings.$columns_count  {
+				.grid-row {
+					&.#{$size}-grid-#{$i}-auto {
+						grid-template-rows: auto; 
+						grid-template-columns: repeat(#{$i}, 1fr);
+					}
+				}
+				.grid-col {
+					.#{$size}-grid-auto-#{$i} {
+						grid-template-columns: auto; 
+						grid-template-rows: repeat(#{$i}, 1fr);
+					}
+				}
+			}
+
+		}
+	}
+
 	//! ====   POSITION | MERGE | ORDER   ==== !//
+
+	// @each $s, $size in Settings.$media_query_size {
+	// 	@include Breakpoints.equal-or-more($size) {
+	// 		@for $i from 1 through Settings.$columns_count  {
+	// 			.#{$size}-col:nth-of-type(#{$i}) {
+	// 				order: #{$i};
+	// 			}		
+	// 		}
+	// 	}
+	// }
+
+
 	//* How to use:  .container-{$breakpoint}-{$width}					-> ($width: 1 to $column_count)
 	//* How to use:  .[col|start|end|order]-{$breakpoint}-{$width}		-> ($width: 1 to $column_count)
 	//* How to use:  .[col|start|end]-[h|v]-{$breakpoint}-{$width}		-> ($width: 1 to $column_count)
 	//===============================================
 
 	@each $x, $size in Settings.$media_query_size {
-		//$s: $i;
 		@include Breakpoints.equal-or-more($size) {
-			//@warn $size;
+			@for $i from 1 through Settings.$columns_count {
 
-			@for $r from 1 through Settings.$columns_count {
-				.container-#{$size}-#{$r}{ 
-					padding-left: #{$r}rem; 
-					padding-right: #{$r}rem; 
-					margin: 0 auto;
-				}
-				.col-#{$size}-#{$r}{ grid-column-end: span #{$r}; grid-row-end: span #{$r};}
-				.col-h-#{$size}-#{$r}{ grid-column-end: span #{$r};}
-				.col-v-#{$size}-#{$r}{ grid-row-end: span #{$r};}
+				// .col-#{$size}-#{$r}{ grid-column-end: span #{$r}; grid-row-end: span #{$r};}
+				// .col-h-#{$size}-#{$r}{ grid-column-end: span #{$r};}
+				// .col-v-#{$size}-#{$r}{ grid-row-end: span #{$r};}
 
-				.start-#{$size}-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
-				.start-h-#{$size}-#{$r}{ grid-column-start: #{$r};}
-				.start-v-#{$size}-#{$r}{ grid-row-start: #{$r};}
+				// .start-#{$size}-#{$r}{ grid-column-start: #{$r}; grid-row-start: #{$r};}
+				// .start-h-#{$size}-#{$r}{ grid-column-start: #{$r};}
+				// .start-v-#{$size}-#{$r}{ grid-row-start: #{$r};}
 
-				.end-#{$size}-#{$r}{ grid-column-end: #{$r};}
-				.end-h-#{$size}-#{$r}{ grid-column-end: #{$r};}
-				.end-v-#{$size}-#{$r}{ grid-row-end: #{$r};}
+				// .end-#{$size}-#{$r}{ grid-column-end: #{$r};}
+				// .end-h-#{$size}-#{$r}{ grid-column-end: #{$r};}
+				// .end-v-#{$size}-#{$r}{ grid-row-end: #{$r};}
 
-				.order-#{$size}-#{$r}{ order: #{$r};}
+				// .order-#{$size}-#{$r}{ order: #{$r};}
+				.#{$size}-col-start-#{$i}    { grid-column-start: #{$i}; }
+				.#{$size}-col-end-#{$i}    	{ grid-column-end: #{$i}; }
+		
+				.#{$size}-row-start-#{$i}  	{ grid-row-start: #{$i}; }
+				.#{$size}-row-end-#{$i}    	{ grid-row-end: #{$i}; }
+				
+				.#{$size}-order-#{$i}		{ order: #{$i} !important;}
+
 			}
 		}
+	}
 
 		
+	// @include Breakpoints.equal-or-more($size) {
+	// 	@for $row from 1 through Settings.$columns_count  {
+	// 		@for $col from 1 through Settings.$columns_count  {
+	// 			.col-start-#{$size}-#{$row}x#{$col}  { 
+	// 				grid-row-start: #{$row};  
+	// 				grid-column-start: #{$col};  
+	// 			}
+	// 			.col-end-#{$size}-#{$row}x#{$col}  { 
+	// 				grid-row-end: #{$row}; 	
+	// 				grid-column-end: #{$col};   
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	//! ====   MERGE   ==== !//
+	//? How to use:
+	// .[colspan|rowspan]-$start:$end
+	@each $x, $size in Settings.$media_query_size {
 		@include Breakpoints.equal-or-more($size) {
-			@for $row from 1 through Settings.$columns_count  {
-				@for $col from 1 through Settings.$columns_count  {
-					.col-start-#{$size}-#{$row}x#{$col}  { 
-						grid-row-start: #{$row};  
-						grid-column-start: #{$col};  
+
+			@for $start from 1 through Settings.$columns_count  {
+				.#{$size}-colspan-#{$start} { grid-column-start: span #{$start}; }
+				.#{$size}-rowspan-#{$start} { grid-row-start: span #{$start}; }
+				
+				@for $end from 1 through Settings.$columns_count  {
+					.#{$size}-colspan-#{$start}\:#{$end} {
+						grid-column: #{$start} / #{$end};
 					}
-					.col-end-#{$size}-#{$row}x#{$col}  { 
-						grid-row-end: #{$row}; 	
-						grid-column-end: #{$col};   
+					.#{$size}-rowspan-#{$start}\:#{$end} {
+						grid-row: #{$start} / #{$end};
+					}
+				}
+				.#{$size}-colspan-#{$start}\:end {
+					grid-column: #{$start} / #{-1};
+				}
+				.#{$size}-rowspan-#{$start}\:end {
+					grid-row: #{$start} / #{-1};
+				}
+			}	
+
+		}	
+	}	
+
+	//* How to use: .grid-h-{$start}/{$end}
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+
+			@for $start from 1 through Settings.$columns_count  {
+				@for $end from 1 through Settings.$columns_count  {
+					.#{$size}-grid-h-#{$start}\/#{$end}  { 
+						grid-template-columns: #{$start}fr #{$end}fr;  
+					}
+					.#{$size}-grid-v-#{$start}\/#{$end}  { 
+						grid-template-rows: #{$start}fr #{$end}fr;  
 					}
 				}
 			}
+
 		}
 
 	}
 
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.grid.#{$size}-merge-last-row {
+				& > *:last-child {
+					grid-column-start: 1;
+					grid-column-end: -1;
+				}
+			}
+			.grid.#{$size}-merge-last-col {
+				& > *:last-child {
+					grid-row-start: 1;
+					grid-row-end: -1;
+				}
+			}
 
+		}
+	}
+
+
+
+	//! ====   ITEMS POSITION   ==== !//
+	//* How to use:  .items-[start|end|center|stretch]
+	//* How to use:  .items-[h|v]-[start|end|center|stretch]
+	//------------------------------------------------------------------------------------------//
+
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-items {
+				//.items-start
+				&-start {place-items: start; place-content: start;}
+				//.items-end
+				&-end {place-items: end; place-content: end;}
+				//.items-center
+				&-center {place-items: center; place-content: center;}
+				//.items-stretch
+				&-stretch {place-items: stretch; place-content: stretch;}
+
+				//.items-start-h
+				&-start-h {justify-content: start;}
+				//.items-end-h
+				&-end-h {justify-content: end;}
+				//.items-center-h
+				&-center-h {justify-content: center;}
+				//.items-stretch-h
+				&-stretch-h {justify-content: stretch;}
+				
+				//.items-start-v
+				&-start-v {align-items: start;}
+				//.items-end-v
+				&-end-v {align-items: end;}
+				//.items-center-v
+				&-center-v {align-items: center;}
+				//.items-stretch-v
+				&-stretch-v {align-items: stretch;}
+			}
+
+		}
+	}
+
+
+	//! ====   ITEM POSITION   ==== !//
+	//* How to use:  .self-[start|end|center|stretch]
+	//* How to use:  .self-[h|v]-[start|end|center|stretch]
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-self {
+				//.self-start
+				&-start {place-self: start; place-content: start; }
+				//.self-end
+				&-end {place-self: end; place-content: end;}
+				//.self-center
+				&-center {place-self: center; place-content: center;}
+				//.self-stretch
+				&-stretch {place-self: stretch; place-content: stretch;}
+		
+				//.self-start-h
+				&-start-h {justify-self: start;}
+				//.self-end-h
+				&-end-h {justify-self: end;}
+				//.self-center-h
+				&-center-h {justify-self: center;}
+				//.self-stretch-h
+				&-stretch-h {justify-self: stretch;}
+				
+				//.self-start-v
+				&-start-v {align-self: start;}
+				//.self-end-v
+				&-end-v {align-self: end;}
+				//.self-center-v
+				&-center-v {align-self: center;}
+				//.self-stretch-v
+				&-stretch-v {align-self: stretch;}	
+			}
+		}
+	}
+
+	//! ====   CONTENT POSITION   ==== !//
+	//* How to use:  .content-[start|end|center|stretch|around|between|evenly]
+	//* How to use:  .content-[h|v]-[start|end|center|stretch|around|between|evenly]
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-content {
+				//.content-start
+				&-start {place-content: start; place-items: start; }
+				//.content-end
+				&-end {place-content: end; place-items: end; }
+				//.content-center
+				&-center {place-content: center; place-items: center; }
+				//.content-stretch
+				&-stretch {place-content: stretch; place-items: stretch; }
+				//.content-around
+				&-around {place-content: space-around;}
+				//.content-between
+				&-between {place-content: space-between;}
+				//.content-evenly
+				&-evenly {place-content: space-evenly;}
+		
+		
+				//.content-start-h
+				&-start-h {justify-content: start;}
+				//.content-end-h
+				&-end-h {justify-content: end;}
+				//.content-center-h
+				&-center-h {justify-content: center;}
+				//.content-stretch-h
+				&-stretch-h {justify-content: stretch;}
+				//.content-around-h
+				&-around-h {justify-content: space-around;}
+				//.content-between-h
+				&-between-h {justify-content: space-between;}
+				//.content-evenly-h
+				&-evenly-h {justify-content: space-evenly;}
+				
+				//.content-start-v
+				&-start-v {align-content: start;}
+				//.content-end-v
+				&-end-v {align-content: end;}
+				//.content-center-v
+				&-center-v {align-content: center;}
+				//.content-stretch-v
+				&-stretch-v {align-content: stretch;}
+				//.content-around-v
+				&-around-v {align-content: space-around;}
+				//.content-between-v
+				&-between-v {align-content: space-between;}
+				//.content-evenly-v
+				&-evenly-v {align-content: space-evenly;}
+		
+			}
+
+		}
+	}
+
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-center-children {
+				//display: flex;
+				& {
+					align-items: center;
+					justify-content: center;
+				}
+				&-v {
+					align-items: center;
+				}
+				&-h {
+					justify-content: center;
+				}
+			}
+
+		}
+	}
+
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-center-all { 
+				&, * {
+					//display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+			}
+			.#{$size}-center-all-v {
+				&, * {
+					//display: flex;
+					align-items: center;
+				}
+			}
+			.#{$size}-center-all-h {
+				&, * {
+					//display: flex;
+					justify-content: center;
+				}
+			}
+
+		}
+	}
+
+	//! ====   TEXT   ==== !//
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-text-center { text-align: center;}
+			.#{$size}-text-left { text-align: left;}
+			.#{$size}-text-rigth { text-align: right;}
+			.#{$size}-text-justify { text-align: justify;}	
+
+		}
+	}
+
+	//! ====   GAP   ==== !//
+	//------------------------------------------------------------------------------------------//
+	@each $x, $size in Settings.$media_query_size {
+		@include Breakpoints.equal-or-more($size) {
+			.#{$size}-gap {
+				gap: calc(Settings.$gap * $x);
+			}
+
+		}
+	}
 }

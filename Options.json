@@ -1,90 +1,118 @@
 {
     "animation": {
-        "classes": "false"
+        "classes": false
     },
 
     "breakpoints": {
-        "root": "false",
-        "debug": "true"
+        "root": false,
+        "debug": true
     },
 
     "colors": {
-        "root": "true",
-        "classes": "true"
+        "root": true,
+        "classes": true
     },
 
     "components": {
         "NavToggle": {
-            "js":"true"
+            "js":true
         },
         "DarkMode": {
-            "js": "true"
+            "js": true
         },
         "Accordion": {
-            "classes": "true",
-            "js": "true"
+            "classes": true,
+            "js": true
         },
         "BackToTop": {
-            "classes": "true",
-            "js": "true"
+            "classes": true,
+            "js": true
         },
         "Tabs": {
-            "classes": "true",
-            "js": "true"
+            "classes": true,
+            "js": true
         },
         "Buttons": {
-            "classes": "true",
+            "classes": true,
             "ButtonsGroup": {
-                "classes": "true"
+                "classes": true
             }
         },
         "Cards": {
-            "classes": "true"
+            "classes": true
         },
         "Borders": {
-            "classes": "true"
+            "classes": true
         }
     },
 
     "fonts": {
-        "root": "true",
-        "responsive": "false",
-        "root-collection": "false",
-        "classes": "true",
-        "classes-collection": "true"
+        "root": true,
+        "classes": true,
+        "responsive": {
+            "root": false,
+            "classes": false
+        },
+        "collection": {
+            "root": false,
+            "classes": true
+        }
+    },
+
+    "forms": {
+        "classes": true,
+        "responsive": {
+            "classes": true
+        }
     },
 
     "init": {
-        "root": "true",
-        "classes": "true"
+        "root": true,
+        "classes": true
+    },
+
+    "images": {
+        "classes": true
     },
 
     "layouts": {
-        "classes": "true",
-        "debug": "false",
-        "responsive-classes": "false"
+        "classes": true,
+        "debug": false,
+        "responsive":{
+            "classes": true
+        }
     },
 
     "spacing": {
-        "classes": "true",
-        "responsive": "false",
-        "responsive-classes": "false"
+        "classes": true,
+        "responsive": {
+            "classes": false
+        }
     },
 
     "vendors": {
-        "reseter": "false",
-        "bulma": "false",
-        "googleFonts": "true",
-        "fontAwesome": "true",
+        "reseter": false,
+        "bulma": false,
+        "googleFonts": true,
+        "fontAwesome": true,
         "SweetAlert": {
-            "js": "true"
+            "js": true
         },
-        "EggyJs": {
-            "js": "true"
+        "Toast": {
+            "js": true,
+            "scss": true,
+            "icons" : {
+                "timer":    5000,
+                "success":  "fa-circle-check",
+                "danger":    "fa-circle-xmark",
+                "warning":  "fa-triangle-exclamation",
+                "info":     "fa-circle-info",
+                "accent":   "fa-solid fa-star"
+              }
         },
         "Swiper": {
-            "js": "true",
-            "css-fix": "true"
+            "js": true,
+            "css-fix": true
         }
 
     }

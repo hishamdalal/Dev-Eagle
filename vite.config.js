@@ -64,8 +64,16 @@ module.exports = {
     }),
    
   ],
-  /* server: {
-    port: 8080,
-    hot: true
-  } */
+  server: {
+    proxy: {
+      // string shorthand: http://localhost:5173/foo -> http://localhost:4567/foo
+      //'/MyApp/Dev-Eagle': 'http://127.0.0.1:5173',
+      '/MyApp/Dev-Eagle': 'http://127.0.0.1:80',
+    },
+    //origin: 'http://127.0.0.1:8080',
+    port: 80,
+    hot: true,
+    host: true
+  }
+  
 }

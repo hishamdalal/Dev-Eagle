@@ -1,0 +1,35 @@
+@use '../../Settings/Options';
+@use '../Colors/mixins' as Colors;
+
+//@use './functions';
+
+//! Error: i need breakpoint size..
+
+@if Options.get('images', 'classes') {
+
+    // aspect-ration
+
+    .aspect-ratio {
+        aspect-ratio: 1;
+    }
+    .aspect-ratio-narrow {
+        aspect-ratio: 4/3;
+    }
+    .aspect-ratio-wide {
+        aspect-ratio: 16/9;
+    }
+    .aspect-ratio-narrow-v {
+        aspect-ratio: 3/4;
+    }
+    .aspect-ratio-wide-v {
+        aspect-ratio: 9/16;
+    }
+
+
+    .thumb {
+        @include Colors.bg(light, (lighten:9));
+        @include Colors.border('gray');
+        @include Colors.shadow('gray');
+        border-radius: .3rem;
+    }
+}

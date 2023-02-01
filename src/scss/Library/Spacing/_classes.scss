@@ -1,9 +1,13 @@
 @use '../../Settings/Options';
+@use '../../Settings/spacing';
 @use './mixins';
 
 
 // todo: I don't think responsive spacing is a good idea!
 // I think I'll delete responsive condetion
+
+
+// SPACING [padding|margin|gap]
 
 @if Options.get('spacing', 'classes') {
 	@include mixins.init_spacing(rem, rem);

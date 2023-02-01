@@ -7,7 +7,7 @@
 @use './vars';
 
 
-@if Options.get('fonts', 'responsive') {
+@if Options.deep-get('fonts', 'responsive', 'root') {
     
     :root {
         

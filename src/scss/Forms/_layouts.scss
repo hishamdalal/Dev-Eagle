@@ -1,0 +1,53 @@
+
+@use '../Settings';
+@use '../Settings/Options';
+@use '../Library/Colors';
+@use '../Library/Breakpoints' ;
+//@use '../Library/Spacing';
+@use '../Layouts/mixins';
+
+
+@if Options.get('forms', 'classes') { 
+
+	//* How to use: .grid-h-{$start}/{$end}
+	//------------------------------------------------------------------------------------------//
+	@for $start from 1 through Settings.$columns_count  {
+		@for $end from 1 through Settings.$columns_count  {
+            .form {
+                &-h, &-v {
+                    display: grid;
+
+                    &>div, &>div>* {
+                        display: grid;
+                        grid-auto-flow: column;
+                    }
+                }
+                //@each $x, $size in Settings.$media_query_size {
+                //@include Breakpoints.equal-or-more(md){
+                &-v {
+                    grid-auto-flow: row;
+
+                    .div-#{$start}\/#{$end} {
+                        grid-template-columns: #{$start}fr #{$end}fr;
+                    }
+                    .div-#{$start}\/#{$end} {
+                        grid-template-columns: #{$start}fr #{$end}fr;
+                    }
+                }
+                &-h {
+                    grid-auto-flow: column;
+
+                    .div-#{$start}\/#{$end} {
+                        grid-template-rows: #{$start}fr #{$end}fr;
+                    }
+                    .div-#{$start}\/#{$end} {
+                        grid-template-rows: #{$start}fr #{$end}fr;
+                    }
+                }
+
+            }
+
+    	}
+    }
+
+}

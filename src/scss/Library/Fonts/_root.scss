@@ -37,7 +37,7 @@
 
 }
 
-@if Options.get('fonts', 'root-collection') {
+@if Options.deep-get('fonts', 'collection', 'root') {
     :root {
         // Collection
         @each $font-class, $font-attrs in settings.$collection {

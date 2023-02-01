@@ -7,8 +7,19 @@
 
 //! Error: i need breakpoint size..
 
-@if Options.get('fonts', 'classes') {
+@if Options.deep-get('fonts', 'collection', 'classes') {
+    // Collection
+    @each $font-class, $font-attrs in settings.$collection {
+        .fc-#{$font-class}{
+            @each $attr, $val in $font-attrs {
+                //@warn 'collect', $font-class, $attr, $val;
+                font-#{$attr}: #{$val};
+            }
+        }
+    }
+}
 
+@if Options.get('fonts', 'classes') {
         
         // TODO: Next lines will generate a huge code (53 lines)
         
@@ -41,16 +52,4 @@
         }
 
 
-}
-
-@if Options.get('fonts', 'classes-collection') {
-        // Collection
-        @each $font-class, $font-attrs in settings.$collection {
-            .fc-#{$font-class}{
-                @each $attr, $val in $font-attrs {
-                    //@warn 'collect', $font-class, $attr, $val;
-                    font-#{$attr}: #{$val};
-                }
-            }
-        }
 }

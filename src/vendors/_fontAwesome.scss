@@ -1,5 +1,5 @@
-@use '../Settings/Options';
+@use '../scss/Settings/Options';
 
-@if Options.get('vendors', 'fontAwesome') == true {
+@if Options.get('vendors', 'fontAwesome') {
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
 }

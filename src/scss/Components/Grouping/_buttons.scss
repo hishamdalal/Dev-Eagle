@@ -5,14 +5,21 @@
         display: flex;
         gap: 0.1rem;
 
-        .btn:not(:first-child, :last-child) {
+        .btn {
             border-radius: 0;
         }
+        // .btn:not(:first-child, :last-child) {
+        //     border-radius: 0;
+        // }
         .btn:first-child {
-            border-radius: 1rem 0 0 1rem;
+            //border-radius: 1rem 0 0 1rem;
+            border-start-start-radius: 1rem;
+            border-end-start-radius: 1rem;
         }
         .btn:last-child {
-            border-radius: 0 1rem 1rem 0;
+            //border-radius: 0 1rem 1rem 0;
+            border-end-end-radius: 1rem;
+            border-start-end-radius: 1rem;
         }
     }
 }

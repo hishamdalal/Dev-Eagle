@@ -8,4 +8,8 @@
 
     [class*="flex"], [class*="grid"]  { border: 2px solid yellow; padding: 12px;}
     [class*="row"], [class*="col"] {  border: 1px dotted #00f3ff; padding: 2px;}
+
+}
+.debug, .debug-children > * {
+    outline: 1px solid red;
 }

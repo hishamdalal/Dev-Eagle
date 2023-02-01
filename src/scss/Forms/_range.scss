@@ -1,36 +1,41 @@
-.ranges {
-    &-v,
-    &-h {
-        display: flex;
-        gap: .5rem 1rem;
-    }
-}
+@use '../Settings/Options';
 
-.ranges {
-    &-v {
-        flex-direction: column;
-        justify-content: center;
+@if Options.get('forms', 'classes') {
+    .ranges {
+
+        &-v,
+        &-h {
+            display: flex;
+            gap: .5rem 1rem;
+        }
     }
 
-    &-h {
+    .ranges {
+        &-v {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        &-h {
+            flex-direction: row;
+            align-items: center;
+
+        }
+    }
+
+    .range-item {
+        * {
+            cursor: pointer;
+        }
+
+        display: inline-flex;
         flex-direction: row;
+        gap: .5rem;
         align-items: center;
-
-    }
-}
-
-.range-item {
-    * {
-        cursor: pointer;
     }
 
-    display: inline-flex;
-    flex-direction: row;
-    gap: .5rem;
-    align-items: center;
-}
-
-input.range {
-    //appearance: none;
-    height: 0.2rem;
+    input.range {
+        //appearance: none;
+        height: 0.2rem;
+    }
 }

@@ -44,24 +44,41 @@ $options: (
   ),
   fonts: (
     root: true,
-    responsive: false,
-    root-collection: false,
     classes: true,
-    classes-collection: true
+    responsive: (
+      root: false,
+      classes: false
+    ),
+    collection: (
+      root: false,
+      classes: true
+    )
+  ),
+  forms: (
+    classes: true,
+    responsive: (
+      classes: true
+    )
   ),
   init: (
     root: true,
     classes: true
   ),
+  images: (
+    classes: true
+  ),
   layouts: (
     classes: true,
     debug: false,
-    responsive-classes: false
+    responsive: (
+      classes: true
+    )
   ),
   spacing: (
     classes: true,
-    responsive: false,
-    responsive-classes: false
+    responsive: (
+      classes: false
+    )
   ),
   vendors: (
     reseter: false,
@@ -71,8 +88,17 @@ $options: (
     SweetAlert: (
       js: true
     ),
-    EggyJs: (
-      js: true
+    Toast: (
+      js: true,
+      scss: true,
+      icons: (
+        timer: 5000,
+        success: fa-circle-check,
+        danger: fa-circle-xmark,
+        warning: fa-triangle-exclamation,
+        info: fa-circle-info,
+        accent: fa-solid fa-star
+      )
     ),
     Swiper: (
       js: true,

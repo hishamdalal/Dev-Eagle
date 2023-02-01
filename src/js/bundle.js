@@ -6,13 +6,9 @@ import {NavToggle_Run} from './components/_NavToggle';
 import {Tabs_Run} from './components/_Tabs';
 //import {Slider_Run} from './components/_Slider';
 
-// Vendors:
-// alert
-import {SweetAlert_run} from './Vendors/_SweetAlert';
-// toast
-import {EggyJS_run} from './Vendors/_EggyJS';
-// slider
-import {Swiper_run} from './Vendors/_Swiper';
+// Vendors
+import '../vendors/_index';
+
 
 // Options:
 import Options from '../../Options.json';
@@ -34,16 +30,5 @@ if (Options.components.NavToggle.js) {
 }
 if (Options.components.Tabs.js) {
     Tabs_Run();
-}
-
-// Vendors:
-if (Options.vendors.SweetAlert.js) {
-    SweetAlert_run();
-}
-if (Options.vendors.EggyJs.js) {
-    EggyJS_run();
-}
-if (Options.vendors.Swiper.js) {
-    Swiper_run();
 }
 

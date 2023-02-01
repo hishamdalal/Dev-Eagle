@@ -1,0 +1,21 @@
+
+@use '../../Settings';
+@use '../../Settings/Options';
+@use '../../Library/Colors';
+@use '../../Library/Breakpoints' ;
+//@use '../../Library/Spacing';
+@use '../../Layouts/mixins';
+
+@if Options.deep-get('forms', 'responsive', 'classes') { 
+
+	//* How to use: .grid-h-{$start}/{$end}
+	//------------------------------------------------------------------------------------------//
+    // @each $x, $size in Settings.$media_query_size {
+    //     @include Breakpoints.equal-or-more(md){
+    //         @for $start from 1 through Settings.$columns_count  {
+    //             @for $end from 1 through Settings.$columns_count  {
+    //             }
+    //         }
+    // 	}
+    // }
+}
