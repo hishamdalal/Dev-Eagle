@@ -69,15 +69,9 @@
         }
 
         &:checked {
-            @include Colors.bg(accent, (lighten:3));
+            @include Colors.bg(accent, (lighten:1));
             @include Colors.set(outline-color, accent);
             //background-image: url("data:image/svg+xml,%3Csvg viewbox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0, 4.5 C 0, 0.8100000000000003 0.8100000000000003, 0 4.5, 0 S 9, 0.8100000000000003 9, 4.5 8.19, 9 4.5, 9 0, 8.19 0, 4.5 ' fill='%23ffb200' transform='rotate(0, 100, 100 ) translate(0 0)'%3E%3C/path%3E%3C/svg%3E");
-
-            // &::after {
-            //     content: '\f00c';
-            //     @include Colors.bg(accent);
-            //     @include Colors.txt(light);
-            // }
 
             &+label {
                 @include Colors.txt(accent, (darken:2));
@@ -120,6 +114,15 @@
     input[type="radio"] {
         border-radius: 1rem;
     }
+
+    input.radio, input.checkbox {
+        &:checked {
+            &::after {
+                content: '\f00c';
+                @include Colors.txt(light);
+            }        
+        }
+    }    
 
     input.switch {
         height: 1rem;
@@ -198,7 +201,10 @@
             }
         }
     }
+
 }
+
+
 
 // todo: add checkbox buttons like bootstrap:
 // https://getbootstrap.com/docs/5.3/forms/checks-radios/#toggle-buttons

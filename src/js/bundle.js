@@ -9,6 +9,8 @@ import {Tabs_Run} from './components/_Tabs';
 // Vendors
 import '../vendors/_index';
 
+// Custom Components
+import '../CustomComponents/_index';
 
 // Options:
 import Options from '../../Options.json';

@@ -31,13 +31,15 @@
 @use './Components/Details';
 @use './Components/Borders';
 //@use './Components/Slider';
+@use '../CustomComponents';
 
 
 
 // Todo: Add rtl support -> x-inline-start, x-inline-end
 // todo: Add common css like: .txt-mute, .cursor-pointer, ...ets  
 
-//@include debug.print();
+// @include debug.print();
+
 html {
 	//@include Fonts.size(p); 
 	@include rFonts.size-map($xxxs:.8, $sm:.9, $md:1, $xl:1.2);
@@ -128,6 +130,7 @@ section {
 	left: 0;
 	top: 0;
 	width: 100%;
+	width: 100vw;
 	// i use javascript to make height = page height
 	height: 100%;
 	height: 100vh;
