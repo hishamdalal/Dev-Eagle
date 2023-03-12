@@ -1,0 +1,137 @@
+@use '../../scss/Library/Colors/mixins' as Colors;
+
+$swal-colors: (
+    error: danger,
+    warning: warning,
+    success: success,
+    info: info,
+);
+$swal-global-color: light;
+
+.swal-modal {
+    
+    //@include Colors.replace(border, '4px solid $', (light));
+
+    
+    // @each $color-name, $color-value in $swal-colors {
+    //     .swal-icon--#{$color-name}{
+    //         @include Colors.border($color-value, $prop-string:'4px solid $');
+    //     } 
+    //     .swal-icon--#{$color-name}__body,
+    //     .swal-icon--#{$color-name}__dot{
+    //         @include Colors.bg($color-value);
+    //         @include Colors.border($color-value, $prop-string:'2px solid $');
+    //     }
+    //     .swal-icon--#{$color-name}__line{
+    //         @include Colors.border($color-value, $prop-string:'3px solid $');
+
+    //     }
+
+    //     .swal-icon--#{$color-name}:after, 
+    //     .swal-icon--#{$color-name}:before{
+    //         background-color: transparent;
+    //     }
+        
+    // }
+}
+
+//.swal-icon--#{$color-name}__ring {}
+
+.swal-overlay {
+    inset: unset;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.swal-modal {
+    @include Colors.bg($swal-global-color);
+    @include Colors.border(dark, (lighten:3), $prop-string:'3px solid $');
+}
+
+.swal-text {
+    @include Colors.txt(dark);
+}
+
+.swal-title {
+    @include Colors.txt(dark);
+    @include Colors.replace(box-shadow, '0px 1px 1px $', (dark), (opacity:.21))
+}
+
+.swal-button {
+    @include Colors.txt(light);
+
+    &--confirm, &--roll {
+        @include Colors.bg(primary);
+        
+        &:not([disabled]):hover {
+            @include Colors.bg(primary, (darken:2));
+        }
+    }
+    &--cancel {
+        @include Colors.bg(gray);
+        
+        &:not([disabled]):hover {
+            @include Colors.bg(gray, (darken:2));
+        }
+    }
+}
+
+
+// .swal-icon--success__hide-corners {
+//     background-color: transparent;
+// }
+// .swal-icon--success__line--long,
+// .swal-icon--success__line--tip{
+//     @include Colors.bg('success');
+//     //@include Colors.border('success', (darken:3),$prop-string:'2px solid $');
+// }
+.swal-icon--success__line {
+   //@include Colors.border('success', (opacity:3), $prop-string:'3px solid $');
+   @include Colors.bg('success');
+}
+.swal-icon--success__ring{
+    @include Colors.border('success', (opacity:1), $prop-string:'4px solid $');
+}
+.swal-icon--success__body {
+    @include Colors.bg('success');
+    @include Colors.border('success', $prop-string:'2px solid $');
+
+}
+.swal-icon--success:before,
+.swal-icon--success:after,
+.swal-icon--success__hide-corners {
+    @include Colors.bg($swal-global-color);
+}
+
+// .swal-icon--success {
+//     @include Colors.set(border-color, (success), (opacity:1));
+// }
+
+
+.swal-icon--info:after, .swal-icon--info:before {
+    @include Colors.bg(info);
+}
+.swal-icon--info {
+    @include Colors.border('info', $prop-string:'4px solid $');
+}
+
+
+.swal-icon--warning__body, .swal-icon--warning__dot {
+    @include Colors.bg(warning);
+}
+.swal-icon--warning {
+    @include Colors.border('warning', $prop-string:'4px solid $');
+}
+
+.swal-icon--error__line {
+    @include Colors.bg(danger);
+}
+
+.swal-icon--error {
+    @include Colors.border('danger', $prop-string:'4px solid $');
+
+}

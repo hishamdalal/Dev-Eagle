@@ -226,7 +226,9 @@ section {
 }
 
 #alert {
-
+	// bg-color: 
+	// 	-> 1st line for background color in normal state
+	//  -> 2nd line for background color in hover state
     @include Buttons.btn($hover:( 
     	( background-color: Colors.get(secondary, (lighten:3)) ), 
         ( background-color: Colors.get(secondary, (lighten:3), true) ) 
