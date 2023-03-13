@@ -31,24 +31,22 @@
 	@each $k, $v in meta.keywords($args) {
 		
 		@if($k=='h' or $k=='horizontal') {
-			#{$prop}-right: #{$v}rem;
-			#{$prop}-left: #{$v}rem;
+			#{$prop}-inline: #{$v}rem;
 		}
 		@if($k=='v' or $k=='vertical') {
-			#{$prop}-top: #{$v}rem;
-			#{$prop}-bottom: #{$v}rem;
+			#{$prop}-block: #{$v}rem;
 		}
 		@if($k=='t' or $k=='top') {
-			#{$prop}-top: #{$v}rem;
+			#{$prop}-block-start: #{$v}rem;
 		}
 		@if($k=='b' or $k=='bottom'){
-			#{$prop}-bottom: #{$v}rem;
+			#{$prop}-block-end: #{$v}rem;
 		}
 		@if($k=='r' or $k=='right') {
-			#{$prop}-right: #{$v}rem;
+			#{$prop}-inline-end: #{$v}rem;
 		}
 		@if($k=='l' or $k=='left'){
-			#{$prop}-left: #{$v}rem;
+			#{$prop}-inline-start: #{$v}rem;
 		}
 		@if($k=='all' or $k=='both'){
 			#{$prop}: #{$v}rem;
