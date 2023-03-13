@@ -16,7 +16,7 @@
     justify-content: center;
     position: fixed;
     bottom: 10px;
-    left: 10px;
+    inset-inline-start: 10px;
     width: 2rem;
     height: 2rem;
     @include Colors.txtBg(secondary, light);

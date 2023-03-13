@@ -7,7 +7,7 @@
     .screen-size {
         position: fixed;
         bottom: 1rem;
-        right: 1rem;
+        inset-inline-end: 1rem;
         @include Colors.bg(primary, (opacity: 2));
         @include Colors.txt(dark, (opacity:7));
         @include Colors.border(accent);
