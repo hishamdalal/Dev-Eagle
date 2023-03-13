@@ -55,17 +55,19 @@ export function SweetAlert_run() {
     const danger = document.querySelector('#danger');
     danger.addEventListener('click', function(){
         swal({
-            title: "Congratulation",
-            text: "Hello world!",
+            title: "Oops!",
+            text: "Error!",
             icon: "error",
+            buttons: true,
+            dangerMode: true,
         });
     });
 
     const warning = document.querySelector('#warning');
     warning.addEventListener('click', function(){
         swal({
-            title: "Congratulation",
-            text: "Hello world!",
+            title: "Attention!",
+            text: "Warning!",
             icon: "warning",
         });
     });
@@ -74,7 +76,7 @@ export function SweetAlert_run() {
     success.addEventListener('click', function(){
         swal({
             title: "Congratulation",
-            text: "Hello world!",
+            text: "Success!",
             icon: "success",
         });
     });
@@ -82,7 +84,7 @@ export function SweetAlert_run() {
     const info = document.querySelector('#info');
     info.addEventListener('click', function(){
         swal({
-            text: "Hello world!",
+            text: "Note!",
             icon: "info",
             buttons: {
                 cancel: true,

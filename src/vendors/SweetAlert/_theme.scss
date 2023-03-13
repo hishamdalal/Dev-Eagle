@@ -78,6 +78,9 @@ $swal-global-color: light;
             @include Colors.bg(gray, (darken:2));
         }
     }
+    &--danger {
+        @include Colors.bg(danger);
+    }
 }
 
 
@@ -94,12 +97,15 @@ $swal-global-color: light;
    @include Colors.bg('success');
 }
 .swal-icon--success__ring{
-    @include Colors.border('success', (opacity:1), $prop-string:'4px solid $');
+    @include Colors.border(success, (opacity:1), $prop-string:'4px solid $');
 }
 .swal-icon--success__body {
     @include Colors.bg('success');
     @include Colors.border('success', $prop-string:'2px solid $');
 
+}
+.swal-icon--success {
+    @include Colors.set(border-color, (success));
 }
 .swal-icon--success:before,
 .swal-icon--success:after,
@@ -134,4 +140,14 @@ $swal-global-color: light;
 .swal-icon--error {
     @include Colors.border('danger', $prop-string:'4px solid $');
 
+}
+
+
+.swal-footer {
+    text-align: end;
+    direction: ltr;
+
+}
+[dir="rtl"] .swal-footer {
+    direction: rtl;
 }
