@@ -17,8 +17,7 @@
 @use './Library/Spacing/Responsive' as rSpacing;
 @use './Library/Images';
 //@use './Library/Spacing/Responsive/Auto' as arSpacing;
-@use './Forms';
-@use './Forms/Responsive';
+
 @use './Components/Buttons';
 //@use './Components/Buttons/Group';
 @use './Components/BackToTop';
@@ -32,6 +31,9 @@
 @use './Components/Borders';
 //@use './Components/Slider';
 @use '../CustomComponents';
+
+@use './Forms';
+@use './Forms/Responsive';
 
 
 
