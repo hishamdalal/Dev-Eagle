@@ -241,6 +241,21 @@ section {
 	
 }
 
+.dropdown-button:focus-within > .dropdown-toggle {
+	@include Colors.txt(light);
+}
+
+.dropdown-button {
+	.dropdown-menu {
+		a {
+			@include Colors.txt(primary);
+			&:hover {
+				@include Colors.txt(primary, (darken:-1));
+			}
+		}
+	}
+}
+
 body > footer {
 	@include Spacing.padding($v:2);
 	@include Colors.txtBg(light, dark);

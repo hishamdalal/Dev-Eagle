@@ -49,10 +49,14 @@
         cursor: pointer;
         display: flex;
         gap: .2rem;
+        position: relative;
+        padding-inline-end: 1rem;
 
         &::after {
             content: '\f0d7';
             font-family: fontAwesome;
+            position: absolute;
+            inset-inline-end: .24rem;
             //color: currentColor;
             //filter: invert(1);
         }
