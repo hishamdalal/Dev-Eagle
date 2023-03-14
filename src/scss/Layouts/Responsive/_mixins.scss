@@ -4,8 +4,7 @@
 /*------------------------------------------------------------*/
 @mixin container($size, $i:0) {
 	@include Breakpoints.equal-or-more($size) {
-		padding-left: #{$i}rem;
-		padding-right: #{$i}rem;
+		padding-inline: #{$i}rem;
 		margin-inline: auto;
 	}
 }

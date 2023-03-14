@@ -15,24 +15,22 @@
 			//$el: map-get($values, 'h');
 			@each $k, $v in $values {
 				@if $k == 'h' {
-					#{$type}-left: #{$v}rem;
-					#{$type}-right: #{$v}rem;
+					#{$type}-inline: #{$v}rem;
 				}
 				@else if $k == 'v' {
-					#{$type}-top: #{$v}rem;
-					#{$type}-bottom: #{$v}rem;
+					#{$type}-block: #{$v}rem;
 				}
 				@else if $k == 'l' {
-					#{$type}-left: #{$v}rem;
+					#{$type}-inline-start: #{$v}rem;
 				}
 				@else if $k == 'r' {
-					#{$type}-right: #{$v}rem;
+					#{$type}-inline-end: #{$v}rem;
 				}
 				@else if $k == 't' {
-					#{$type}-top: #{$v}rem;
+					#{$type}-block-start: #{$v}rem;
 				}
 				@else if $k == 'b' {
-					#{$type}-bottom: #{$v}rem;
+					#{$type}-block-end: #{$v}rem;
 				}
 				@else{
 					#{$type}: #{$v}rem;

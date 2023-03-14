@@ -33,8 +33,7 @@
 					$s: $i*10%;
 					.container-#{$size}-#{$i*10} 
                     {
-						padding-left: #{$s}rem; 
-                        padding-right: #{$s}rem; 
+						padding-inline: #{$s}rem; 
                         margin: 0 auto;
 					}
 				}
@@ -493,8 +492,8 @@
 	@each $x, $size in Settings.$media_query_size {
 		@include Breakpoints.equal-or-more($size) {
 			.#{$size}-text-center { text-align: center;}
-			.#{$size}-text-left { text-align: left;}
-			.#{$size}-text-rigth { text-align: right;}
+			.#{$size}-text-start { text-align: start;}
+			.#{$size}-text-end { text-align: end;}
 			.#{$size}-text-justify { text-align: justify;}	
 
 		}

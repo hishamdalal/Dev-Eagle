@@ -40,12 +40,12 @@
 		display: grid;
 	}
 
-	.container-fluid { padding-left: 0; padding-right: 0; margin: 0 auto;}
+	.container-fluid { padding-inline: 0; margin: 0 auto;}
 
 	//* How to use:  .container-{padding: 1 to $column_count}
 	//------------------------------------------------------------------------------------------//
 	@for $i from 1 through Settings.$columns_count {
-		.container-#{$i} { padding-left: #{$i}rem; padding-right: #{$i}rem; margin: 0 auto;}
+		.container-#{$i} { padding-inline: #{$i}rem; margin: 0 auto;}
 	}
 
 	//! ====   Display   ==== !//
@@ -551,8 +551,8 @@
 	//! ====   TEXT   ==== !//
 	//------------------------------------------------------------------------------------------//
 	.text-center { text-align: center;}
-	.text-left { text-align: left;}
-	.text-rigth { text-align: right;}
+	.text-start { text-align: start;}
+	.text-end { text-align: end;}
 	.text-justify { text-align: justify;}
 
 	

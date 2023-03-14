@@ -51,6 +51,9 @@
 		@if($k=='all' or $k=='both'){
 			#{$prop}: #{$v}rem;
 		}
+		@if($k=='custom'){
+			#{$prop}: #{$v};
+		}
 
 	}
 }
@@ -103,7 +106,7 @@
 
 		// margin-auto
 		.ma { margin: auto; }
-		.ma-h{ margin-left: auto; margin-right:auto; }
+		.ma-h{ margin-inline:auto; }
 		.ma-v { margin-top: auto; margin-bottom: auto; }
 
 		@for $h from 1 through Settings.$spacing_list  {
@@ -112,15 +115,15 @@
 	
 			.gap-#{$h} { gap: #{$h}#{$r_unit};}
 			
-			.ps-#{$h} { padding-left: #{$h}#{$r_unit}; }
-			.pe-#{$h} { padding-right: #{$h}#{$r_unit}; }
-			.pt-#{$h} { padding-top: #{$h}#{$a_unit}; }
-			.pb-#{$h} { padding-bottom: #{$h}#{$a_unit}; }
+			.ps-#{$h} { padding-inline-start: #{$h}#{$r_unit}; }
+			.pe-#{$h} { padding-inline-end: #{$h}#{$r_unit}; }
+			.pt-#{$h} { padding-block-start: #{$h}#{$a_unit}; }
+			.pb-#{$h} { padding-block-end: #{$h}#{$a_unit}; }
 			
-			.ms-#{$h} { margin-left: #{$h}#{$r_unit}; }
-			.me-#{$h} { margin-right: #{$h}#{$r_unit}; }
-			.mt-#{$h} { margin-top: #{$h}#{$a_unit}; }
-			.mb-#{$h} { margin-bottom: #{$h}#{$a_unit}; }
+			.ms-#{$h} { margin-inline-start: #{$h}#{$r_unit}; }
+			.me-#{$h} { margin-inline-end: #{$h}#{$r_unit}; }
+			.mt-#{$h} { margin-block-start: #{$h}#{$a_unit}; }
+			.mb-#{$h} { margin-block-end: #{$h}#{$a_unit}; }
 
 			.gap-h-#{$h} { row-gap: #{$h}#{$a_unit}; }
 			.gap-v-#{$h} { column-gap: #{$h}#{$a_unit}; }

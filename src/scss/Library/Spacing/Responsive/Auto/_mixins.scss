@@ -25,8 +25,8 @@
 			
 			// margin-auto
 			.ma-#{$size} { margin: auto; }
-			.ma-#{$size}-h { margin-left: auto; margin-right:auto; }
-			.ma-#{$size}-v { margin-top: auto; margin-bottom: auto; }
+			.ma-#{$size}-h { margin-inline:auto; }
+			.ma-#{$size}-v { margin-block: auto; }
 			
 			@for $h from 1 through spacing.$spacing_list  {
 
@@ -35,15 +35,15 @@
 
 				.gap-#{$size}-#{$h} { gap: #{$h}#{$r_unit};}
 				
-				.ps-#{$size}-#{$h} { padding-left: #{$h}#{$r_unit}; }
-				.pe-#{$size}-#{$h} { padding-right: #{$h}#{$r_unit}; }
-				.pt-#{$size}-#{$h} { padding-top: #{$h}#{$a_unit}; }
-				.pb-#{$size}-#{$h} { padding-bottom: #{$h}#{$a_unit}; }
+				.ps-#{$size}-#{$h} { padding-inline-start: #{$h}#{$r_unit}; }
+				.pe-#{$size}-#{$h} { padding-inline-end: #{$h}#{$r_unit}; }
+				.pt-#{$size}-#{$h} { padding-block-start: #{$h}#{$a_unit}; }
+				.pb-#{$size}-#{$h} { padding-block-end: #{$h}#{$a_unit}; }
 				
-				.ms-#{$size}-#{$h} { margin-left: #{$h}#{$r_unit}; }
-				.me-#{$size}-#{$h} { margin-right: #{$h}#{$r_unit}; }
-				.mt-#{$size}-#{$h} { margin-top: #{$h}#{$a_unit}; }
-				.mb-#{$size}-#{$h} { margin-bottom: #{$h}#{$a_unit}; }
+				.ms-#{$size}-#{$h} { margin-inline-start: #{$h}#{$r_unit}; }
+				.me-#{$size}-#{$h} { margin-inline-end: #{$h}#{$r_unit}; }
+				.mt-#{$size}-#{$h} { margin-block-start: #{$h}#{$a_unit}; }
+				.mb-#{$size}-#{$h} { margin-block-end: #{$h}#{$a_unit}; }
 				
 				
 				.gap-h-#{$size}-#{$h} { row-gap: #{$h}#{$a_unit}; }

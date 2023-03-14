@@ -55,8 +55,7 @@
 
 /*------------------------------------------------------------*/
 @mixin container($i:0) {
-	padding-left: #{$i}rem; 
-	padding-right: #{$i}rem; 
+	padding-inline: #{$i}rem; 
 	margin-inline: auto;
 }
 /*------------------------------------------------------------*/

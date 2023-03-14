@@ -5,6 +5,8 @@
 @use '../../Library/Fonts/mixins' as Fonts;
 //@use '../../Settings/colors' as base-colors;
 
+// $v-padding: nth(settings.$paddings, 1);
+// $h-padding: nth(settings.$paddings, 2);
 
 @if Options.deep-get('components', 'Buttons', 'classes') {
 
@@ -15,7 +17,7 @@
 
         //padding: settings.$paddings;
         border-radius: settings.$radius;
-        @include Spacing.spacing(padding, $v:.4, $h:.6);
+        @include Spacing.spacing(padding, $custom:settings.$paddings);
         @include Fonts.size(small);
     }
 

@@ -57,7 +57,7 @@
             position: absolute;
             width: 100%;
             height: 50%;
-            left: 0;
+            inset-inline-start: 0;
             transition: background-color 0.2s linear;
             @include Colors.bg(primary);
         
