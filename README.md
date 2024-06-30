@@ -9,7 +9,15 @@ Web Development Starter via Vite
   ```
   npm i
   ```
-3. Run for development or production 
+3. Change current directory in 'vite.config.js'
+   ```
+    server: {
+      proxy: {
+        '/path-to-directory/Dev-Eagle': 'http://127.0.0.1:80',
+      },
+   }
+   ```
+4. Run for development or production 
   ```
   npm run dev
   npm run build
