@@ -71,7 +71,7 @@ module.exports = {
       '/MyApp/Dev-Eagle': 'http://127.0.0.1:80',
     },
     //origin: 'http://127.0.0.1:8080',
-    port: 80,
+    port: 5173,
     hot: true,
     host: true
   }
